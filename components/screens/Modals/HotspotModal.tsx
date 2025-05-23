@@ -194,6 +194,7 @@ export const HotspotModal = forwardRef((_, ref: any) => {
       onClose={() => {
         setHotspotData(null);
         animatedIndex.value = 0;
+        audioService.unload();
       }}
       backdropComponent={renderBackdrop}
     >
