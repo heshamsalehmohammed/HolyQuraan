@@ -22,14 +22,14 @@ export default function RootLayout() {
       <Stack.Screen
         name="notifications-modal"
         options={{
-          header: () => <ModalHeader title="Notifications" />,
+          header: () => <ModalHeader title="الاشعارات" />,
           presentation: "modal",
         }}
       />
       <Stack.Screen
         name="settings-modal"
         options={{
-          header: () => <ModalHeader title="Settings" />,
+          header: () => <ModalHeader title="الاعدادات" />,
           presentation: "modal",
         }}
       />
