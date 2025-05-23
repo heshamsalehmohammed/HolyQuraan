@@ -1,6 +1,6 @@
 import useNavigationBarColor from "@/hooks/useNavigationBarColor";
 
-import { SafeAreaView } from "@/components/Themed";
+import { SafeAreaView, View } from "@/components/Themed";
 import RootLayoutNav from "./RootLayoutNav";
 import LoadingOverlay from "./common/OverlayLoading";
 import MessagePopup from "./common/MessagePopup";
@@ -22,14 +22,16 @@ export default function App() {
   }, []);
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <StatusBarColor />
-      <RootLayoutNav />
-      <LoadingOverlay />
-      <MessagePopup />
-      <ConfirmationPopup />
-      <ToastCenter />
-    </SafeAreaView>
+    <View style={{ flex: 1 }}>
+      <SafeAreaView style={{ flex: 1 }}>
+        <StatusBarColor />
+        <RootLayoutNav />
+        <LoadingOverlay />
+        <MessagePopup />
+        <ConfirmationPopup />
+        <ToastCenter />
+      </SafeAreaView>
+    </View>
   );
 }
 

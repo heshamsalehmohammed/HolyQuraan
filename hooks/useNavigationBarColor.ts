@@ -1,18 +1,19 @@
 import { useEffect } from "react";
+import { Platform } from "react-native";
 import * as NavigationBar from "expo-navigation-bar";
 import { useThemeColor } from "@/components/Themed";
+import { useColorScheme } from "@/hooks/useColorScheme";
 
-const useNavigationBarColor = () => {
+export default function useNavigationBarColor() {
   const backgroundColor = useThemeColor("systemNavBarColor");
+  const theme = useColorScheme() ?? "light";
 
   useEffect(() => {
-    NavigationBar.setBackgroundColorAsync(backgroundColor); // Set the navigation bar color
+    if (Platform.OS === "android") {
+      NavigationBar.setBackgroundColorAsync(backgroundColor);
+      NavigationBar.setButtonStyleAsync(theme === "dark" ? "light" : "dark");
+    }
+  }, [backgroundColor, theme]);
 
-    // Cleanup on unmount to reset the color to default if needed
-    return () => {
-      NavigationBar.setBackgroundColorAsync("#000000"); // Optional: reset to default color on unmount
-    };
-  }, [backgroundColor]);
-};
-
-export default useNavigationBarColor;
+  return null; // This component doesn't render anything
+}

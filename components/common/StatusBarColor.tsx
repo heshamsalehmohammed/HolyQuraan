@@ -2,6 +2,7 @@ import { View, Platform, StatusBar } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useThemeColor } from "@/components/Themed";
 import { useColorScheme } from "@/hooks/useColorScheme";
+import React from "react";
 
 export default function StatusBarColor() {
   const insets = useSafeAreaInsets();

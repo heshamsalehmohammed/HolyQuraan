@@ -4,45 +4,66 @@ import React, {
   useState,
   useImperativeHandle,
   useEffect,
+  useMemo,
+  useCallback,
 } from "react";
-import { StyleSheet, Animated, Dimensions,LogBox , View as RNView } from "react-native";
-import { Modalize } from "react-native-modalize";
-import { useCombinedRefs } from "../../../hooks/use-combined-refs";
+import { StyleSheet, Dimensions, LogBox } from "react-native";
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  interpolate,
+} from "react-native-reanimated";
+import {
+  GestureHandlerRootView,
+  TapGestureHandler,
+  State,
+} from "react-native-gesture-handler";
+import BottomSheet, {
+  BottomSheetView,
+  BottomSheetBackdrop,
+} from "@gorhom/bottom-sheet";
 
 import Word00001Page001 from "../../../assets/pages/shuba/words/00001.svg";
-import { Divider, FontAwesome, Text, useThemeColor, View } from "@/components/Themed";
+import {
+  Divider,
+  FontAwesome,
+  Text,
+  useThemeColor,
+  View,
+} from "@/components/Themed";
 import { audioService } from "@/services/audio";
 import { AudioTrack } from "@/components/common/AudioTrack";
-
-import { TapGestureHandler, State } from "react-native-gesture-handler";
 import { AVPlaybackStatus } from "expo-av";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-const { width } = Dimensions.get("window");
 const HEADER_HEIGHT = 100;
 
 LogBox.ignoreLogs(["Warning: This synthetic event is reused"]);
 
 export const HotspotModal = forwardRef((_, ref: any) => {
-
-
   const insets = useSafeAreaInsets();
-    const snap = HEADER_HEIGHT + insets.top + insets.bottom;
-  const modalizeRef: any = useRef(null);
+  const snapPoints = useMemo(() => {
+    const initial = HEADER_HEIGHT + insets.bottom;
+    const maxHeight = Dimensions.get("window").height;
+    return [initial, maxHeight];
+  }, [insets]);
+
+  const sheetRef = useRef<any>(null);
   const [hotspotData, setHotspotData]: any = useState(null);
   const [playing, setPlaying] = useState(false);
-  const animated = useRef(new Animated.Value(0)).current;
+  const animatedIndex = useSharedValue(-1);
+  const backgroundColor = useThemeColor("backgroundColor");
 
   useImperativeHandle(ref, () => ({
     openWithHotspot(hotspot: any) {
       setHotspotData(hotspot);
-      modalizeRef?.current?.open();
+      sheetRef?.current?.snapToIndex(0);
       audioService.playAudio(hotspot.audio);
     },
     close() {
       audioService.unload();
       setHotspotData(null);
-      modalizeRef?.current?.close();
+      sheetRef?.current?.close();
     },
   }));
 
@@ -62,71 +83,64 @@ export const HotspotModal = forwardRef((_, ref: any) => {
     };
   }, [hotspotData?.audio]);
 
-  const backgroundColor = useThemeColor("backgroundColor");
+  const coverStyle = useAnimatedStyle(() => ({
+    transform: [
+      { scale: interpolate(animatedIndex.value, [0, 1], [1, 3]) },
+      { translateX: interpolate(animatedIndex.value, [0, 1], [0, 42]) },
+      { translateY: interpolate(animatedIndex.value, [0, 1], [0, 30]) },
+    ],
+  }));
 
+  const headerStyle = useAnimatedStyle(() => ({
+    opacity: interpolate(animatedIndex.value, [0, 1], [1, 0]),
+  }));
+
+  const innerStyle = useAnimatedStyle(() => ({
+    opacity: interpolate(animatedIndex.value, [0, 1], [0, 1]),
+    transform: [
+      {
+        translateY: interpolate(animatedIndex.value, [0, 1], [-300, 0]),
+      },
+    ],
+  }));
+
+
+  const renderBackdrop = useCallback(
+    (props:any) => (
+      <BottomSheetBackdrop
+        {...props}
+        disappearsOnIndex={-1}
+        appearsOnIndex={0}
+        pressBehavior="close" // ✅ Automatically closes on outside press
+      />
+    ),
+    []
+  );
 
   const renderContent = () => (
-    <RNView style={{ pointerEvents: "box-none", }}>
-      <Animated.View
-        style={[
-          s.content__cover,
-          {
-            transform: [
-              {
-                scale: animated.interpolate({
-                  inputRange: [0, 1],
-                  outputRange: [1, 3],
-                  extrapolate: "clamp",
-                }),
-              },
-              {
-                translateX: animated.interpolate({
-                  inputRange: [0, 0.25, 1],
-                  outputRange: [0, 22, 42],
-                  extrapolate: "clamp",
-                }),
-              },
-              {
-                translateY: animated.interpolate({
-                  inputRange: [0, 0.25, 1],
-                  outputRange: [0, 15, 30],
-                  extrapolate: "clamp",
-                }),
-              },
-            ],
-          },
-        ]}
-      >
+    <BottomSheetView style={{ pointerEvents: "box-none" }}>
+      <Animated.View style={[styles.content__cover, coverStyle]}>
         <Word00001Page001 style={{ flex: 1, height: "100%", width: "100%" }} />
       </Animated.View>
 
-      <Animated.View
-        style={[
-          s.content__header,
-          {
-            opacity: animated.interpolate({
-              inputRange: [0, 1],
-              outputRange: [1, 0],
-            }),
-          },
-        ]}
-      >
-        <TapGestureHandler
-          onHandlerStateChange={({ nativeEvent }) => {
-            if (nativeEvent.state === State.END) {
-              if (playing) {
-                audioService.pause();
-              } else if (hotspotData) {
-                audioService.playAudio(hotspotData.audio);
+      <Animated.View style={[styles.content__header]}>
+        <Animated.View style={[headerStyle]}>
+          <TapGestureHandler
+            onHandlerStateChange={({ nativeEvent }) => {
+              if (nativeEvent.state === State.END) {
+                if (playing) {
+                  audioService.pause();
+                } else if (hotspotData) {
+                  audioService.playAudio(hotspotData.audio);
+                }
               }
-            }
-          }}
-        >
-          <Animated.View style={{ marginRight: 20 }}>
-            <FontAwesome name={playing ? "pause" : "play"} size={24} />
-          </Animated.View>
-        </TapGestureHandler>
-
+            }}
+          >
+            <Animated.View style={{ marginRight: 20 }}>
+              <FontAwesome name={playing ? "pause" : "play"} size={24} />
+            </Animated.View>
+          </TapGestureHandler>
+        </Animated.View>
         <TapGestureHandler
           onHandlerStateChange={({ nativeEvent }) => {
             if (nativeEvent.state === State.END) {
@@ -140,25 +154,7 @@ export const HotspotModal = forwardRef((_, ref: any) => {
         </TapGestureHandler>
       </Animated.View>
 
-      <Animated.View
-        style={[
-          s.content__inner,
-          {
-            opacity: animated.interpolate({
-              inputRange: [0, 1],
-              outputRange: [0, 1],
-            }),
-            transform: [
-              {
-                translateY: animated.interpolate({
-                  inputRange: [0, 1],
-                  outputRange: [-300, 0],
-                }),
-              },
-            ],
-          },
-        ]}
-      >
+      <Animated.View style={[styles.content__inner, innerStyle]}>
         {hotspotData && (
           <AudioTrack
             key={`main-${hotspotData.audio}`}
@@ -166,8 +162,8 @@ export const HotspotModal = forwardRef((_, ref: any) => {
           />
         )}
         <View style={{ width: "100%" }}>
-          <Text style={s.headerText}>الحكم</Text>
-          <Text style={s.contentText}>ابدال الواو همزه</Text>
+          <Text style={styles.headerText}>الحكم</Text>
+          <Text style={styles.contentText}>ابدال الواو همزه</Text>
         </View>
 
         <Divider
@@ -177,63 +173,36 @@ export const HotspotModal = forwardRef((_, ref: any) => {
             backgroundColor: "#ccc",
           }}
         />
-
-        {/*         <View style={{ width: "100%" }}>
-          <Text style={s.headerText}>القراءات المتاحه</Text>
-          {hotspotData?.otherAudios.map((audio: any, index: number) => (
-            <AudioTrack key={`other-${audio}-${index}`} audioId={audio} />
-          ))}
-        </View> */}
       </Animated.View>
-    </RNView>
+    </BottomSheetView>
   );
 
   return (
-    <Modalize
-      ref={modalizeRef}
-      onClosed={() => {
-        setHotspotData(null);
-      }}
-      panGestureAnimatedValue={animated}
-      snapPoint={snap}
-      handlePosition="inside"
-      handleStyle={{
-        top: 13,
-        width: 40,
-        height: 6,
-        backgroundColor: "#bcc0c1",
-      }}
-      modalStyle={{
+    <BottomSheet
+      ref={sheetRef}
+      index={-1}
+      snapPoints={snapPoints}
+      enableDynamicSizing={false}
+      animatedIndex={animatedIndex}
+      enablePanDownToClose
+      backgroundStyle={{
         backgroundColor,
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
       }}
-      onPositionChange={(position) => {
-        // position: "top" | "middle" | "bottom"
-        if (position === "top") {
-          console.log("Modal opened");
-          // force animated value to 1 when fully opened
-          Animated.timing(animated, {
-            toValue: 1,
-            duration: 1,
-            useNativeDriver: true,
-          }).start();
-        } else if (position === "bottom" as typeof position) {
-          // force animated value to 0 when fully closed
-          Animated.timing(animated, {
-            toValue: 0,
-            duration: 100,
-            useNativeDriver: true,
-          }).start();
-        }
+      handleIndicatorStyle={{ backgroundColor: "#bcc0c1" }}
+      onClose={() => {
+        setHotspotData(null);
+        animatedIndex.value = 0;
       }}
+      backdropComponent={renderBackdrop}
     >
       {renderContent()}
-    </Modalize>
+    </BottomSheet>
   );
 });
 
-const s = StyleSheet.create({
+const styles = StyleSheet.create({
   content__header: {
     position: "absolute",
     top: 0,
@@ -268,7 +237,6 @@ const s = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     marginTop: 10,
-    
     textAlign: "right",
     marginRight: 30,
   },
