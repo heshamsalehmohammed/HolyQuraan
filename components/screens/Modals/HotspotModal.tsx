@@ -5,13 +5,12 @@ import React, {
   useImperativeHandle,
   useEffect,
 } from "react";
-import { StyleSheet, Text, Animated, Dimensions, LogBox } from "react-native";
+import { StyleSheet, Animated, Dimensions,LogBox , View as RNView } from "react-native";
 import { Modalize } from "react-native-modalize";
 import { useCombinedRefs } from "../../../hooks/use-combined-refs";
 
 import Word00001Page001 from "../../../assets/pages/shuba/words/00001.svg";
-import { FontAwesome, View } from "@/components/Themed";
-import { Divider } from "@ui-kitten/components";
+import { Divider, FontAwesome, Text, useThemeColor, View } from "@/components/Themed";
 import { audioService } from "@/services/audio";
 import { AudioTrack } from "@/components/common/AudioTrack";
 
@@ -63,9 +62,11 @@ export const HotspotModal = forwardRef((_, ref: any) => {
     };
   }, [hotspotData?.audio]);
 
+  const backgroundColor = useThemeColor("backgroundColor");
+
 
   const renderContent = () => (
-    <View style={{ pointerEvents: "box-none" }}>
+    <RNView style={{ pointerEvents: "box-none", }}>
       <Animated.View
         style={[
           s.content__cover,
@@ -177,14 +178,14 @@ export const HotspotModal = forwardRef((_, ref: any) => {
           }}
         />
 
-{/*         <View style={{ width: "100%" }}>
+        {/*         <View style={{ width: "100%" }}>
           <Text style={s.headerText}>القراءات المتاحه</Text>
           {hotspotData?.otherAudios.map((audio: any, index: number) => (
             <AudioTrack key={`other-${audio}-${index}`} audioId={audio} />
           ))}
         </View> */}
       </Animated.View>
-    </View>
+    </RNView>
   );
 
   return (
@@ -201,6 +202,11 @@ export const HotspotModal = forwardRef((_, ref: any) => {
         width: 40,
         height: 6,
         backgroundColor: "#bcc0c1",
+      }}
+      modalStyle={{
+        backgroundColor,
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20,
       }}
       onPositionChange={(position) => {
         // position: "top" | "middle" | "bottom"
@@ -262,14 +268,13 @@ const s = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     marginTop: 10,
-    color: "#222",
+    
     textAlign: "right",
     marginRight: 30,
   },
 
   contentText: {
     fontSize: 18,
-    color: "#444",
     textAlign: "right",
     marginRight: 30,
   },

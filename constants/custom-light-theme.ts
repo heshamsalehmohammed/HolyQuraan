@@ -10,8 +10,8 @@ export const customLightTheme = {
   textColor: "#2B62AF", // Matching medium blue for text
   iconColor: "#2B62AF",
   textInactiveColor: "#89B2D5", // Soft blue-gray
-  sytemNavBarColor: "#FFFFFF",
-  sytemStatusBarColor: "#FFFFFF",
+  systemNavBarColor: "#FFFFFF",
+  systemStatusBarColor: "#FFFFFF",
   overlayBackground: "#00000020",
 
   fontSize: 16,

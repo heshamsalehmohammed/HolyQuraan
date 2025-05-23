@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import { audioService } from "@/services/audio";
 import { AVPlaybackStatus } from "expo-av";
 import { State, TapGestureHandler } from "react-native-gesture-handler";
 import Animated from "react-native-reanimated";
+import { Text, View } from "../Themed";
 
 type Props = {
   audioId: string;

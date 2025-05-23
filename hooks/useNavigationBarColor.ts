@@ -3,7 +3,7 @@ import * as NavigationBar from "expo-navigation-bar";
 import { useThemeColor } from "@/components/Themed";
 
 const useNavigationBarColor = () => {
-  const backgroundColor = useThemeColor("sytemNavBarColor");
+  const backgroundColor = useThemeColor("systemNavBarColor");
 
   useEffect(() => {
     NavigationBar.setBackgroundColorAsync(backgroundColor); // Set the navigation bar color

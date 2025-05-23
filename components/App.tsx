@@ -15,11 +15,11 @@ import { audioService } from "@/services/audio";
 export default function App() {
   useNavigationBarColor();
 
-    useEffect(() => {
-      return () => {
-        audioService.unload();
-      };
-    }, []);
+  useEffect(() => {
+    return () => {
+      audioService.unload();
+    };
+  }, []);
 
   return (
     <SafeAreaView style={{ flex: 1 }}>

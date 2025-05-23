@@ -1,7 +1,7 @@
 import { useCallback, useRef, useEffect, useState, useContext } from "react";
 import {
   Dimensions,
-  View,
+
   StyleSheet,
   Pressable,
   Text,
@@ -62,7 +62,7 @@ export default function QuraanModal() {
         >
           {[Page001, Page002, Page003].map((Page, pageIdx) => (
             <Zoom key={pageIdx} maximumZoomScale={3}>
-              <View style={[styles.page, { height: pageH ,width}]}>
+              <View level="3" style={[styles.page, { height: pageH ,width}]}>
                 <Page width={width} height={pageH} />
 
                 {hotspots
@@ -94,6 +94,7 @@ import { Modalize } from "react-native-modalize";
 import React from "react";
 import { audioService } from "@/services/audio";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { View } from "@/components/Themed";
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 const AnimatedView = Animated.createAnimatedComponent(View);
