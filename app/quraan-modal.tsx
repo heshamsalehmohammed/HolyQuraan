@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { Dimensions, StyleSheet, ScrollView } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import {
@@ -23,6 +23,12 @@ const ZoomScrollView = createZoomListComponent(ScrollView);
 
 
 export default function QuraanModal() {
+
+
+  const [visiblePage, setVisiblePage] = useState(0);
+
+
+
   const modalizeRef = useRef<any>(null);
   const { readingKey } = useLocalSearchParams<{
     readingKey: keyof typeof readings;
@@ -31,6 +37,14 @@ export default function QuraanModal() {
   const insets = useSafeAreaInsets();
   const pageH = rawH - headerH - insets.top - insets.bottom;
 
+  
+  const handleScroll = (e: any) => {
+    const offsetY = e.nativeEvent.contentOffset.y;
+    const currentPage = Math.round(offsetY / pageH);
+    if (currentPage !== visiblePage) {
+      setVisiblePage(currentPage);
+    }
+  };
   return (
     <>
       <GestureHandlerRootView style={{ flex: 1 }}>
@@ -41,30 +55,39 @@ export default function QuraanModal() {
           showsHorizontalScrollIndicator={false}
           style={styles.scroll}
           contentContainerStyle={styles.scrollContainer}
+          onScroll={handleScroll}
         >
           {readings[readingKey].pages.map((page, pageIdx) => {
-            const hotspotsPerPage = page.hotspots;
+            const shouldRender = Math.abs(pageIdx - visiblePage) <= 1;
+
             return (
-              <Zoom
-                key={`page-zoom-${page.pageURL}-${pageIdx}`}
-                maximumZoomScale={hotspotsPerPage.length > 0 ? 4 : 3}
+              <View
+                key={`page-container-${pageIdx}`}
+                style={[styles.page, { height: pageH, width }]}
               >
-                <View level="3" style={[styles.page, { height: pageH, width }]}>
-                  <DynamicSvg
-                    key={`page-${page.pageURL}-${pageIdx}`}
-                    uri={page?.pageURL ?? ""}
-                    width={width}
-                    height={pageH}
-                  />
-                  {hotspotsPerPage.map((hotspot, index) => (
-                    <Hotspot
-                      key={`hotspot-${hotspot.key}-${index}`}
-                      hotspot={hotspot}
-                      modalizeRef={modalizeRef}
-                    />
-                  ))}
-                </View>
-              </Zoom>
+                {shouldRender && (
+                  <Zoom
+                    key={`page-zoom-${page.pageURL}-${pageIdx}`}
+                    maximumZoomScale={page.hotspots.length > 0 ? 4 : 3}
+                  >
+                    <View level="3" style={{ height: pageH, width }}>
+                      <DynamicSvg
+                        key={`page-${page.pageURL}-${pageIdx}`}
+                        uri={page?.pageURL ?? ""}
+                        width={width}
+                        height={pageH}
+                      />
+                      {page.hotspots.map((hotspot, index) => (
+                        <Hotspot
+                          key={`hotspot-${hotspot.key}-${index}`}
+                          hotspot={hotspot}
+                          modalizeRef={modalizeRef}
+                        />
+                      ))}
+                    </View>
+                  </Zoom>
+                )}
+              </View>
             );
           })}
         </ZoomScrollView>

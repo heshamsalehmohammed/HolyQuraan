@@ -3,6 +3,8 @@ import { light as lightTheme } from "@eva-design/eva";
 export const customLightTheme = {
   ...lightTheme,
 
+  quraanFillColor:'#2b62af',
+  quraanTextColor:'#000',
   "color-primary-500": "#2B62AF", // Medium Blue
   "color-primary-600": "#0A193F", // Deep Blue
 

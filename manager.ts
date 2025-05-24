@@ -1,13 +1,22 @@
 import Page010Hafs from "@assets/pages/hafs/page-010.svg";
-import Word00001Shuba from "@assets/pages/shuba/words/00001.svg";
 import Page011Hafs from "@assets/pages/hafs/page-011.svg";
 import Page012Hafs from "@assets/pages/hafs/page-012.svg";
 
+import Page010Shuba from "@assets/pages/shuba/page-010.svg";
+import Page011Shuba from "@assets/pages/shuba/page-011.svg";
+import Page012Shuba from "@assets/pages/shuba/page-012.svg";
+
+
+import Word00001Shuba from "@assets/pages/shuba/words/00001.svg";
+
 export const svgMapper: Record<string, React.FC<any>> = {
   "page-010-hafs": Page010Hafs,
-  "word-00001-shuba": Word00001Shuba,
   "page-011-hafs": Page011Hafs,
   "page-012-hafs": Page012Hafs,
+  "page-010-shuba": Page010Shuba,
+  "page-011-shuba": Page011Shuba,
+  "page-012-shuba": Page012Shuba,
+  "word-00001-shuba": Word00001Shuba,
 };
 
 export const audioMapper: Record<string, any> = {
@@ -17,9 +26,21 @@ export const audioMapper: Record<string, any> = {
 
 export const readingsButtons: any = [
   {
+    title: "مصحف حفص - بالهامش شعبه",
+    path: "/quraan-modal",
+    params: { title: "مصحف حفص - بالهامش شعبه", readingKey: "hafs_shuba" },
+    disabled: false,
+  },
+  {
+    title: "مصحف حفص - رسم عثماني",
+    path: "/quraan-modal",
+    params: { title: "مصحف حفص - بالهامش شعبه", readingKey: "hafs" },
+    disabled: false,
+  },
+  {
     title: "مصحف شعبه - رسم عثماني",
     path: "/quraan-modal",
-    params: { title: "مصحف شعبه - رسم عثماني", readingKey: "shuba_hafs" },
+    params: { title: "مصحف شعبه - رسم عثماني", readingKey: "shuba" },
     disabled: false,
   },
   {
@@ -67,7 +88,7 @@ export const readingsButtons: any = [
 ];
 
 export const readings = {
-  shuba_hafs: {
+  hafs_shuba: {
     pages: [
       {
         pageURL: "page-010-hafs",
@@ -105,5 +126,17 @@ export const readings = {
         hotspots: [],
       },
     ],
+  },
+  hafs: {
+    pages: Array.from({ length: 604 }, (_, i) => ({
+      pageURL: `https://maknoon.com/quran/hafs/${i + 1}.svgz`,
+      hotspots: [],
+    })),
+  },
+  shuba: {
+    pages: Array.from({ length: 604 }, (_, i) => ({
+      pageURL: `https://maknoon.com/quran/shubah/${i + 1}.svgz`,
+      hotspots: [],
+    })),
   },
 };

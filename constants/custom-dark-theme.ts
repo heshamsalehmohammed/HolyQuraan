@@ -5,7 +5,8 @@ export const customDarkTheme = {
 
   backgroundColor: darkTheme["color-basic-800"],
 
-
+  quraanFillColor: "#2b62af",
+  quraanTextColor: darkTheme["color-basic-100"],
   "color-primary-500": darkTheme["color-basic-900"],
   "color-primary-600": darkTheme["color-basic-1000"],
 
