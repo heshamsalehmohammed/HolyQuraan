@@ -13,6 +13,6 @@ type Props = {
 export const DynamicSvg: React.FC<Props> = ({ uri, style = {}, width, height }) => {
   const SvgComponent = svgMapper[uri];
   if (!SvgComponent)
-    return <View style={{ height: 80, width: 80 }} />;
+    return <View style={{ height, width }} />;
   return <SvgComponent style={style} width={width} height={height} />;
 };
