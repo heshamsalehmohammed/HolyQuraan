@@ -25,66 +25,66 @@ export const audioMapper: Record<string, any> = {
 };
 
 export const readingsButtons: any = [
-  {
-    title: "مصحف حفص - بالهامش شعبه",
-    path: "/quraan-modal",
-    params: { title: "مصحف حفص - بالهامش شعبه", readingKey: "hafs_shuba" },
-    disabled: false,
-  },
-  {
-    title: "مصحف حفص - رسم عثماني",
-    path: "/quraan-modal",
-    params: { title: "مصحف حفص - بالهامش شعبه", readingKey: "hafs" },
-    disabled: false,
-  },
-  {
-    title: "مصحف شعبه - رسم عثماني",
-    path: "/quraan-modal",
-    params: { title: "مصحف شعبه - رسم عثماني", readingKey: "shuba" },
-    disabled: false,
-  },
-  {
-    title: "مصحف ورش - رسم عثماني",
-    path: "/quraan-modal",
-    params: { title: "مصحف ورش - رسم عثماني" },
-    disabled: true,
-  },
-  {
-    title: "مصحف قالون - رسم عثماني",
-    path: "/quraan-modal",
-    params: { title: "مصحف قالون - رسم عثماني" },
-    disabled: true,
-  },
-  {
-    title: "مصحف الدوري - رسم عثماني",
-    path: "/quraan-modal",
-    params: { title: "مصحف الدوري - رسم عثماني" },
-    disabled: true,
-  },
-  {
-    title: "مصحف السوسي - رسم عثماني",
-    path: "/quraan-modal",
-    params: { title: "مصحف السوسي - رسم عثماني" },
-    disabled: true,
-  },
-  {
-    title: "مصحف حمزة - رسم عثماني",
-    path: "/quraan-modal",
-    params: { title: "مصحف حمزة - رسم عثماني" },
-    disabled: true,
-  },
-  {
-    title: "مصحف الكسائي - رسم عثماني",
-    path: "/quraan-modal",
-    params: { title: "مصحف الكسائي - رسم عثماني" },
-    disabled: true,
-  },
-  {
-    title: "مصحف خلف - رسم عثماني",
-    path: "/quraan-modal",
-    params: { title: "مصحف خلف - رسم عثماني" },
-    disabled: true,
-  },
+    {
+        title: "مصحف حفص - بالهامش شعبه",
+        path: "/quraan-modal",
+        params: { title: "مصحف حفص - بالهامش شعبه", readingKey: "hafs_shuba" },
+        disabled: false,
+    },
+    {
+        title: "مصحف حفص - رسم عثماني",
+        path: "/quraan-modal",
+        params: { title: "مصحف حفص - بالهامش شعبه", readingKey: "hafs" },
+        disabled: false,
+    },
+    {
+        title: "مصحف شعبه - رسم عثماني",
+        path: "/quraan-modal",
+        params: { title: "مصحف شعبه - رسم عثماني", readingKey: "shuba" },
+        disabled: false,
+    },
+    {
+        title: "مصحف ورش - رسم عثماني",
+        path: "/quraan-modal",
+        params: { title: "مصحف ورش - رسم عثماني", readingKey: "warsh" },
+        disabled: false,
+    },
+    {
+        title: "مصحف قالون - رسم عثماني",
+        path: "/quraan-modal",
+        params: { title: "مصحف قالون - رسم عثماني" },
+        disabled: true,
+    },
+    {
+        title: "مصحف الدوري - رسم عثماني",
+        path: "/quraan-modal",
+        params: { title: "مصحف الدوري - رسم عثماني" },
+        disabled: true,
+    },
+    {
+        title: "مصحف السوسي - رسم عثماني",
+        path: "/quraan-modal",
+        params: { title: "مصحف السوسي - رسم عثماني" },
+        disabled: true,
+    },
+    {
+        title: "مصحف حمزة - رسم عثماني",
+        path: "/quraan-modal",
+        params: { title: "مصحف حمزة - رسم عثماني" },
+        disabled: true,
+    },
+    {
+        title: "مصحف الكسائي - رسم عثماني",
+        path: "/quraan-modal",
+        params: { title: "مصحف الكسائي - رسم عثماني" },
+        disabled: true,
+    },
+    {
+        title: "مصحف خلف - رسم عثماني",
+        path: "/quraan-modal",
+        params: { title: "مصحف خلف - رسم عثماني" },
+        disabled: true,
+    },
 ];
 
 export const readings = {
@@ -136,6 +136,12 @@ export const readings = {
   shuba: {
     pages: Array.from({ length: 604 }, (_, i) => ({
       pageURL: `https://maknoon.com/quran/shubah/${i + 1}.svgz`,
+      hotspots: [],
+    })),
+  },
+  warsh: {
+    pages: Array.from({ length: 604 }, (_, i) => ({
+      pageURL: `https://maknoon.com/quran/warsh/${i + 1}.svgz`,
       hotspots: [],
     })),
   },

@@ -9,7 +9,7 @@ type Props = {
   height?: number;
 };
 
-const fillColorsToReplace = ["#fcbb81", "#c0e2ca"];
+const fillColorsToReplace = ["#fcbb81", "#c0e2ca", "#d0aaca"];
 
 export const DynamicSvgRemote: React.FC<Props> = ({ uri, width, height }) => {
   const [svgXml, setSvgXml] = useState<string | null>(null);
