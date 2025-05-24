@@ -23,7 +23,6 @@ import BottomSheet, {
   BottomSheetBackdrop,
 } from "@gorhom/bottom-sheet";
 
-import Word00001Page001 from "../../../assets/pages/shuba/words/00001.svg";
 import {
   Divider,
   FontAwesome,
@@ -35,6 +34,7 @@ import { audioService } from "@/services/audio";
 import { AudioTrack } from "@/components/common/AudioTrack";
 import { AVPlaybackStatus } from "expo-av";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { DynamicSvg } from "@/components/common/DynamicSvg";
 
 const HEADER_HEIGHT = 100;
 
@@ -120,7 +120,13 @@ export const HotspotModal = forwardRef((_, ref: any) => {
   const renderContent = () => (
     <BottomSheetView style={{ pointerEvents: "box-none" }}>
       <Animated.View style={[styles.content__cover, coverStyle]}>
-        <Word00001Page001 style={{ flex: 1, height: "100%", width: "100%" }} />
+        {hotspotData?.wordURL && (
+          <DynamicSvg
+            key={`hotspot-word-${hotspotData.key}`}
+            uri={hotspotData?.wordURL??''}
+            style={{ flex: 1, height: "100%", width: "100%" }}
+          />
+        )}
       </Animated.View>
 
       <Animated.View style={[styles.content__header]}>

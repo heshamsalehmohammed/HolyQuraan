@@ -1,9 +1,5 @@
+import { audioMapper } from "@/manager";
 import { Audio, AVPlaybackStatus } from "expo-av";
-
-const audioMap: Record<string, any> = {
-  "00001-shuba": require("../assets/sounds/shuba/00001.mp3"),
-  "00001-hafs": require("../assets/sounds/hafs/00001.mp3"),
-};
 
 type StatusCallback = (status: AVPlaybackStatus) => void;
 
@@ -54,7 +50,7 @@ class AudioService {
       await this.unload();
     }
 
-    const asset = audioMap[id];
+    const asset = audioMapper[id];
     if (!asset) return;
 
     const { sound } = await Audio.Sound.createAsync(asset);

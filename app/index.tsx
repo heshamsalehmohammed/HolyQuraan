@@ -2,61 +2,13 @@ import React, { useRef, useEffect } from "react";
 import { StyleSheet, Animated } from "react-native";
 import { Button, Text, View } from "@/components/Themed";
 import { useRouter } from "expo-router";
+import { readingsButtons } from "@/manager";
 
-const BUTTONS :any= [
-  {
-    title: "مصحف شعبه - رسم عثماني",
-    path: "/quraan-modal",
-    params: { title: "مصحف شعبه - رسم عثماني" },
-    disabled: false,
-  },
-  {
-    title: "مصحف ورش - رسم عثماني",
-    path: "/quraan-modal",
-    params: { title: "مصحف ورش - رسم عثماني" },
-    disabled: true,
-  },
-  {
-    title: "مصحف قالون - رسم عثماني",
-    path: "/quraan-modal",
-    params: { title: "مصحف قالون - رسم عثماني" },
-    disabled: true,
-  },
-  {
-    title: "مصحف الدوري - رسم عثماني",
-    path: "/quraan-modal",
-    params: { title: "مصحف الدوري - رسم عثماني" },
-    disabled: true,
-  },
-  {
-    title: "مصحف السوسي - رسم عثماني",
-    path: "/quraan-modal",
-    params: { title: "مصحف السوسي - رسم عثماني" },
-    disabled: true,
-  },
-  {
-    title: "مصحف حمزة - رسم عثماني",
-    path: "/quraan-modal",
-    params: { title: "مصحف حمزة - رسم عثماني" },
-    disabled: true,
-  },
-  {
-    title: "مصحف الكسائي - رسم عثماني",
-    path: "/quraan-modal",
-    params: { title: "مصحف الكسائي - رسم عثماني" },
-    disabled: true,
-  },
-  {
-    title: "مصحف خلف - رسم عثماني",
-    path: "/quraan-modal",
-    params: { title: "مصحف خلف - رسم عثماني" },
-    disabled: true,
-  },
-];
+
 
 export default function Index() {
   const router = useRouter();
-  const animValues = useRef(BUTTONS.map(() => new Animated.Value(50))).current;
+  const animValues = useRef(readingsButtons.map(() => new Animated.Value(50))).current;
 
   useEffect(() => {
     const animations = animValues.map((av:any) =>
@@ -72,7 +24,7 @@ export default function Index() {
   return (
     <View style={styles.container} level="3">
       <Text style={styles.title}>مصاحف القراءات</Text>
-      {BUTTONS.map((btn:any, i:number) => (
+      {readingsButtons.map((btn:any, i:number) => (
         <Animated.View
           key={i}
           style={{
