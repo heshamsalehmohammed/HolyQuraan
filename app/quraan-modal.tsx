@@ -1,15 +1,11 @@
 import { useCallback, useRef, useEffect, useState, useContext } from "react";
 import {
   Dimensions,
-
   StyleSheet,
   Pressable,
   Text,
   ScrollView,
 } from "react-native";
-
-import { Audio, AVPlaybackStatus } from "expo-av";
-
 import {
   GestureHandlerRootView,
   LongPressGestureHandler,
@@ -20,6 +16,14 @@ import {
   Zoom,
 } from "../packages/react-native-reanimated-zoom";
 import { ZoomListContext } from "../packages/react-native-reanimated-zoom/zoom-list-context";
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+} from "react-native-reanimated";
+import { HotspotModal } from "@/components/screens/Modals/HotspotModal";
+import React from "react";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { View } from "@/components/Themed";
 
 import Page001 from "../assets/pages/hafs/page-010.svg";
 import Page002 from "../assets/pages/hafs/page-011.svg";
@@ -28,23 +32,33 @@ import Page003 from "../assets/pages/hafs/page-012.svg";
 const { width, height: rawH } = Dimensions.get("window");
 const headerH = 65;
 
-
 const hotspots = [
   {
     page: 1,
     audio: "00001-shuba",
-    x: 245,
-    y: 421,
-    w: 35,
+    x: 250,
+    y: 405,
+    w: 33,
     h: 30,
     otherAudios: ["00001-hafs"],
+    instruction: "إبدال الواو همزة",
+  },
+  {
+    page: 1,
+    audio: "00001-shuba",
+    x: 8,
+    y: 405,
+    w: 35,
+    h: 55,
+    otherAudios: ["00001-hafs"],
+    instruction: "إبدال الواو همزة",
   },
 ];
 
 const ZoomScrollView = createZoomListComponent(ScrollView);
 
 export default function QuraanModal() {
-  const modalizeRef = useRef<Modalize>(null);
+  const modalizeRef = useRef<any>(null);
 
   const insets = useSafeAreaInsets();
   const pageH = rawH - headerH - insets.top - insets.bottom;
@@ -60,24 +74,30 @@ export default function QuraanModal() {
           style={styles.scroll}
           contentContainerStyle={styles.scrollContainer}
         >
-          {[Page001, Page002, Page003].map((Page, pageIdx) => (
-            <Zoom key={pageIdx} maximumZoomScale={3}>
-              <View level="3" style={[styles.page, { height: pageH ,width}]}>
-                <Page width={width} height={pageH} />
+          {[Page001, Page002, Page003].map((Page, pageIdx) => {
+            const hotspotsPerPage = hotspots
+              .map((h, idx) => ({ ...h, idx }))
+              .filter((h) => h.page === pageIdx + 1);
 
-                {hotspots
-                  .map((h, idx) => ({ ...h, idx }))
-                  .filter((h) => h.page === pageIdx + 1)
-                  .map((hotspot,index) => (
+            return (
+              <Zoom
+                key={pageIdx}
+                maximumZoomScale={hotspotsPerPage.length > 0 ? 4 : 3}
+              >
+                <View level="3" style={[styles.page, { height: pageH, width }]}>
+                  <Page width={width} height={pageH} />
+
+                  {hotspotsPerPage.map((hotspot, index) => (
                     <Hotspot
                       key={`idx-${index}`}
                       hotspot={hotspot}
                       modalizeRef={modalizeRef}
                     />
                   ))}
-              </View>
-            </Zoom>
-          ))}
+                </View>
+              </Zoom>
+            );
+          })}
         </ZoomScrollView>
         <HotspotModal ref={modalizeRef} />
       </GestureHandlerRootView>
@@ -85,24 +105,9 @@ export default function QuraanModal() {
   );
 }
 
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-} from "react-native-reanimated";
-import { HotspotModal } from "@/components/screens/Modals/HotspotModal";
-import { Modalize } from "react-native-modalize";
-import React from "react";
-import { audioService } from "@/services/audio";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { View } from "@/components/Themed";
-
-const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 const AnimatedView = Animated.createAnimatedComponent(View);
 
-const Hotspot = ({
-  hotspot,
-  modalizeRef,
-}:any) => {
+const Hotspot = ({ hotspot, modalizeRef }: any) => {
   const [menuVisible, setMenuVisible] = useState(false);
 
   const zoomContext = useContext(ZoomListContext);
@@ -114,7 +119,7 @@ const Hotspot = ({
     position: "absolute",
     width: hotspot.w,
     height: hotspot.h,
-    backgroundColor: "rgba(255, 106, 0, 0.3)",
+    backgroundColor: "rgba(255, 106, 0, 0)",
     left: 0,
     top: 0,
     transform: [
@@ -188,7 +193,6 @@ const styles = StyleSheet.create({
   },
   hotspot: {
     position: "absolute",
-    backgroundColor: "rgba(255, 55, 0, 0.3)",
   },
   menu: {
     position: "absolute",

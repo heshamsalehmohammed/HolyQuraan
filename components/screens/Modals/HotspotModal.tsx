@@ -163,7 +163,7 @@ export const HotspotModal = forwardRef((_, ref: any) => {
         )}
         <View style={{ width: "100%" }}>
           <Text style={styles.headerText}>الحكم</Text>
-          <Text style={styles.contentText}>ابدال الواو همزه</Text>
+          <Text style={styles.contentText}>{hotspotData?.instruction}</Text>
         </View>
 
         <Divider
