@@ -27,6 +27,7 @@ const CARD_WIDTH = 230;
 const CARD_HEIGHT = 100;
 
 const LIKED_CARD_HEIGHT = 75; // Adjusted for liked tracks
+const LIKED_CARD_WIDTH = 280; // Adjusted for liked tracks
 
 const ReadingSection: FC<ReadingSectionProps> = ({ title, items }) => {
   const router = useRouter();
@@ -193,18 +194,29 @@ const LikedTracksSection: FC<{ items: ReadingItem[] }> = ({ items }) => {
         items={items_firstHalf}
         renderItem={(item) => (
           <View key={item.id} style={styles.trackCard}>
-            <View style={styles.trackCardSections}>
+            <View
+              style={[styles.trackCardSections, { justifyContent: "center" }]}
+            >
               <DynamicSvg width={50} height={50} uri={item.image ?? ""} />
             </View>
 
-            <View style={styles.trackCardSections}>
-              <View style={[styles.shuffleButton]}>
-                {/* use your heart icon here */}
-                <Ionicons name="play" size={24} color="#FFF" />
-              </View>
+            <View
+              style={[styles.trackCardSections, { justifyContent: "center" }]}
+            >
+              {/* use your heart icon here */}
+              <Ionicons name="play" size={24} color="#000" />
             </View>
 
-            <View style={styles.trackCardSections}>
+            <View
+              style={[
+                styles.trackCardSections,
+                {
+                  flexGrow: 1,
+                  alignItems: "flex-end",
+                  justifyContent: "flex-end",
+                },
+              ]}
+            >
               <Text style={noColorSubtitle}>{item.title}</Text>
               <Text style={noColorSubtitleDetails}>{item.details}</Text>
             </View>
@@ -217,9 +229,32 @@ const LikedTracksSection: FC<{ items: ReadingItem[] }> = ({ items }) => {
         items={items_secondHalf}
         renderItem={(item) => (
           <View key={item.id} style={styles.trackCard}>
-            <DynamicSvg uri={item.image ?? ""} />
-            <Text style={noColorSubtitle}>{item.title}</Text>
-            <Text style={noColorSubtitleDetails}>{item.details}</Text>
+            <View
+              style={[styles.trackCardSections, { justifyContent: "center" }]}
+            >
+              <DynamicSvg width={50} height={50} uri={item.image ?? ""} />
+            </View>
+
+            <View
+              style={[styles.trackCardSections, { justifyContent: "center" }]}
+            >
+              {/* use your heart icon here */}
+              <Ionicons name="play" size={24} color="#000" />
+            </View>
+
+            <View
+              style={[
+                styles.trackCardSections,
+                {
+                  flexGrow: 1,
+                  alignItems: "flex-end",
+                  justifyContent: "flex-end",
+                },
+              ]}
+            >
+              <Text style={noColorSubtitle}>{item.title}</Text>
+              <Text style={noColorSubtitleDetails}>{item.details}</Text>
+            </View>
           </View>
         )}
       />
@@ -346,22 +381,21 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   trackCard: {
-    width: 250,
+    width: LIKED_CARD_WIDTH,
     height: LIKED_CARD_HEIGHT,
     borderRadius: 12,
-    overflow: "hidden",
+    overflow: "scroll",
     display: "flex",
     flexDirection: "row",
-    padding:10
+    alignItems: "center",
+    padding: 10,
   },
   trackCardSections: {
-   height:"100%",
-   display: "flex",
-   flex:1,
-   justifyContent: "center",
+    height: "100%",
+    display: "flex",
+    paddingHorizontal: 5,
   },
   audioSubtitle: {
-    padding: 8,
     marginHorizontal: 8,
     fontSize: 16,
     fontWeight: "600",
@@ -369,7 +403,6 @@ const styles = StyleSheet.create({
     textAlign: "right",
   },
   audioSubtitleDetails: {
-    padding: 8,
     marginHorizontal: 8,
     fontSize: 16,
     fontWeight: "600",

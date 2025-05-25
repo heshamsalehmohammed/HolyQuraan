@@ -38,7 +38,7 @@ export const readingsButtons: any = [
     id: 2,
     title: "مصحف حفص - رسم عثماني",
     path: "/quraan-modal",
-    params: { title: "مصحف حفص - بالهامش شعبه", readingKey: "hafs" },
+    params: { title: "مصحف حفص - رسم عثماني", readingKey: "hafs" },
     disabled: false,
     image: require("@assets/images/w.jpg"),
     sideNotes: false,
