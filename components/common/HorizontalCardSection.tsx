@@ -29,8 +29,12 @@ export function HorizontalCardSection<T>({
     scrollRef.current?.scrollTo({ x: contentWidth, animated: false });
   };
 
+  React.useEffect(() => {
+    scrollRef.current?.scrollToEnd({ animated: true });
+  }, [items]);
+
   return (
-    <View style={{ height: cardHeight }}>
+    <View level="3" style={{ height: cardHeight }}>
       <ScrollView
         ref={scrollRef}
         horizontal
@@ -45,7 +49,9 @@ export function HorizontalCardSection<T>({
         ]}
       >
         {items.map((item, index) => (
-          <View key={index}>{renderItem(item, index)}</View>
+          <View level="3" key={index}>
+            {renderItem(item, index)}
+          </View>
         ))}
       </ScrollView>
     </View>

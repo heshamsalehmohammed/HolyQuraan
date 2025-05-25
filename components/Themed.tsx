@@ -111,6 +111,7 @@ export function FontAwesome(props: IconProps<any>) {
 export type TextInputProps = kittenInputProps & {
   rightIcon?: string;
   leftIcon?: string;
+  ref?: React.RefObject<KittenInput|null>;
   leftIconClickHandler?: (event: GestureResponderEvent) => void | undefined;
   rightIconClickHandler?: (event: GestureResponderEvent) => void | undefined;
 };
@@ -121,6 +122,7 @@ export function TextInput(props: TextInputProps) {
     rightIcon,
     leftIconClickHandler,
     rightIconClickHandler,
+    ref,
     ...otherProps
   } = props;
 
@@ -142,6 +144,7 @@ export function TextInput(props: TextInputProps) {
 
   return (
     <KittenInput
+    ref={ref}
       accessoryRight={rightIcon ? renderRightIcon : undefined}
       accessoryLeft={leftIcon ? renderLeftIcon : undefined}
       style={[style]}
