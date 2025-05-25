@@ -1,52 +1,73 @@
 import React, { useRef, useEffect } from "react";
-import { StyleSheet, Animated } from "react-native";
+import { StyleSheet, Animated, TouchableOpacity, Image } from "react-native";
 import { Button, Text, View } from "@/components/Themed";
 import { useRouter } from "expo-router";
 import { readingsButtons } from "@/manager";
+import { HorizontalCardSection } from "@/components/common/HorizontalCardSection";
 
-
+const CARD_WIDTH = 250;
+const CARD_HEIGHT = 200;
 
 export default function Index() {
   const router = useRouter();
-  const animValues = useRef(readingsButtons.map(() => new Animated.Value(50))).current;
-
-  useEffect(() => {
-    const animations = animValues.map((av:any) =>
-      Animated.timing(av, {
-        toValue: 0,
-        duration: 300,
-        useNativeDriver: true,
-      })
-    );
-    Animated.stagger(100, animations).start();
-  }, []);
 
   return (
     <View style={styles.container} level="3">
-      <Text style={styles.title}>مصاحف القراءات</Text>
-      {readingsButtons.map((btn:any, i:number) => (
-        <Animated.View
-          key={i}
-          style={{
-            transform: [{ translateY: animValues[i] }],
-            opacity: animValues[i].interpolate({
-              inputRange: [0, 50],
-              outputRange: [1, 0.5],
-            }),
-            width: "80%",
-            marginBottom: 10,
-          }}
-        >
-          <Button
-            title={btn.title}
-            disabled={btn.disabled}
-            style={styles.button}
-            onPress={() => {
-              router.push({ pathname: btn.path, params: btn.params });
-            }}
-          />
-        </Animated.View>
-      ))}
+      <View style={{ display: "flex", alignItems: "flex-end", width: "100%" }}>
+        <Text style={styles.sectionTitle}>القراءات مع الهامش</Text>
+        <HorizontalCardSection
+          cardHeight={CARD_HEIGHT}
+          items={readingsButtons.filter((item: any) => item.sideNotes)}
+          renderItem={(item: any) => (
+            <TouchableOpacity
+              style={[styles.card, item.disabled && styles.cardDisabled]}
+              onPress={() =>
+                !item.disabled &&
+                router.push({ pathname: item.path, params: item.params })
+              }
+              disabled={item.disabled}
+            >
+              <Image
+                source={
+                  typeof item.image === "string"
+                    ? { uri: item.image }
+                    : item.image
+                }
+                style={styles.image}
+              />
+              <Text style={styles.subtitle}>{item.title}</Text>
+            </TouchableOpacity>
+          )}
+        />
+      </View>
+
+      <View style={{ display: "flex", alignItems: "flex-end", width: "100%" }}>
+        <Text style={styles.sectionTitle}>القراءات بدون هامش</Text>
+        <HorizontalCardSection
+          cardHeight={CARD_HEIGHT}
+          items={readingsButtons.filter((item: any) => !item.sideNotes)}
+          renderItem={(item: any) => (
+            <TouchableOpacity
+              style={[styles.card, item.disabled && styles.cardDisabled]}
+              onPress={() =>
+                !item.disabled &&
+                router.push({ pathname: item.path, params: item.params })
+              }
+              disabled={item.disabled}
+            >
+              <Image
+                source={
+                  typeof item.image === "string"
+                    ? { uri: item.image }
+                    : item.image
+                }
+                style={styles.image}
+              />
+              <Text style={styles.subtitle}>{item.title}</Text>
+            </TouchableOpacity>
+          )}
+        />
+      </View>
     </View>
   );
 }
@@ -57,12 +78,38 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-start",
   },
-  title: {
+  card: {
+    width: CARD_WIDTH,
+    height: CARD_HEIGHT,
+    borderRadius: 12,
+    overflow: "hidden",
+    backgroundColor: "#222",
+  },
+  cardDisabled: {
+    opacity: 0.5,
+  },
+  image: {
+    width: "100%",
+    height: "100%",
+    resizeMode: "stretch",
+  },
+  subtitle: {
+    position: "absolute",
+    bottom: 15,
+    right: 5,
+    padding: 8,
+    marginHorizontal: 8,
+    fontSize: 16,
+    fontWeight: "600",
+    color: "#fff",
+    textAlign: "right",
+  },
+  sectionTitle: {
     fontSize: 20,
     fontWeight: "bold",
-    marginVertical: 20,
-  },
-  button: {
-    elevation: 5,
+    paddingHorizontal: 16,
+    marginVertical: 10,
+    marginHorizontal: 12,
+    textAlign: "right",
   },
 });
