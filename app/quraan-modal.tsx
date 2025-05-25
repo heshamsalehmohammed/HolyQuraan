@@ -10,27 +10,21 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Hotspot from "@/components/screens/Modals/hostspot/Hotspot";
 
 import { DynamicSvg } from "@/components/common/DynamicSvg";
-import { View } from "@/components/Themed";
+import { Button, View } from "@/components/Themed";
 import { readings } from "@/manager";
 import { useLocalSearchParams } from "expo-router";
-import { TopSheet } from "@/components/screens/Modals/topsheet/TopSheet";
+import { PagesNavigationModal } from "@/components/screens/Modals/pages/PagesNavigationModal";
 
 const { width, height: rawH } = Dimensions.get("window");
 const headerH = 65;
 
-
-
 const ZoomScrollView = createZoomListComponent(ScrollView);
 
-
 export default function QuraanModal() {
-
-
   const [visiblePage, setVisiblePage] = useState(0);
-
-
   const scrollRef = useRef<ScrollView>(null);
-  const modalizeRef = useRef<any>(null);
+  const hotspotModalRef = useRef<any>(null);
+  const pagesNavigationModalRef = useRef<any>(null);
   const { readingKey } = useLocalSearchParams<{
     readingKey: keyof typeof readings;
   }>();
@@ -38,7 +32,6 @@ export default function QuraanModal() {
   const insets = useSafeAreaInsets();
   const pageH = rawH - headerH - insets.top - insets.bottom;
 
-  
   const handleScroll = (e: any) => {
     const offsetY = e.nativeEvent.contentOffset.y;
     const currentPage = Math.round(offsetY / pageH);
@@ -46,7 +39,6 @@ export default function QuraanModal() {
       setVisiblePage(currentPage);
     }
   };
-
 
   const scrollToPage = (pageIndex: number) => {
     scrollRef.current?.scrollTo({
@@ -92,7 +84,7 @@ export default function QuraanModal() {
                         <Hotspot
                           key={`hotspot-${hotspot.key}-${index}`}
                           hotspot={hotspot}
-                          modalizeRef={modalizeRef}
+                          modalizeRef={hotspotModalRef}
                         />
                       ))}
                     </View>
@@ -102,8 +94,26 @@ export default function QuraanModal() {
             );
           })}
         </ZoomScrollView>
-        <TopSheet scrollRef={scrollRef} onGo={scrollToPage}/>
-        <HotspotModal ref={modalizeRef} />
+        <Button
+          style={{
+            position: "absolute",
+            top: 10,
+            left: 10,
+            backgroundColor: "#2b62af80",
+            borderColor: "#2b62af80",
+          }}
+          onPress={() => {
+            pagesNavigationModalRef?.current?.open();
+          }}
+          icon="files-o"
+          iconStyle={{ color: "#fff" }}
+        />
+        <PagesNavigationModal
+          scrollRef={scrollRef}
+          onGo={scrollToPage}
+          ref={pagesNavigationModalRef}
+        />
+        <HotspotModal ref={hotspotModalRef} />
       </GestureHandlerRootView>
     </>
   );

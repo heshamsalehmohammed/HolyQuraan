@@ -110,7 +110,7 @@ export const HotspotModal = forwardRef((_, ref: any) => {
         {...props}
         disappearsOnIndex={-1}
         appearsOnIndex={0}
-        pressBehavior="close" // ✅ Automatically closes on outside press
+        pressBehavior="close"
       />
     ),
     []

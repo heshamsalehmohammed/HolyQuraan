@@ -220,8 +220,8 @@ export function SubmitButton(props: KittenButtonProps & { title: string }) {
   return <Button {...otherProps} onPress={handleSubmit} title={title}/>;
 }
 
-export function Button(props: KittenButtonProps & { title: string }) {
-  const { title, disabled, onPress, style, ...otherProps } = props;
+export function Button(props: KittenButtonProps & { title?: string,icon?: string,iconStyle?: TextStyle }) {
+  const { title='',iconStyle, disabled,icon, onPress, style, ...otherProps } = props;
 
   return (
     <KittenButton
@@ -234,6 +234,7 @@ export function Button(props: KittenButtonProps & { title: string }) {
       style={[style, disabled && styles.buttonDisabled]}
       {...otherProps}
     >
+      {icon && <FontAwesome style={iconStyle} name={icon} size={20} />}
       {title}
     </KittenButton>
   );
