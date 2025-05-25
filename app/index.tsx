@@ -193,9 +193,21 @@ const LikedTracksSection: FC<{ items: ReadingItem[] }> = ({ items }) => {
         items={items_firstHalf}
         renderItem={(item) => (
           <View key={item.id} style={styles.trackCard}>
-            <DynamicSvg uri={item.image ?? ""} />
-            <Text style={noColorSubtitle}>{item.title}</Text>
-            <Text style={noColorSubtitleDetails}>{item.details}</Text>
+            <View style={styles.trackCardSections}>
+              <DynamicSvg width={50} height={50} uri={item.image ?? ""} />
+            </View>
+
+            <View style={styles.trackCardSections}>
+              <View style={[styles.shuffleButton]}>
+                {/* use your heart icon here */}
+                <Ionicons name="play" size={24} color="#FFF" />
+              </View>
+            </View>
+
+            <View style={styles.trackCardSections}>
+              <Text style={noColorSubtitle}>{item.title}</Text>
+              <Text style={noColorSubtitleDetails}>{item.details}</Text>
+            </View>
           </View>
         )}
       />
@@ -294,28 +306,7 @@ const styles = StyleSheet.create({
     color: "#fff",
     textAlign: "right",
   },
-  audioSubtitle: {
-    position: "absolute",
-    bottom: 25,
-    right: 5,
-    padding: 8,
-    marginHorizontal: 8,
-    fontSize: 16,
-    fontWeight: "600",
-    color: "#fff",
-    textAlign: "right",
-  },
-  audioSubtitleDetails: {
-    position: "absolute",
-    bottom: 2,
-    right: 5,
-    padding: 8,
-    marginHorizontal: 8,
-    fontSize: 16,
-    fontWeight: "600",
-    color: "#fff",
-    textAlign: "right",
-  },
+
   spinnerOverlay: {
     ...StyleSheet.absoluteFillObject,
     justifyContent: "center",
@@ -355,9 +346,34 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   trackCard: {
-    width: CARD_WIDTH,
+    width: 250,
     height: LIKED_CARD_HEIGHT,
     borderRadius: 12,
     overflow: "hidden",
+    display: "flex",
+    flexDirection: "row",
+    padding:10
+  },
+  trackCardSections: {
+   height:"100%",
+   display: "flex",
+   flex:1,
+   justifyContent: "center",
+  },
+  audioSubtitle: {
+    padding: 8,
+    marginHorizontal: 8,
+    fontSize: 16,
+    fontWeight: "600",
+    color: "#fff",
+    textAlign: "right",
+  },
+  audioSubtitleDetails: {
+    padding: 8,
+    marginHorizontal: 8,
+    fontSize: 16,
+    fontWeight: "600",
+    color: "#fff",
+    textAlign: "right",
   },
 });
