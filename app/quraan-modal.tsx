@@ -13,6 +13,7 @@ import { DynamicSvg } from "@/components/common/DynamicSvg";
 import { View } from "@/components/Themed";
 import { readings } from "@/manager";
 import { useLocalSearchParams } from "expo-router";
+import { TopSheet } from "@/components/screens/Modals/topsheet/TopSheet";
 
 const { width, height: rawH } = Dimensions.get("window");
 const headerH = 65;
@@ -28,7 +29,7 @@ export default function QuraanModal() {
   const [visiblePage, setVisiblePage] = useState(0);
 
 
-
+  const scrollRef = useRef<ScrollView>(null);
   const modalizeRef = useRef<any>(null);
   const { readingKey } = useLocalSearchParams<{
     readingKey: keyof typeof readings;
@@ -45,10 +46,20 @@ export default function QuraanModal() {
       setVisiblePage(currentPage);
     }
   };
+
+
+  const scrollToPage = (pageIndex: number) => {
+    scrollRef.current?.scrollTo({
+      y: pageIndex * pageH,
+      animated: true, // set to false for instant jump
+    });
+  };
+
   return (
     <>
       <GestureHandlerRootView style={{ flex: 1 }}>
         <ZoomScrollView
+          ref={scrollRef}
           pagingEnabled
           minimumZoomScale={1}
           maximumZoomScale={3}
@@ -91,6 +102,7 @@ export default function QuraanModal() {
             );
           })}
         </ZoomScrollView>
+        <TopSheet scrollRef={scrollRef} onGo={scrollToPage}/>
         <HotspotModal ref={modalizeRef} />
       </GestureHandlerRootView>
     </>

@@ -8,7 +8,6 @@ import ToastCenter from "./common/ToastCenter";
 import ConfirmationPopup from "./common/ConfirmationPopup";
 import StatusBarColor from "./common/StatusBarColor";
 import { StyleSheet } from "react-native";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { useEffect } from "react";
 import { audioService } from "@/services/audio";
 

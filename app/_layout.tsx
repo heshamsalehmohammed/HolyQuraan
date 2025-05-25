@@ -22,6 +22,7 @@ import { Provider } from "react-redux";
 import { useRouter } from "expo-router";
 import RouterSingleton from "@/services/routerSingleton";
 import CustomSplash from "@/components/screens/SplashScreen/Splash";
+import { AutocompleteDropdownContextProvider } from "react-native-autocomplete-dropdown";
 
 // catch any errors thrown by the Layout component
 export { ErrorBoundary } from "expo-router";
@@ -80,7 +81,10 @@ export default function RootLayout() {
       <ThemeProvider value={navigationTheme}>
         <SafeAreaProvider>
           <Provider store={store}>
+            <AutocompleteDropdownContextProvider>
+
             <App />
+            </AutocompleteDropdownContextProvider>
           </Provider>
         </SafeAreaProvider>
       </ThemeProvider>

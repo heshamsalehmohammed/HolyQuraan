@@ -14,7 +14,6 @@ import Animated, {
   interpolate,
 } from "react-native-reanimated";
 import {
-  GestureHandlerRootView,
   TapGestureHandler,
   State,
 } from "react-native-gesture-handler";
@@ -185,6 +184,7 @@ export const HotspotModal = forwardRef((_, ref: any) => {
   return (
     <BottomSheet
       ref={sheetRef}
+      style={{zIndex: 1000}}
       index={-1}
       snapPoints={snapPoints}
       enableDynamicSizing={false}

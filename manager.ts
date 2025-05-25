@@ -52,14 +52,14 @@ export const readingsButtons: any = [
     {
         title: "مصحف قالون - رسم عثماني",
         path: "/quraan-modal",
-        params: { title: "مصحف قالون - رسم عثماني" },
-        disabled: true,
+        params: { title: "مصحف قالون - رسم عثماني",readingKey: "qalon" },
+        disabled: false,
     },
     {
         title: "مصحف الدوري - رسم عثماني",
         path: "/quraan-modal",
-        params: { title: "مصحف الدوري - رسم عثماني" },
-        disabled: true,
+        params: { title: "مصحف الدوري - رسم عثماني",readingKey: "douri" },
+        disabled: false,
     },
     {
         title: "مصحف السوسي - رسم عثماني",
@@ -142,6 +142,18 @@ export const readings = {
   warsh: {
     pages: Array.from({ length: 604 }, (_, i) => ({
       pageURL: `https://maknoon.com/quran/warsh/${i + 1}.svgz`,
+      hotspots: [],
+    })),
+  },
+  qalon: {
+    pages: Array.from({ length: 604 }, (_, i) => ({
+      pageURL: `https://maknoon.com/quran/qalon/${i + 1}.svgz`,
+      hotspots: [],
+    })),
+  },
+  douri: {
+    pages: Array.from({ length: 604 }, (_, i) => ({
+      pageURL: `https://maknoon.com/quran/douri/${i + 1}.svgz`,
       hotspots: [],
     })),
   },
