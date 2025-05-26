@@ -10,15 +10,15 @@ import Page008_Hafs_Shuba from "@assets/pages/hafs_shuba/page-008.svg";
 import Page009_Hafs_Shuba from "@assets/pages/hafs_shuba/page-009.svg";
 import Page010_Hafs_Shuba from "@assets/pages/hafs_shuba/page-010.svg";
 import Page011_Hafs_Shuba from "@assets/pages/hafs_shuba/page-011.svg";
+/*
+
 import Page012_Hafs_Shuba from "@assets/pages/hafs_shuba/page-012.svg";
-import Page013_Hafs_Shuba from "@assets/pages/hafs_shuba/page-013.svg";
-
-
+import Page013_Hafs_Shuba from "@assets/pages/hafs_shuba/page-013.svg"; */
 
 import Word00001Shuba from "@assets/pages/shuba/words/00001.svg";
 
 export const svgMapper: Record<string, React.FC<any>> = {
-  'WelcomeHeader': WelcomeHeader,
+  WelcomeHeader: WelcomeHeader,
   "page-001-hafs-shuba": Page001_Hafs_Shuba,
   "page-002-hafs-shuba": Page002_Hafs_Shuba,
   "page-003-hafs-shuba": Page003_Hafs_Shuba,
@@ -30,8 +30,10 @@ export const svgMapper: Record<string, React.FC<any>> = {
   "page-009-hafs-shuba": Page009_Hafs_Shuba,
   "page-010-hafs-shuba": Page010_Hafs_Shuba,
   "page-011-hafs-shuba": Page011_Hafs_Shuba,
+  /*
+  
   "page-012-hafs-shuba": Page012_Hafs_Shuba,
-  "page-013-hafs-shuba": Page013_Hafs_Shuba,
+  "page-013-hafs-shuba": Page013_Hafs_Shuba, */
   "word-00001-shuba": Word00001Shuba,
 };
 
