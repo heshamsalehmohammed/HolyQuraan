@@ -1,3 +1,4 @@
+import WelcomeHeader from "@assets/images/welcome-header.svg";
 import Page010Hafs from "@assets/pages/hafs/page-010.svg";
 import Page011Hafs from "@assets/pages/hafs/page-011.svg";
 import Page012Hafs from "@assets/pages/hafs/page-012.svg";
@@ -10,6 +11,7 @@ import Page012Shuba from "@assets/pages/shuba/page-012.svg";
 import Word00001Shuba from "@assets/pages/shuba/words/00001.svg";
 
 export const svgMapper: Record<string, React.FC<any>> = {
+  "WelcomeHeader":WelcomeHeader,
   "page-010-hafs": Page010Hafs,
   "page-011-hafs": Page011Hafs,
   "page-012-hafs": Page012Hafs,

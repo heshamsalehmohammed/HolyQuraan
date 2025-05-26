@@ -75,7 +75,7 @@ export default LikedTracksSection;
 const styles = StyleSheet.create({
   likedContainer: {
     width: "100%",
-    marginTop: 20,
+    marginVertical: 20,
     height: 2 * LIKED_CARD_HEIGHT + 72 + 16 + 8,
   },
   likedHeader: {

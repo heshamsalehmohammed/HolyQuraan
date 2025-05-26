@@ -8,9 +8,6 @@ export default function RootLayout() {
     <Stack>
       <Stack.Screen
         name="index"
-        options={{
-          header: () => <HomeHeader />,
-        }}
       />
       <Stack.Screen
         name="quraan-modal"

@@ -1,10 +1,15 @@
+// components/screens/Home/HomeHeader/HomeHeader.tsx
 import GeneralHeader from "@/components/common/GeneralHeader";
 import HomeHeaderLeftButton from "./HomeHeaderLeftButton";
 import HomeHeaderRightButton from "./HomeHeaderRightButton";
 
-function HomeHeader() {
+interface Props {
+  elevated?: boolean;
+}
+
+function HomeHeader({ elevated = false }: Props) {
   return (
-    <GeneralHeader>
+    <GeneralHeader elevated={elevated}>
       <HomeHeaderLeftButton />
       <HomeHeaderRightButton />
     </GeneralHeader>

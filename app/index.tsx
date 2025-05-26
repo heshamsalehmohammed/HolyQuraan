@@ -1,9 +1,12 @@
-import React, { FC } from "react";
-import { StyleSheet, SectionList } from "react-native";
+import React, { FC, useEffect, useState } from "react";
+import { StyleSheet, SectionList, NativeSyntheticEvent, NativeScrollEvent } from "react-native";
 import { View } from "@/components/Themed";
 import { readingsButtons } from "@/manager";
 import LikedTracksSection from "@/components/screens/Home/LikedTracksSection";
 import ReadingSection from "@/components/screens/Home/ReadingSection";
+import WelcomeSection from "@/components/screens/Home/WelcomeSection";
+import { useNavigation } from "expo-router";
+import HomeHeader from "@/components/screens/Home/HomeHeader/HomeHeader";
 
 type ReadingItem = (typeof readingsButtons)[number];
 
@@ -54,27 +57,46 @@ const likedTracks: ReadingItem[] = [
     sideNotes: false,
   },
 ];
-
 const Index: FC = () => {
+  /* ------------------  shadow on scroll  ------------------ */
+  const [scrolled, setScrolled] = useState(false);
+  const navigation = useNavigation();
+
+  /** whenever the flag changes, rebuild the header */
+  useEffect(() => {
+    navigation.setOptions({
+      header: () => <HomeHeader elevated={scrolled} />,
+    });
+  }, [navigation, scrolled]);
+
+  /** SectionList → onScroll */
+  const handleScroll = ({
+    nativeEvent,
+  }: NativeSyntheticEvent<NativeScrollEvent>) => {
+    // any vertical offset > 0 → show shadow
+    setScrolled(nativeEvent.contentOffset.y > 0);
+  };
+
+  /* ------------------  your existing code  ------------------ */
   const sections: SectionData[] = [
+    { title: "welcome", data: [] },
     {
       title: "القراءات مع الهامش",
-      data: readingsButtons.filter((i:any) => i.sideNotes),
+      data: readingsButtons.filter((i: any) => i.sideNotes),
     },
     {
       title: "القراءات بدون هامش",
-      data: readingsButtons.filter((i:any) => !i.sideNotes),
+      data: readingsButtons.filter((i: any) => !i.sideNotes),
     },
-    { title: "liked", data: likedTracks },
     { title: "liked", data: likedTracks },
   ];
 
-  const renderSection = ({ section }: { section: SectionData }) =>
-    section.title === "liked" ? (
-      <LikedTracksSection items={section.data} />
-    ) : (
-      <ReadingSection title={section.title} items={section.data} />
-    );
+  const renderSection = ({ section }: { section: SectionData }) => {
+    if (section.title === "welcome") return <WelcomeSection />;
+    if (section.title === "liked")
+      return <LikedTracksSection items={section.data} />;
+    return <ReadingSection title={section.title} items={section.data} />;
+  };
 
   return (
     <View style={styles.container} level="3">
@@ -85,6 +107,8 @@ const Index: FC = () => {
         renderItem={() => null}
         stickySectionHeadersEnabled={false}
         contentContainerStyle={styles.listContent}
+        onScroll={handleScroll} // 👈 listen here
+        scrollEventThrottle={16} //   ( ~60 fps )
       />
     </View>
   );
@@ -94,5 +118,5 @@ export default Index;
 
 const styles = StyleSheet.create({
   container: { flex: 1, alignItems: "center", justifyContent: "flex-start" },
-  listContent: { paddingVertical: 10 },
+  listContent: {},
 });
