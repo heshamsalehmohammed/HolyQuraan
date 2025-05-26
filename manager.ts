@@ -1,23 +1,37 @@
 import WelcomeHeader from "@assets/images/welcome-header.svg";
-import Page010Hafs from "@assets/pages/hafs/page-010.svg";
-import Page011Hafs from "@assets/pages/hafs/page-011.svg";
-import Page012Hafs from "@assets/pages/hafs/page-012.svg";
+import Page001_Hafs_Shuba from "@assets/pages/hafs_shuba/page-001.svg";
+import Page002_Hafs_Shuba from "@assets/pages/hafs_shuba/page-002.svg";
+import Page003_Hafs_Shuba from "@assets/pages/hafs_shuba/page-003.svg";
+import Page004_Hafs_Shuba from "@assets/pages/hafs_shuba/page-004.svg";
+import Page005_Hafs_Shuba from "@assets/pages/hafs_shuba/page-005.svg";
+import Page006_Hafs_Shuba from "@assets/pages/hafs_shuba/page-006.svg";
+import Page007_Hafs_Shuba from "@assets/pages/hafs_shuba/page-007.svg";
+import Page008_Hafs_Shuba from "@assets/pages/hafs_shuba/page-008.svg";
+import Page009_Hafs_Shuba from "@assets/pages/hafs_shuba/page-009.svg";
+import Page010_Hafs_Shuba from "@assets/pages/hafs_shuba/page-010.svg";
+import Page011_Hafs_Shuba from "@assets/pages/hafs_shuba/page-011.svg";
+import Page012_Hafs_Shuba from "@assets/pages/hafs_shuba/page-012.svg";
+import Page013_Hafs_Shuba from "@assets/pages/hafs_shuba/page-013.svg";
 
-import Page010Shuba from "@assets/pages/shuba/page-010.svg";
-import Page011Shuba from "@assets/pages/shuba/page-011.svg";
-import Page012Shuba from "@assets/pages/shuba/page-012.svg";
 
 
 import Word00001Shuba from "@assets/pages/shuba/words/00001.svg";
 
 export const svgMapper: Record<string, React.FC<any>> = {
-  "WelcomeHeader":WelcomeHeader,
-  "page-010-hafs": Page010Hafs,
-  "page-011-hafs": Page011Hafs,
-  "page-012-hafs": Page012Hafs,
-  "page-010-shuba": Page010Shuba,
-  "page-011-shuba": Page011Shuba,
-  "page-012-shuba": Page012Shuba,
+  'WelcomeHeader': WelcomeHeader,
+  "page-001-hafs-shuba": Page001_Hafs_Shuba,
+  "page-002-hafs-shuba": Page002_Hafs_Shuba,
+  "page-003-hafs-shuba": Page003_Hafs_Shuba,
+  "page-004-hafs-shuba": Page004_Hafs_Shuba,
+  "page-005-hafs-shuba": Page005_Hafs_Shuba,
+  "page-006-hafs-shuba": Page006_Hafs_Shuba,
+  "page-007-hafs-shuba": Page007_Hafs_Shuba,
+  "page-008-hafs-shuba": Page008_Hafs_Shuba,
+  "page-009-hafs-shuba": Page009_Hafs_Shuba,
+  "page-010-hafs-shuba": Page010_Hafs_Shuba,
+  "page-011-hafs-shuba": Page011_Hafs_Shuba,
+  "page-012-hafs-shuba": Page012_Hafs_Shuba,
+  "page-013-hafs-shuba": Page013_Hafs_Shuba,
   "word-00001-shuba": Word00001Shuba,
 };
 
@@ -123,15 +137,63 @@ export const readings = {
   hafs_shuba: {
     pages: [
       {
-        pageURL: "page-010-hafs",
+        pageURL: "page-001-hafs-shuba",
+        hotspots: [],
+      },
+      {
+        pageURL: "page-002-hafs-shuba",
+        hotspots: [],
+      },
+      {
+        pageURL: "page-003-hafs-shuba",
+        hotspots: [],
+      },
+      {
+        pageURL: "page-004-hafs-shuba",
+        hotspots: [],
+      },
+      {
+        pageURL: "page-005-hafs-shuba",
+        hotspots: [],
+      },
+      {
+        pageURL: "page-006-hafs-shuba",
+        hotspots: [],
+      },
+      {
+        pageURL: "page-007-hafs-shuba",
+        hotspots: [],
+      },
+      {
+        pageURL: "page-008-hafs-shuba",
+        hotspots: [],
+      },
+      {
+        pageURL: "page-009-hafs-shuba",
+        hotspots: [],
+      },
+      {
+        pageURL: "page-010-hafs-shuba",
+        hotspots: [],
+      },
+      {
+        pageURL: "page-011-hafs-shuba",
+        hotspots: [],
+      },
+      {
+        pageURL: "page-012-hafs-shuba",
+        hotspots: [],
+      },
+      {
+        pageURL: "page-013-hafs-shuba",
         hotspots: [
           {
             key: "page-010-hafs-00001-shuba-1",
             wordURL: "word-00001-shuba",
             audio: "00001-shuba",
-            x: 250,
-            y: 405,
-            w: 33,
+            x: 295,
+            y: 407,
+            w: 30,
             h: 30,
             otherAudios: ["00001-hafs"],
             instruction: "إبدال الواو همزة",
@@ -140,22 +202,14 @@ export const readings = {
             key: "page-010-hafs-00001-shuba-2",
             wordURL: "word-00001-shuba",
             audio: "00001-shuba",
-            x: 8,
-            y: 405,
-            w: 35,
+            x: 0,
+            y: 410,
+            w: 30,
             h: 55,
             otherAudios: ["00001-hafs"],
             instruction: "إبدال الواو همزة",
           },
         ],
-      },
-      {
-        pageURL: "page-011-hafs",
-        hotspots: [],
-      },
-      {
-        pageURL: "page-012-hafs",
-        hotspots: [],
       },
     ],
   },

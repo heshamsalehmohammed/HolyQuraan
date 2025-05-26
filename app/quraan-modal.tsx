@@ -65,6 +65,7 @@ export default function QuraanModal() {
 
             return (
               <View
+                level="3"
                 key={`page-container-${pageIdx}`}
                 style={[styles.page, { height: pageH, width }]}
               >
@@ -73,11 +74,18 @@ export default function QuraanModal() {
                     key={`page-zoom-${page.pageURL}-${pageIdx}`}
                     maximumZoomScale={page.hotspots.length > 0 ? 4 : 3}
                   >
-                    <View level="3" style={{ height: pageH, width }}>
+                    <View
+                      level="3"
+                      style={{
+                        marginHorizontal: 5,
+                        height: pageH,
+                        width: width - 10,
+                      }}
+                    >
                       <DynamicSvg
                         key={`page-${page.pageURL}-${pageIdx}`}
                         uri={page?.pageURL ?? ""}
-                        width={width}
+                        width={width - 10}
                         height={pageH}
                       />
                       {page.hotspots.map((hotspot, index) => (
