@@ -104,8 +104,8 @@ export default function QuraanModal() {
           })}
         </ZoomScrollView>
         <PagesNavigationModal
-          sourasIndex={readings[readingKey].index}
-          prePagesCount={readings[readingKey].prePagesCount}
+          sourasIndex={readings[readingKey].index ??[]}
+          prePagesCount={readings[readingKey].prePagesCount??0}
           scrollRef={scrollRef}
           onGo={scrollToPage}
           ref={pagesNavigationModalRef}
