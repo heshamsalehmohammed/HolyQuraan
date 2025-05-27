@@ -1,121 +1,3 @@
-export const allSurahs = [
-  "الفاتحة",
-  "البقرة",
-  "آل عمران",
-  "النساء",
-  "المائدة",
-  "الأنعام",
-  "الأعراف",
-  "الأنفال",
-  "التوبة",
-  "يونس",
-  "هود",
-  "يوسف",
-  "الرعد",
-  "إبراهيم",
-  "الحجر",
-  "النحل",
-  "الإسراء",
-  "الكهف",
-  "مريم",
-  "طه",
-  "الأنبياء",
-  "الحج",
-  "المؤمنون",
-  "النور",
-  "الفرقان",
-  "الشعراء",
-  "النمل",
-  "القصص",
-  "العنكبوت",
-  "الروم",
-  "لقمان",
-  "السجدة",
-  "الأحزاب",
-  "سبأ",
-  "فاطر",
-  "يس",
-  "الصافات",
-  "ص",
-  "الزمر",
-  "غافر",
-  "فصلت",
-  "الشورى",
-  "الزخرف",
-  "الدخان",
-  "الجاثية",
-  "الأحقاف",
-  "محمد",
-  "الفتح",
-  "الحجرات",
-  "ق",
-  "الذاريات",
-  "الطور",
-  "النجم",
-  "القمر",
-  "الرحمن",
-  "الواقعة",
-  "الحديد",
-  "المجادلة",
-  "الحشر",
-  "الممتحنة",
-  "الصف",
-  "الجمعة",
-  "المنافقون",
-  "التغابن",
-  "الطلاق",
-  "التحريم",
-  "الملك",
-  "القلم",
-  "الحاقة",
-  "المعارج",
-  "نوح",
-  "الجن",
-  "المزمل",
-  "المدثر",
-  "القيامة",
-  "الإنسان",
-  "المرسلات",
-  "النبأ",
-  "النازعات",
-  "عبس",
-  "التكوير",
-  "الانفطار",
-  "المطففين",
-  "الانشقاق",
-  "البروج",
-  "الطارق",
-  "الأعلى",
-  "الغاشية",
-  "الفجر",
-  "البلد",
-  "الشمس",
-  "الليل",
-  "الضحى",
-  "الشرح",
-  "التين",
-  "العلق",
-  "القدر",
-  "البينة",
-  "الزلزلة",
-  "العاديات",
-  "القارعة",
-  "التكاثر",
-  "العصر",
-  "الهمزة",
-  "الفيل",
-  "قريش",
-  "الماعون",
-  "الكوثر",
-  "الكافرون",
-  "النصر",
-  "المسد",
-  "الإخلاص",
-  "الفلق",
-  "الناس",
-];
-const parts = Array.from({ length: 30 }, (_, i) => `الجزء ${i + 1}`);
-
 import React, {
   useRef,
   forwardRef,
@@ -124,8 +6,14 @@ import React, {
   useMemo,
   useCallback,
 } from "react";
-import { StyleSheet, LogBox } from "react-native";
-import { useSharedValue } from "react-native-reanimated";
+import { StyleSheet, LogBox, Dimensions } from "react-native";
+import Animated, {
+  runOnJS,
+  useAnimatedGestureHandler,
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+} from "react-native-reanimated";
 import BottomSheet, {
   BottomSheetView,
   BottomSheetBackdrop,
@@ -140,18 +28,18 @@ import {
 } from "@/components/Themed";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { AutocompleteDropdown } from "react-native-autocomplete-dropdown";
+import { QuranParts } from "@/manager";
+import { PanGestureHandler } from "react-native-gesture-handler";
 
-const HEADER_HEIGHT = 250;
+const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("window");
+const SHEET_HEIGHT = 200;
+const HANDLE_HEIGHT = 20;
 
 LogBox.ignoreLogs(["Warning: This synthetic event is reused"]);
 
 export const PagesNavigationModal = forwardRef(
-  ({ scrollRef, onGo }: any, ref: any) => {
+  ({ scrollRef, sourasIndex, prePagesCount = 0, onGo }: any, ref: any) => {
     const insets = useSafeAreaInsets();
-    const snapPoints = useMemo(() => {
-      const initial = HEADER_HEIGHT + insets.bottom;
-      return [initial];
-    }, [insets]);
 
     const sheetRef = useRef<any>(null);
     const animatedIndex = useSharedValue(-1);
@@ -166,36 +54,63 @@ export const PagesNavigationModal = forwardRef(
     const textColor = useThemeColor("text-basic-color");
     const backgroundColor = useThemeColor("backgroundColor");
 
+    const [isOpen, setIsOpen] = useState(false);
+
+    const translateY = useSharedValue(-SHEET_HEIGHT );
+    const sheetOpen = () => {
+      translateY.value = withSpring(0);
+      setIsOpen(true);
+    };
+    const sheetClose = () => {
+      translateY.value = withSpring(-SHEET_HEIGHT);
+      setIsOpen(false);
+    };
+
     useImperativeHandle(ref, () => ({
-      open() {
-        sheetRef?.current?.snapToIndex(0);
-      },
-      close() {
-        sheetRef?.current?.close();
-      },
+      open: sheetOpen,
+      close: sheetClose,
     }));
 
-    const renderBackdrop = useCallback(
-      (props: any) => (
-        <BottomSheetBackdrop
-          {...props}
-          disappearsOnIndex={-1}
-          appearsOnIndex={0}
-          pressBehavior="close" // ✅ Automatically closes on outside press
-        />
-      ),
-      []
+    const animatedStyle = useAnimatedStyle(() => ({
+      transform: [{ translateY: translateY.value }],
+    }));
+
+    const gestureHandler = useAnimatedGestureHandler({
+      onStart: (_, ctx: any) => {
+        ctx.startY = translateY.value;
+      },
+      onActive: (event, ctx: any) => {
+        const newY = ctx.startY + event.translationY;
+        translateY.value = Math.min(
+          Math.max(newY, -SHEET_HEIGHT),
+          0
+        );
+      },
+      onEnd: () => {
+        if (translateY.value < -SHEET_HEIGHT / 3) {
+          runOnJS(sheetClose)();
+        } else {
+          runOnJS(sheetOpen)();
+        }
+      },
+    });
+
+    const filteredSurahs: any = sourasIndex.filter((s: any) =>
+      s.title.includes(surahQuery)
+    );
+    const filteredParts = QuranParts.filter((p) => p.includes(partQuery)).map(
+      (p, i) => ({ id: `${i}`, title: p })
     );
 
-    const filteredSurahs: any = allSurahs
-      .filter((s) => s.includes(surahQuery))
-      .map((s, i) => ({ id: `${i}`, title: s }));
-    const filteredParts = parts
-      .filter((p) => p.includes(partQuery))
-      .map((p, i) => ({ id: `${i}`, title: p }));
-
     const renderContent = () => (
-      <BottomSheetView style={{ pointerEvents: "box-none", padding: 20 }}>
+      <View
+        style={{
+          flex: 1,
+          paddingTop: 16,
+          paddingHorizontal: 16,
+          backgroundColor: "#2b62af80",
+        }}
+      >
         <View style={styles.row}>
           <TextInput
             placeholder="رقم الصفحة"
@@ -215,7 +130,13 @@ export const PagesNavigationModal = forwardRef(
           clearOnFocus={false}
           closeOnBlur={true}
           closeOnSubmit={false}
-          onSelectItem={(item: any) => item && setSurahQuery(item.title)}
+          showClear={false}
+          onSelectItem={(item: any) => {
+            if (item) {
+              onGo?.(item.pageNumber + prePagesCount);
+              sheetClose();
+            }
+          }}
           dataSet={filteredSurahs}
           textInputProps={{
             placeholder: "اختر السورة",
@@ -237,7 +158,7 @@ export const PagesNavigationModal = forwardRef(
             borderWidth: 1,
             borderColor: auto_borderColor,
             borderRadius: 10,
-            marginBottom: 5,
+            marginVertical: 0,
           }}
           suggestionsListContainerStyle={{
             backgroundColor: auto_backgroundColor,
@@ -257,6 +178,7 @@ export const PagesNavigationModal = forwardRef(
           clearOnFocus={false}
           closeOnBlur={true}
           closeOnSubmit={false}
+          showClear={false}
           onSelectItem={(item: any) => item && setPartQuery(item.title)}
           dataSet={filteredParts}
           textInputProps={{
@@ -293,82 +215,51 @@ export const PagesNavigationModal = forwardRef(
           )}
           inputHeight={50}
         />
-      </BottomSheetView>
+      </View>
     );
 
     return (
-      <BottomSheet
-        ref={sheetRef}
-        style={{ zIndex: 1000 }}
-        index={-1}
-        snapPoints={snapPoints}
-        enableDynamicSizing={false}
-        animatedIndex={animatedIndex}
-        enablePanDownToClose
-        backgroundStyle={{
-          backgroundColor,
-          borderTopLeftRadius: 20,
-          borderTopRightRadius: 20,
-        }}
-        handleIndicatorStyle={{ backgroundColor: "#bcc0c1" }}
-        onClose={() => {}}
-        backdropComponent={renderBackdrop}
-      >
+      <Animated.View style={[styles.sheet, animatedStyle ,{}]}>
         {renderContent()}
-      </BottomSheet>
+        <PanGestureHandler onGestureEvent={gestureHandler} waitFor={scrollRef}>
+          <Animated.View style={styles.handle}>
+            <View style={styles.bar} />
+          </Animated.View>
+        </PanGestureHandler>
+      </Animated.View>
     );
   }
 );
 
 const styles = StyleSheet.create({
-  content__header: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    zIndex: 10,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "flex-end",
-    height: 100,
-    paddingHorizontal: 30,
-    paddingBottom: 5,
-  },
-
-  content__cover: {
-    zIndex: 100,
-    width: 80,
-    height: 80,
-    marginLeft: 20,
-    marginTop: 5,
-  },
-
-  content__inner: {
-    top: 200,
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-
-  headerText: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginTop: 10,
-    textAlign: "right",
-    marginRight: 30,
-  },
-
-  contentText: {
-    fontSize: 18,
-    textAlign: "right",
-    marginRight: 30,
-  },
   row: {
     flexDirection: "row-reverse",
     alignItems: "center",
     gap: 8,
-    marginBottom: 8,
+    marginBottom: 12,
+    backgroundColor:'transparent',
   },
-  inputFlex: { flex: 1 },
+  inputFlex: { flex: 1,borderRadius:10 },
+  sheet: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: SCREEN_WIDTH,
+    height: SHEET_HEIGHT + HANDLE_HEIGHT,
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
+    overflow: "hidden",
+  },
+  handle: {
+    height: HANDLE_HEIGHT,     
+    backgroundColor: "#2b62af80",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  bar: {
+    width: 40,
+    height: 5,
+    borderRadius: 2.5,
+    backgroundColor: "#FFF",
+  },
 });

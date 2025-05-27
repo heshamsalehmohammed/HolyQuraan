@@ -40,7 +40,8 @@ export default function QuraanModal() {
     }
   };
 
-  const scrollToPage = (pageIndex: number) => {
+  const scrollToPage = (pageNumber: number) => {
+    const pageIndex = pageNumber - 1; // Convert page number to zero-based index
     scrollRef.current?.scrollTo({
       y: pageIndex * pageH,
       animated: true, // set to false for instant jump
@@ -102,21 +103,9 @@ export default function QuraanModal() {
             );
           })}
         </ZoomScrollView>
-        <Button
-          style={{
-            position: "absolute",
-            top: 10,
-            left: 10,
-            backgroundColor: "#2b62af80",
-            borderColor: "#2b62af80",
-          }}
-          onPress={() => {
-            pagesNavigationModalRef?.current?.open();
-          }}
-          icon="files-o"
-          iconStyle={{ color: "#fff" }}
-        />
         <PagesNavigationModal
+          sourasIndex={readings[readingKey].index}
+          prePagesCount={readings[readingKey].prePagesCount}
           scrollRef={scrollRef}
           onGo={scrollToPage}
           ref={pagesNavigationModalRef}
