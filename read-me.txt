@@ -3,7 +3,7 @@ https://docs.expo.dev/versions/latest/sdk/expo/
 
 
 
-### development build ###
+### development build ### 
 
 // build the app in development
 eas build --profile development --platform android
