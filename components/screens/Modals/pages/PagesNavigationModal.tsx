@@ -56,7 +56,7 @@ export const PagesNavigationModal = forwardRef(
 
     const [isOpen, setIsOpen] = useState(false);
 
-    const translateY = useSharedValue(-SHEET_HEIGHT );
+    const translateY = useSharedValue(-SHEET_HEIGHT);
     const sheetOpen = () => {
       translateY.value = withSpring(0);
       setIsOpen(true);
@@ -81,10 +81,7 @@ export const PagesNavigationModal = forwardRef(
       },
       onActive: (event, ctx: any) => {
         const newY = ctx.startY + event.translationY;
-        translateY.value = Math.min(
-          Math.max(newY, -SHEET_HEIGHT),
-          0
-        );
+        translateY.value = Math.min(Math.max(newY, -SHEET_HEIGHT), 0);
       },
       onEnd: () => {
         if (translateY.value < -SHEET_HEIGHT / 3) {
@@ -122,7 +119,10 @@ export const PagesNavigationModal = forwardRef(
           />
           <Button
             style={{ height: 10, paddingTop: 8 }}
-            onPress={() => onGo?.(pageNumber)}
+            onPress={() => {
+              onGo?.(pageNumber);
+              sheetClose();
+            }}
             title="اذهب"
           />
         </View>
@@ -244,7 +244,7 @@ export const PagesNavigationModal = forwardRef(
     );
 
     return (
-      <Animated.View style={[styles.sheet, animatedStyle ,{}]}>
+      <Animated.View style={[styles.sheet, animatedStyle, {}]}>
         {renderContent()}
         <PanGestureHandler onGestureEvent={gestureHandler} waitFor={scrollRef}>
           <Animated.View style={styles.handle}>
@@ -262,9 +262,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 8,
     marginBottom: 12,
-    backgroundColor:'transparent',
+    backgroundColor: "transparent",
   },
-  inputFlex: { flex: 1,borderRadius:10 },
+  inputFlex: { flex: 1, borderRadius: 10 },
   sheet: {
     position: "absolute",
     top: 0,
@@ -276,7 +276,7 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   handle: {
-    height: HANDLE_HEIGHT,     
+    height: HANDLE_HEIGHT,
     backgroundColor: "#2b62af80",
     justifyContent: "center",
     alignItems: "center",
