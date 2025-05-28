@@ -12,6 +12,10 @@ import Page010_Hafs_Shuba from "@assets/pages/hafs_shuba/page-010.svg";
 import Page011_Hafs_Shuba from "@assets/pages/hafs_shuba/page-011.svg";
 import Page012_Hafs_Shuba from "@assets/pages/hafs_shuba/page-012.svg";
 import Page013_Hafs_Shuba from "@assets/pages/hafs_shuba/page-013.svg"; 
+import Page014_Hafs_Shuba from "@assets/pages/hafs_shuba/page-014.svg"; 
+import Page015_Hafs_Shuba from "@assets/pages/hafs_shuba/page-015.svg"; 
+import Page016_Hafs_Shuba from "@assets/pages/hafs_shuba/page-016.svg"; 
+import Page017_Hafs_Shuba from "@assets/pages/hafs_shuba/page-017.svg"; 
 
 import Word00001Shuba from "@assets/pages/shuba/words/00001.svg";
 
@@ -29,10 +33,11 @@ export const svgMapper: Record<string, React.FC<any>> = {
   "page-010-hafs-shuba": Page010_Hafs_Shuba,
   "page-011-hafs-shuba": Page011_Hafs_Shuba, 
   "page-012-hafs-shuba": Page012_Hafs_Shuba,
-  
-  
- 
   "page-013-hafs-shuba": Page013_Hafs_Shuba,
+  "page-014-hafs-shuba": Page014_Hafs_Shuba,
+  "page-015-hafs-shuba": Page015_Hafs_Shuba,
+  "page-016-hafs-shuba": Page016_Hafs_Shuba,
+  "page-017-hafs-shuba": Page017_Hafs_Shuba,
   "word-00001-shuba": Word00001Shuba,
 };
 
@@ -1014,6 +1019,26 @@ export const readings = {
             instruction: "إبدال الواو همزة",
           },
         ],
+      },      
+      {
+        pageURL: "page-013-hafs-shuba",
+        hotspots: [],
+      },
+      {
+        pageURL: "page-014-hafs-shuba",
+        hotspots: [],
+      },
+      {
+        pageURL: "page-015-hafs-shuba",
+        hotspots: [],
+      },
+      {
+        pageURL: "page-016-hafs-shuba",
+        hotspots: [],
+      },
+      {
+        pageURL: "page-017-hafs-shuba",
+        hotspots: [],
       },
     ],
   },
