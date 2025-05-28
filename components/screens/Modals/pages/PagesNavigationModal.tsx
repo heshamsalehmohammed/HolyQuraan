@@ -32,7 +32,7 @@ import { QuranParts } from "@/manager";
 import { PanGestureHandler } from "react-native-gesture-handler";
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("window");
-const SHEET_HEIGHT = 200;
+const SHEET_HEIGHT = 120;
 const HANDLE_HEIGHT = 20;
 
 LogBox.ignoreLogs(["Warning: This synthetic event is reused"]);
@@ -126,95 +126,120 @@ export const PagesNavigationModal = forwardRef(
             title="اذهب"
           />
         </View>
-        <AutocompleteDropdown
-          clearOnFocus={false}
-          closeOnBlur={true}
-          closeOnSubmit={false}
-          showClear={false}
-          onSelectItem={(item: any) => {
-            if (item) {
-              onGo?.(item.pageNumber + prePagesCount);
-              sheetClose();
-            }
-          }}
-          dataSet={filteredSurahs}
-          textInputProps={{
-            placeholder: "اختر السورة",
-            value: surahQuery,
-            onChangeText: setSurahQuery,
-            textAlign: "right",
-            placeholderTextColor: auto_placeholderColor,
-            style: {
-              color: auto_inputColor,
-            },
-          }}
-          rightButtonsContainerStyle={{
-            right: 8,
-            height: 30,
-            alignSelf: "center",
-          }}
-          inputContainerStyle={{
-            backgroundColor: auto_backgroundColor,
-            borderWidth: 1,
-            borderColor: auto_borderColor,
-            borderRadius: 10,
-            marginVertical: 0,
-          }}
-          suggestionsListContainerStyle={{
-            backgroundColor: auto_backgroundColor,
-            borderWidth: 1,
-            borderColor: auto_borderColor,
-          }}
-          containerStyle={{ flexGrow: 1, flexShrink: 1 }}
-          renderItem={(item, text) => (
-            <Text style={{ color: textColor, padding: 15, textAlign: "right" }}>
-              {item.title}
-            </Text>
-          )}
-          inputHeight={50}
-        />
+        <View style={styles.row}>
+          <AutocompleteDropdown
+            clearOnFocus={false}
+            closeOnBlur={true}
+            closeOnSubmit={false}
+            showClear={false}
+            onSelectItem={(item: any) => {
+              if (item) {
+                onGo?.(item.pageNumber + prePagesCount);
+                sheetClose();
+              }
+            }}
+            dataSet={filteredSurahs}
+            textInputProps={{
+              placeholder: "اختر السورة",
+              value: surahQuery,
+              onChangeText: setSurahQuery,
+              textAlign: "right",
+              placeholderTextColor: auto_placeholderColor,
+              style: {
+                color: auto_inputColor,
+                paddingVertical: 0,
+                height: 40,
+              },
+            }}
+            rightButtonsContainerStyle={{
+              right: 8,
+              height: 30,
+              alignSelf: "center",
+            }}
+            inputContainerStyle={{
+              backgroundColor: auto_backgroundColor,
+              height: 40,
+              borderWidth: 1,
+              borderColor: auto_borderColor,
+              borderRadius: 10,
+              marginVertical: 0,
+              paddingVertical: 0,
+            }}
+            suggestionsListContainerStyle={{
+              backgroundColor: auto_backgroundColor,
+              borderWidth: 1,
+              borderColor: auto_borderColor,
+            }}
+            containerStyle={{ flexGrow: 1, flexShrink: 1 }}
+            renderItem={(item, text) => (
+              <Text
+                style={{
+                  color: textColor,
+                  paddingHorizontal: 15,
+                  paddingVertical: 8,
+                  textAlign: "right",
+                }}
+              >
+                {item.title}
+              </Text>
+            )}
+            inputHeight={50}
+          />
 
-        <AutocompleteDropdown
-          clearOnFocus={false}
-          closeOnBlur={true}
-          closeOnSubmit={false}
-          showClear={false}
-          onSelectItem={(item: any) => item && setPartQuery(item.title)}
-          dataSet={filteredParts}
-          textInputProps={{
-            placeholder: "اختر الجزء",
-            value: partQuery,
-            onChangeText: setPartQuery,
-            textAlign: "right",
-            placeholderTextColor: auto_placeholderColor,
-            style: {
-              color: auto_inputColor,
-            },
-          }}
-          rightButtonsContainerStyle={{
-            right: 8,
-            height: 30,
-            alignSelf: "center",
-          }}
-          inputContainerStyle={{
-            backgroundColor: auto_backgroundColor,
-            borderWidth: 1,
-            borderColor: auto_borderColor,
-            borderRadius: 10,
-          }}
-          suggestionsListContainerStyle={{
-            backgroundColor: auto_backgroundColor,
-            borderWidth: 1,
-            borderColor: auto_borderColor,
-          }}
-          containerStyle={{ flexGrow: 1, flexShrink: 1 }}
-          renderItem={(item, text) => (
-            <Text style={{ color: textColor, padding: 15, textAlign: "right" }}>
-              {item.title}
-            </Text>
-          )}
-          inputHeight={50}
-        />
+          <AutocompleteDropdown
+            clearOnFocus={false}
+            closeOnBlur={true}
+            closeOnSubmit={false}
+            showClear={false}
+            onSelectItem={(item: any) => item && setPartQuery(item.title)}
+            dataSet={filteredParts}
+            textInputProps={{
+              placeholder: "اختر الجزء",
+              value: partQuery,
+              onChangeText: setPartQuery,
+              textAlign: "right",
+              placeholderTextColor: auto_placeholderColor,
+              style: {
+                color: auto_inputColor,
+                paddingVertical: 0,
+                height: 40,
+              },
+            }}
+            rightButtonsContainerStyle={{
+              right: 8,
+              height: 30,
+              alignSelf: "center",
+            }}
+            inputContainerStyle={{
+              backgroundColor: auto_backgroundColor,
+              height: 40,
+              borderWidth: 1,
+              borderColor: auto_borderColor,
+              borderRadius: 10,
+              marginVertical: 0,
+              paddingVertical: 0,
+            }}
+            suggestionsListContainerStyle={{
+              backgroundColor: auto_backgroundColor,
+              borderWidth: 1,
+              borderColor: auto_borderColor,
+            }}
+            containerStyle={{ flexGrow: 1, flexShrink: 1 }}
+            renderItem={(item, text) => (
+              <Text
+                style={{
+                  color: textColor,
+                  paddingHorizontal: 15,
+                  paddingVertical: 8,
+                  textAlign: "right",
+                }}
+              >
+                {item.title}
+              </Text>
+            )}
+            inputHeight={50}
+          />
+        </View>
       </View>
     );
 
