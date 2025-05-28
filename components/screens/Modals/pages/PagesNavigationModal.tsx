@@ -6,7 +6,7 @@ import React, {
   useMemo,
   useCallback,
 } from "react";
-import { StyleSheet, LogBox, Dimensions } from "react-native";
+import { StyleSheet, LogBox, Dimensions, Keyboard } from "react-native";
 import Animated, {
   runOnJS,
   useAnimatedGestureHandler,
@@ -64,6 +64,7 @@ export const PagesNavigationModal = forwardRef(
     const sheetClose = () => {
       translateY.value = withSpring(-SHEET_HEIGHT);
       setIsOpen(false);
+      Keyboard.dismiss();
     };
 
     useImperativeHandle(ref, () => ({
