@@ -1021,10 +1021,6 @@ export const readings = {
         ],
       },      
       {
-        pageURL: "page-013-hafs-shuba",
-        hotspots: [],
-      },
-      {
         pageURL: "page-014-hafs-shuba",
         hotspots: [],
       },
