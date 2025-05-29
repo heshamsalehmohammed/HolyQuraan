@@ -6,7 +6,7 @@ import React, {
   useMemo,
   useCallback,
 } from "react";
-import { StyleSheet, LogBox, Dimensions } from "react-native";
+import { StyleSheet, LogBox, Dimensions, Keyboard } from "react-native";
 import Animated, {
   runOnJS,
   useAnimatedGestureHandler,
@@ -32,7 +32,7 @@ import { QuranParts } from "@/manager";
 import { PanGestureHandler } from "react-native-gesture-handler";
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("window");
-const SHEET_HEIGHT = 200;
+const SHEET_HEIGHT = 120;
 const HANDLE_HEIGHT = 20;
 
 LogBox.ignoreLogs(["Warning: This synthetic event is reused"]);
@@ -56,7 +56,7 @@ export const PagesNavigationModal = forwardRef(
 
     const [isOpen, setIsOpen] = useState(false);
 
-    const translateY = useSharedValue(-SHEET_HEIGHT );
+    const translateY = useSharedValue(-SHEET_HEIGHT);
     const sheetOpen = () => {
       translateY.value = withSpring(0);
       setIsOpen(true);
@@ -64,6 +64,7 @@ export const PagesNavigationModal = forwardRef(
     const sheetClose = () => {
       translateY.value = withSpring(-SHEET_HEIGHT);
       setIsOpen(false);
+      Keyboard.dismiss();
     };
 
     useImperativeHandle(ref, () => ({
@@ -81,10 +82,7 @@ export const PagesNavigationModal = forwardRef(
       },
       onActive: (event, ctx: any) => {
         const newY = ctx.startY + event.translationY;
-        translateY.value = Math.min(
-          Math.max(newY, -SHEET_HEIGHT),
-          0
-        );
+        translateY.value = Math.min(Math.max(newY, -SHEET_HEIGHT), 0);
       },
       onEnd: () => {
         if (translateY.value < -SHEET_HEIGHT / 3) {
@@ -122,104 +120,132 @@ export const PagesNavigationModal = forwardRef(
           />
           <Button
             style={{ height: 10, paddingTop: 8 }}
-            onPress={() => onGo?.(pageNumber)}
+            onPress={() => {
+              onGo?.(pageNumber);
+              sheetClose();
+            }}
             title="اذهب"
           />
         </View>
-        <AutocompleteDropdown
-          clearOnFocus={false}
-          closeOnBlur={true}
-          closeOnSubmit={false}
-          showClear={false}
-          onSelectItem={(item: any) => {
-            if (item) {
-              onGo?.(item.pageNumber + prePagesCount);
-              sheetClose();
-            }
-          }}
-          dataSet={filteredSurahs}
-          textInputProps={{
-            placeholder: "اختر السورة",
-            value: surahQuery,
-            onChangeText: setSurahQuery,
-            textAlign: "right",
-            placeholderTextColor: auto_placeholderColor,
-            style: {
-              color: auto_inputColor,
-            },
-          }}
-          rightButtonsContainerStyle={{
-            right: 8,
-            height: 30,
-            alignSelf: "center",
-          }}
-          inputContainerStyle={{
-            backgroundColor: auto_backgroundColor,
-            borderWidth: 1,
-            borderColor: auto_borderColor,
-            borderRadius: 10,
-            marginVertical: 0,
-          }}
-          suggestionsListContainerStyle={{
-            backgroundColor: auto_backgroundColor,
-            borderWidth: 1,
-            borderColor: auto_borderColor,
-          }}
-          containerStyle={{ flexGrow: 1, flexShrink: 1 }}
-          renderItem={(item, text) => (
-            <Text style={{ color: textColor, padding: 15, textAlign: "right" }}>
-              {item.title}
-            </Text>
-          )}
-          inputHeight={50}
-        />
+        <View style={styles.row}>
+          <AutocompleteDropdown
+            clearOnFocus={false}
+            closeOnBlur={true}
+            closeOnSubmit={false}
+            showClear={false}
+            onSelectItem={(item: any) => {
+              if (item) {
+                onGo?.(item.pageNumber + prePagesCount);
+                sheetClose();
+              }
+            }}
+            dataSet={filteredSurahs}
+            textInputProps={{
+              placeholder: "اختر السورة",
+              value: surahQuery,
+              onChangeText: setSurahQuery,
+              textAlign: "right",
+              placeholderTextColor: auto_placeholderColor,
+              style: {
+                color: auto_inputColor,
+                paddingVertical: 0,
+                height: 40,
+              },
+            }}
+            rightButtonsContainerStyle={{
+              right: 8,
+              height: 30,
+              alignSelf: "center",
+            }}
+            inputContainerStyle={{
+              backgroundColor: auto_backgroundColor,
+              height: 40,
+              borderWidth: 1,
+              borderColor: auto_borderColor,
+              borderRadius: 10,
+              marginVertical: 0,
+              paddingVertical: 0,
+            }}
+            suggestionsListContainerStyle={{
+              backgroundColor: auto_backgroundColor,
+              borderWidth: 1,
+              borderColor: auto_borderColor,
+            }}
+            containerStyle={{ flexGrow: 1, flexShrink: 1 }}
+            renderItem={(item, text) => (
+              <Text
+                style={{
+                  color: textColor,
+                  paddingHorizontal: 15,
+                  paddingVertical: 8,
+                  textAlign: "right",
+                }}
+              >
+                {item.title}
+              </Text>
+            )}
+            inputHeight={50}
+          />
 
-        <AutocompleteDropdown
-          clearOnFocus={false}
-          closeOnBlur={true}
-          closeOnSubmit={false}
-          showClear={false}
-          onSelectItem={(item: any) => item && setPartQuery(item.title)}
-          dataSet={filteredParts}
-          textInputProps={{
-            placeholder: "اختر الجزء",
-            value: partQuery,
-            onChangeText: setPartQuery,
-            textAlign: "right",
-            placeholderTextColor: auto_placeholderColor,
-            style: {
-              color: auto_inputColor,
-            },
-          }}
-          rightButtonsContainerStyle={{
-            right: 8,
-            height: 30,
-            alignSelf: "center",
-          }}
-          inputContainerStyle={{
-            backgroundColor: auto_backgroundColor,
-            borderWidth: 1,
-            borderColor: auto_borderColor,
-            borderRadius: 10,
-          }}
-          suggestionsListContainerStyle={{
-            backgroundColor: auto_backgroundColor,
-            borderWidth: 1,
-            borderColor: auto_borderColor,
-          }}
-          containerStyle={{ flexGrow: 1, flexShrink: 1 }}
-          renderItem={(item, text) => (
-            <Text style={{ color: textColor, padding: 15, textAlign: "right" }}>
-              {item.title}
-            </Text>
-          )}
-          inputHeight={50}
-        />
+          <AutocompleteDropdown
+            clearOnFocus={false}
+            closeOnBlur={true}
+            closeOnSubmit={false}
+            showClear={false}
+            onSelectItem={(item: any) => item && setPartQuery(item.title)}
+            dataSet={filteredParts}
+            textInputProps={{
+              placeholder: "اختر الجزء",
+              value: partQuery,
+              onChangeText: setPartQuery,
+              textAlign: "right",
+              placeholderTextColor: auto_placeholderColor,
+              style: {
+                color: auto_inputColor,
+                paddingVertical: 0,
+                height: 40,
+              },
+            }}
+            rightButtonsContainerStyle={{
+              right: 8,
+              height: 30,
+              alignSelf: "center",
+            }}
+            inputContainerStyle={{
+              backgroundColor: auto_backgroundColor,
+              height: 40,
+              borderWidth: 1,
+              borderColor: auto_borderColor,
+              borderRadius: 10,
+              marginVertical: 0,
+              paddingVertical: 0,
+            }}
+            suggestionsListContainerStyle={{
+              backgroundColor: auto_backgroundColor,
+              borderWidth: 1,
+              borderColor: auto_borderColor,
+            }}
+            containerStyle={{ flexGrow: 1, flexShrink: 1 }}
+            renderItem={(item, text) => (
+              <Text
+                style={{
+                  color: textColor,
+                  paddingHorizontal: 15,
+                  paddingVertical: 8,
+                  textAlign: "right",
+                }}
+              >
+                {item.title}
+              </Text>
+            )}
+            inputHeight={50}
+          />
+        </View>
       </View>
     );
 
     return (
-      <Animated.View style={[styles.sheet, animatedStyle ,{}]}>
+      <Animated.View style={[styles.sheet, animatedStyle, {}]}>
         {renderContent()}
         <PanGestureHandler onGestureEvent={gestureHandler} waitFor={scrollRef}>
           <Animated.View style={styles.handle}>
@@ -237,9 +263,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 8,
     marginBottom: 12,
-    backgroundColor:'transparent',
+    backgroundColor: "transparent",
   },
-  inputFlex: { flex: 1,borderRadius:10 },
+  inputFlex: { flex: 1, borderRadius: 10 },
   sheet: {
     position: "absolute",
     top: 0,
@@ -251,7 +277,7 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   handle: {
-    height: HANDLE_HEIGHT,     
+    height: HANDLE_HEIGHT,
     backgroundColor: "#2b62af80",
     justifyContent: "center",
     alignItems: "center",
