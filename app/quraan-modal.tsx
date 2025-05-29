@@ -103,13 +103,13 @@ export default function QuraanModal() {
             );
           })}
         </ZoomScrollView>
-        <PagesNavigationModal
+        {readings[readingKey].index && <PagesNavigationModal
           sourasIndex={readings[readingKey].index ??[]}
           prePagesCount={readings[readingKey].prePagesCount??0}
           scrollRef={scrollRef}
           onGo={scrollToPage}
           ref={pagesNavigationModalRef}
-        />
+        />}
         <HotspotModal ref={hotspotModalRef} />
       </GestureHandlerRootView>
     </>
