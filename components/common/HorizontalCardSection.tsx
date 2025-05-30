@@ -15,6 +15,7 @@ type Props<T> = {
   renderItem: (item: T, index: number) => React.ReactNode;
   cardSpacing?: number;
   cardHeight?: number;
+  scrollToEnd?: boolean;
 };
 
 export function HorizontalCardSection<T>({
@@ -22,15 +23,20 @@ export function HorizontalCardSection<T>({
   renderItem,
   cardSpacing = 16,
   cardHeight = 200,
+  scrollToEnd = true,
 }: Props<T>) {
   const scrollRef = useRef<ScrollView>(null);
 
   const handleContentSizeChange = (contentWidth: number) => {
+    if(scrollToEnd){
     scrollRef.current?.scrollTo({ x: contentWidth, animated: false });
+  }
   };
 
   React.useEffect(() => {
-    scrollRef.current?.scrollToEnd({ animated: true });
+    if(scrollToEnd){
+      scrollRef.current?.scrollToEnd({ animated: true });
+    }
   }, [items]);
 
   return (
@@ -44,7 +50,7 @@ export function HorizontalCardSection<T>({
           styles.scrollContainer,
           {
             columnGap: cardSpacing,
-            flexDirection: "row-reverse", // Ensure it's LTR first
+            flexDirection: scrollToEnd?"row-reverse":'row', // Ensure it's LTR first
           },
         ]}
       >

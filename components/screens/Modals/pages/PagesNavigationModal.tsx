@@ -123,6 +123,7 @@ export const PagesNavigationModal = forwardRef(
             onPress={() => {
               onGo?.(pageNumber);
               sheetClose();
+              setPageNumber('')
             }}
             title="اذهب"
           />

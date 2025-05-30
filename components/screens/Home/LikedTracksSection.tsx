@@ -65,6 +65,7 @@ const LikedTracksSection: FC<Props> = ({ items }) => {
         cardHeight={LIKED_CARD_HEIGHT}
         items={second}
         renderItem={renderTrack}
+        scrollToEnd={false}
       />
     </View>
   );

@@ -25,7 +25,7 @@ class AudioService {
   }
 
   private notifyListeners(audioId: string, status: AVPlaybackStatus) {
-    this.listeners[audioId]?.forEach(cb => cb(status));
+    this.listeners[audioId]?.forEach((cb) => cb(status));
   }
 
   /* ────────── state helpers ────────── */
@@ -40,9 +40,10 @@ class AudioService {
   }
 
   /* ────────── playback ────────── */
-  async playAudio(id: string) {
+  async playAudio(id: string, initialSeek?: number) {
     // resume if the same track is already loaded
     if (this.isCurrentTrack(id) && this.soundRef) {
+      if (typeof initialSeek === "number") await this.seek(initialSeek);
       await this.soundRef.playAsync();
       return;
     }
@@ -53,15 +54,16 @@ class AudioService {
     const asset = audioMapper[id];
     if (!asset) return;
 
-    // ⬇⬇  FIXED: only two args, second contains shouldPlay:false
-    const { sound } = await Audio.Sound.createAsync(asset, { shouldPlay: false });
+    const { sound } = await Audio.Sound.createAsync(asset, {
+      shouldPlay: false,
+    });
     this.soundRef = sound;
     this.currentTrackId = id;
 
     sound.setOnPlaybackStatusUpdate((status: AVPlaybackStatus) => {
       if (!status.isLoaded) return;
 
-      this.isPlaying      = status.isPlaying;
+      this.isPlaying = status.isPlaying;
       this.positionMillis = status.positionMillis ?? 0;
       this.durationMillis = status.durationMillis ?? 1;
 
@@ -70,11 +72,16 @@ class AudioService {
       if (status.didJustFinish) this.unload();
     });
 
+    if (typeof initialSeek === "number") await this.seek(initialSeek);
     await sound.playAsync();
   }
 
-  async pause()  { if (this.soundRef) await this.soundRef.pauseAsync(); }
-  async resume() { if (this.soundRef) await this.soundRef.playAsync(); }
+  async pause() {
+    if (this.soundRef) await this.soundRef.pauseAsync();
+  }
+  async resume() {
+    if (this.soundRef) await this.soundRef.playAsync();
+  }
 
   async seek(positionMillis: number) {
     if (this.soundRef) await this.soundRef.setPositionAsync(positionMillis);
@@ -82,7 +89,11 @@ class AudioService {
 
   async unload() {
     if (this.soundRef) {
-      try { await this.soundRef.unloadAsync(); } catch (e) { console.error(e); }
+      try {
+        await this.soundRef.unloadAsync();
+      } catch (e) {
+        console.error(e);
+      }
       this.soundRef = null;
     }
 
@@ -108,7 +119,7 @@ class AudioService {
     }
 
     this.currentTrackId = null;
-    this.isPlaying      = false;
+    this.isPlaying = false;
     this.positionMillis = 0;
     this.durationMillis = 1;
   }
