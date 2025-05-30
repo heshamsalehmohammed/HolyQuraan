@@ -10,7 +10,7 @@ import { View } from "@/components/Themed";
 
 const AnimatedView = Animated.createAnimatedComponent(View);
 
-export default function Hotspot({ hotspot, modalizeRef }: any) {
+export default function Hotspot({ hotspot, hotspotModalRef }: any) {
   const [menuVisible, setMenuVisible] = useState(false);
 
   const zoomContext = useContext(ZoomListContext);
@@ -33,7 +33,7 @@ export default function Hotspot({ hotspot, modalizeRef }: any) {
   }));
 
   const onTapHandler = (event: any) => {
-    modalizeRef.current?.openWithHotspot(hotspot);
+    hotspotModalRef.current?.openWithHotspot(hotspot);
   };
 
   const onLongPressHandler = () => {

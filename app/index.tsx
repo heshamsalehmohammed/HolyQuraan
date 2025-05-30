@@ -7,6 +7,8 @@ import ReadingSection from "@/components/screens/Home/ReadingSection";
 import WelcomeSection from "@/components/screens/Home/WelcomeSection";
 import { useNavigation } from "expo-router";
 import HomeHeader from "@/components/screens/Home/HomeHeader/HomeHeader";
+import { HotspotModal } from "@/components/screens/Modals/hostspot/HotspotModal";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 type ReadingItem = (typeof readingsButtons)[number];
 
@@ -15,51 +17,81 @@ interface SectionData {
   data: ReadingItem[];
 }
 
-const likedTracks: ReadingItem[] = [
+const likedTracks = [
   {
-    id: 101,
-    title: "قراءه شعبة",
-    details: "سورة البقرة - الآية 1",
-    image: "word-00001-shuba",
-    path: "",
-    params: {},
-    disabled: false,
-    sideNotes: false,
+    id: 1,
+    key: "page-010-hafs-00001-shuba-1",
+    wordURL: "word-00001-shuba",
+    audio: "00001-shuba",
+    x: 295,
+    y: 407,
+    w: 30,
+    h: 30,
+    otherAudios: ["00001-hafs"],
+    instruction: "إبدال الواو همزة",
+    readingTitle: "قراءة شعبه",
+    surahTitle: "البقرة",
+    surahId: 1,
+    ayaNumber: 1,
+    pageNumber: 2,
   },
   {
-    id: 102,
-    title: "قراءه حفص",
-    details: "سورة آل عمران - الآية 5",
-    image: "word-00001-shuba",
-    path: "",
-    params: {},
-    disabled: false,
-    sideNotes: false,
+    id: 2,
+    key: "page-015-hafs-00001-shuba-2",
+    wordURL: "word-00001-shuba",
+    audio: "00001-shuba",
+    x: 300,
+    y: 410,
+    w: 30,
+    h: 30,
+    otherAudios: ["00001-hafs"],
+    instruction: "تخفيف المد",
+    readingTitle: "قراءة حفص",
+    surahTitle: "آل عمران",
+    surahId: 3,
+    ayaNumber: 5,
+    pageNumber: 5,
   },
   {
-    id: 103,
-    title: "قراءه ورش",
-    details: "سورة النساء - الآية 10",
-    image: "word-00001-shuba",
-    path: "",
-    params: {},
-    disabled: false,
-    sideNotes: false,
+    id: 3,
+    key: "page-020-hafs-00001-shuba-3",
+    wordURL: "word-00001-shuba",
+    audio: "00001-shuba",
+    x: 310,
+    y: 415,
+    w: 30,
+    h: 30,
+    otherAudios: ["00001-hafs"],
+    instruction: "تغيير الهمزة إلى ياء",
+    readingTitle: "قراءة ورش",
+    surahTitle: "النساء",
+    surahId: 4,
+    ayaNumber: 10,
+    pageNumber: 8,
   },
   {
-    id: 1024,
-    title: "قراءه قالون",
-    details: "سورة المائدة - الآية 15",
-    image: "word-00001-shuba",
-    path: "",
-    params: {},
-    disabled: false,
-    sideNotes: false,
+    id: 4,
+    key: "page-025-hafs-00001-shuba-4",
+    wordURL: "word-00001-shuba",
+    audio: "00001-shuba",
+    x: 305,
+    y: 420,
+    w: 30,
+    h: 30,
+    otherAudios: ["00001-hafs"],
+    instruction: "تسهيل الهمز",
+    readingTitle: "قراءة قالون",
+    surahTitle: "المائدة",
+    surahId: 5,
+    ayaNumber: 15,
+    pageNumber: 10,
   },
 ];
+
 const Index: FC = () => {
   /* ------------------  shadow on scroll  ------------------ */
   const [scrolled, setScrolled] = useState(false);
+  const hotspotModalRef = React.useRef<any>(null);
   const navigation = useNavigation();
 
   /** whenever the flag changes, rebuild the header */
@@ -94,23 +126,31 @@ const Index: FC = () => {
   const renderSection = ({ section }: { section: SectionData }) => {
     if (section.title === "welcome") return <WelcomeSection />;
     if (section.title === "liked")
-      return <LikedTracksSection items={section.data} />;
+      return (
+        <LikedTracksSection
+          items={section.data}
+          hotspotModalRef={hotspotModalRef}
+        />
+      );
     return <ReadingSection title={section.title} items={section.data} />;
   };
 
   return (
-    <View style={styles.container} level="3">
-      <SectionList
-        sections={sections}
-        keyExtractor={(item) => item.id.toString()}
-        renderSectionHeader={renderSection}
-        renderItem={() => null}
-        stickySectionHeadersEnabled={false}
-        contentContainerStyle={styles.listContent}
-        onScroll={handleScroll} // 👈 listen here
-        scrollEventThrottle={16} //   ( ~60 fps )
-      />
-    </View>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <View style={styles.container} level="3">
+        <SectionList
+          sections={sections}
+          keyExtractor={(item) => item.id.toString()}
+          renderSectionHeader={renderSection}
+          renderItem={() => null}
+          stickySectionHeadersEnabled={false}
+          contentContainerStyle={styles.listContent}
+          onScroll={handleScroll} // 👈 listen here
+          scrollEventThrottle={16} //   ( ~60 fps )
+        />
+        <HotspotModal ref={hotspotModalRef} />
+      </View>
+    </GestureHandlerRootView>
   );
 };
 

@@ -997,6 +997,7 @@ export const readings = {
         pageURL: "page-013-hafs-shuba",
         hotspots: [
           {
+            id:1,
             key: "page-010-hafs-00001-shuba-1",
             wordURL: "word-00001-shuba",
             audio: "00001-shuba",
@@ -1006,8 +1007,14 @@ export const readings = {
             h: 30,
             otherAudios: ["00001-hafs"],
             instruction: "إبدال الواو همزة",
+            readingTitle: "قراءة شعبه",
+            surahTitle: "البقرة",
+            surahId: 1,
+            ayaNumber: 67,
+            pageNumber:13
           },
           {
+            id:2,
             key: "page-010-hafs-00001-shuba-2",
             wordURL: "word-00001-shuba",
             audio: "00001-shuba",
@@ -1017,9 +1024,14 @@ export const readings = {
             h: 90,
             otherAudios: ["00001-hafs"],
             instruction: "إبدال الواو همزة",
+            readingTitle: "قراءة شعبه",
+            surahTitle: "البقرة",
+            surahId: 1,
+            ayaNumber: 67,
+            pageNumber:13
           },
         ],
-      },      
+      },
       {
         pageURL: "page-014-hafs-shuba",
         hotspots: [],

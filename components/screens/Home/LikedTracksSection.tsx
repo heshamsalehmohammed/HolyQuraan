@@ -2,43 +2,29 @@ import React, { FC } from "react";
 import { StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Text, View } from "@/components/Themed";
-import { DynamicSvg } from "@/components/common/DynamicSvg";
 import { HorizontalCardSection } from "@/components/common/HorizontalCardSection";
 import { readingsButtons } from "@/manager";
+import { LikedTrackCard } from "./LikedTrackCard";
 
 type ReadingItem = (typeof readingsButtons)[number];
 
 interface Props {
   items: ReadingItem[];
+  hotspotModalRef: React.RefObject<any>;
 }
 
 const LIKED_CARD_HEIGHT = 75;
 const LIKED_CARD_WIDTH = 280;
 
-const LikedTracksSection: FC<Props> = ({ items }) => {
+const LikedTracksSection: FC<Props> = ({ items, hotspotModalRef }) => {
   const first = items.slice(0, Math.ceil(items.length / 2));
   const second = items.slice(Math.ceil(items.length / 2));
 
   const renderTrack = (item: ReadingItem) => (
-    <View key={item.id} style={styles.trackCard}>
-      <View style={[styles.trackCardSections, { justifyContent: "center" }]}>
-        <DynamicSvg width={50} height={50} uri={item.image ?? ""} />
-      </View>
-
-      <View style={[styles.trackCardSections, { justifyContent: "center" }]}>
-        <Ionicons name="play" size={24} color="#000" />
-      </View>
-
-      <View
-        style={[
-          styles.trackCardSections,
-          { flexGrow: 1, alignItems: "flex-end", justifyContent: "flex-end" },
-        ]}
-      >
-        <Text style={styles.audioSubtitle}>{item.title}</Text>
-        <Text style={styles.audioSubtitleDetails}>{item.details}</Text>
-      </View>
-    </View>
+    <LikedTrackCard
+      item={item}
+      onPress={(item) => hotspotModalRef.current?.openWithHotspot(item)}
+    />
   );
 
   return (

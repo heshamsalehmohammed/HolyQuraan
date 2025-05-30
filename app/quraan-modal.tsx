@@ -93,7 +93,7 @@ export default function QuraanModal() {
                         <Hotspot
                           key={`hotspot-${hotspot.key}-${index}`}
                           hotspot={hotspot}
-                          modalizeRef={hotspotModalRef}
+                          hotspotModalRef={hotspotModalRef}
                         />
                       ))}
                     </View>
