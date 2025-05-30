@@ -122,7 +122,7 @@ export const HotspotModal = forwardRef((_, ref: any) => {
         {hotspotData?.wordURL && (
           <DynamicSvg
             key={`hotspot-word-${hotspotData.key}`}
-            uri={hotspotData?.wordURL??''}
+            uri={hotspotData?.wordURL ?? ""}
           />
         )}
       </Animated.View>
@@ -163,6 +163,7 @@ export const HotspotModal = forwardRef((_, ref: any) => {
           <AudioTrack
             key={`main-${hotspotData.audio}`}
             audioId={hotspotData.audio}
+            sheetRef={sheetRef}
           />
         )}
         <View style={{ width: "100%" }}>
@@ -184,7 +185,8 @@ export const HotspotModal = forwardRef((_, ref: any) => {
   return (
     <BottomSheet
       ref={sheetRef}
-      style={{zIndex: 1000}}
+      enableContentPanningGesture={false} // ⬅ NEW
+      style={{ zIndex: 1000 }}
       index={-1}
       snapPoints={snapPoints}
       enableDynamicSizing={false}
