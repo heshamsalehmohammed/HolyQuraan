@@ -5,6 +5,8 @@ import { Text, View } from "@/components/Themed";
 import { HorizontalCardSection } from "@/components/common/HorizontalCardSection";
 import { readingsButtons } from "@/manager";
 import { LikedTrackCard } from "./LikedTrackCard";
+import { TapGestureHandler } from "react-native-gesture-handler";
+import { useRouter } from "expo-router";
 
 type ReadingItem = (typeof readingsButtons)[number];
 
@@ -20,6 +22,9 @@ const LikedTracksSection: FC<Props> = ({ items, hotspotModalRef }) => {
   const first = items.slice(0, Math.ceil(items.length / 2));
   const second = items.slice(Math.ceil(items.length / 2));
 
+
+    const router = useRouter();
+  
   const renderTrack = (item: ReadingItem) => (
     <LikedTrackCard
       item={item}
@@ -29,15 +34,19 @@ const LikedTracksSection: FC<Props> = ({ items, hotspotModalRef }) => {
 
   return (
     <View level="3" style={styles.likedContainer}>
-      <View style={styles.likedHeader}>
-        <View style={styles.likedIcon}>
-          <Ionicons name="heart" size={24} color="#f50" />
+      <TapGestureHandler
+        onActivated={() => router.push({ pathname: "/liked-tracks-modal" })}
+      >
+        <View style={styles.likedHeader}>
+          <View style={styles.likedIcon}>
+            <Ionicons name="heart" size={24} color="#f50" />
+          </View>
+          <Text style={styles.likedTitle}>الصوتيات المفضله</Text>
+          <View style={styles.shuffleButton}>
+            <Ionicons name="shuffle" size={20} color="#fff" />
+          </View>
         </View>
-        <Text style={styles.likedTitle}>الصوتيات المفضله</Text>
-        <View style={styles.shuffleButton}>
-          <Ionicons name="shuffle" size={20} color="#fff" />
-        </View>
-      </View>
+      </TapGestureHandler>
 
       <HorizontalCardSection<ReadingItem>
         cardHeight={LIKED_CARD_HEIGHT}
