@@ -3,7 +3,6 @@ import React, {
   forwardRef,
   useState,
   useImperativeHandle,
-  useEffect,
   useMemo,
   useCallback,
 } from "react";
@@ -13,10 +12,7 @@ import Animated, {
   useAnimatedStyle,
   interpolate,
 } from "react-native-reanimated";
-import {
-  TapGestureHandler,
-  State,
-} from "react-native-gesture-handler";
+import { TapGestureHandler, State } from "react-native-gesture-handler";
 import BottomSheet, {
   BottomSheetView,
   BottomSheetBackdrop,
@@ -24,16 +20,16 @@ import BottomSheet, {
 
 import {
   Divider,
-  FontAwesome,
+  ThemedIcon,
   Text,
   useThemeColor,
   View,
 } from "@/components/Themed";
 import { audioService } from "@/services/audio";
 import { AudioTrack } from "@/components/common/AudioTrack";
-import { AVPlaybackStatus } from "expo-av";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { DynamicSvg } from "@/components/common/DynamicSvg";
+import { PlayPauseAudioButton } from "@/components/common/PlayPauseAudioButton";
 
 const HEADER_HEIGHT = 100;
 
@@ -49,15 +45,16 @@ export const HotspotModal = forwardRef((_, ref: any) => {
 
   const sheetRef = useRef<any>(null);
   const [hotspotData, setHotspotData]: any = useState(null);
-  const [playing, setPlaying] = useState(false);
   const animatedIndex = useSharedValue(-1);
   const backgroundColor = useThemeColor("backgroundColor");
 
   useImperativeHandle(ref, () => ({
-    openWithHotspot(hotspot: any) {
+    openWithHotspot(hotspot: any, playAudioOnOpen = true) {
       setHotspotData(hotspot);
       sheetRef?.current?.snapToIndex(0);
-      audioService.playAudio(hotspot.audio);
+      if (playAudioOnOpen) {
+        audioService.playAudio(hotspot.audio);
+      }
     },
     close() {
       audioService.unload();
@@ -65,22 +62,6 @@ export const HotspotModal = forwardRef((_, ref: any) => {
       sheetRef?.current?.close();
     },
   }));
-
-  useEffect(() => {
-    if (!hotspotData?.audio) return;
-
-    const onStatus = (status: AVPlaybackStatus) => {
-      if (status.isLoaded) {
-        setPlaying(status.isPlaying ?? false);
-      }
-    };
-
-    audioService.registerStatusCallback(hotspotData.audio, onStatus);
-
-    return () => {
-      audioService.unregisterStatusCallback(hotspotData.audio, onStatus);
-    };
-  }, [hotspotData?.audio]);
 
   const coverStyle = useAnimatedStyle(() => ({
     transform: [
@@ -103,9 +84,8 @@ export const HotspotModal = forwardRef((_, ref: any) => {
     ],
   }));
 
-
   const renderBackdrop = useCallback(
-    (props:any) => (
+    (props: any) => (
       <BottomSheetBackdrop
         {...props}
         disappearsOnIndex={-1}
@@ -129,21 +109,12 @@ export const HotspotModal = forwardRef((_, ref: any) => {
 
       <Animated.View style={[styles.content__header]}>
         <Animated.View style={[headerStyle]}>
-          <TapGestureHandler
-            onHandlerStateChange={({ nativeEvent }) => {
-              if (nativeEvent.state === State.END) {
-                if (playing) {
-                  audioService.pause();
-                } else if (hotspotData) {
-                  audioService.playAudio(hotspotData.audio);
-                }
-              }
-            }}
-          >
-            <Animated.View style={{ marginRight: 20 }}>
-              <FontAwesome name={playing ? "pause" : "play"} size={24} />
-            </Animated.View>
-          </TapGestureHandler>
+          {hotspotData?.audio && (
+            <PlayPauseAudioButton
+              audioId={hotspotData.audio}
+              style={{ marginRight: 20 }}
+            />
+          )}
         </Animated.View>
         <TapGestureHandler
           onHandlerStateChange={({ nativeEvent }) => {
@@ -153,7 +124,7 @@ export const HotspotModal = forwardRef((_, ref: any) => {
           }}
         >
           <Animated.View>
-            <FontAwesome name="heart" size={24} />
+            <ThemedIcon name="heart" size={24} iconLib="DefaultIonicons" />
           </Animated.View>
         </TapGestureHandler>
       </Animated.View>

@@ -7,6 +7,8 @@ import { readingsButtons } from "@/manager";
 import { LikedTrackCard } from "./LikedTrackCard";
 import { TapGestureHandler } from "react-native-gesture-handler";
 import { useRouter } from "expo-router";
+import { Dimensions } from "react-native";
+
 
 type ReadingItem = (typeof readingsButtons)[number];
 
@@ -16,7 +18,7 @@ interface Props {
 }
 
 const LIKED_CARD_HEIGHT = 75;
-const LIKED_CARD_WIDTH = 280;
+const LIKED_CARD_WIDTH = Dimensions.get("window").width * 0.8;
 
 const LikedTracksSection: FC<Props> = ({ items, hotspotModalRef }) => {
   const first = items.slice(0, Math.ceil(items.length / 2));
@@ -28,7 +30,9 @@ const LikedTracksSection: FC<Props> = ({ items, hotspotModalRef }) => {
   const renderTrack = (item: ReadingItem) => (
     <LikedTrackCard
       item={item}
-      onPress={(item) => hotspotModalRef.current?.openWithHotspot(item)}
+      hotspotModalRef={hotspotModalRef}
+      LIKED_CARD_HEIGHT={LIKED_CARD_HEIGHT}
+      LIKED_CARD_WIDTH={LIKED_CARD_WIDTH}
     />
   );
 
@@ -43,7 +47,7 @@ const LikedTracksSection: FC<Props> = ({ items, hotspotModalRef }) => {
           </View>
           <Text style={styles.likedTitle}>الصوتيات المفضله</Text>
           <View style={styles.shuffleButton}>
-            <Ionicons name="shuffle" size={20} color="#fff" />
+            <Ionicons name="play" size={20} color="#fff" />
           </View>
         </View>
       </TapGestureHandler>
@@ -96,30 +100,5 @@ const styles = StyleSheet.create({
     backgroundColor: "#111",
     alignItems: "center",
     justifyContent: "center",
-  },
-  trackCard: {
-    width: LIKED_CARD_WIDTH,
-    height: LIKED_CARD_HEIGHT,
-    borderRadius: 12,
-    overflow: "scroll",
-    flexDirection: "row",
-    alignItems: "center",
-    padding: 10,
-  },
-  trackCardSections: {
-    height: "100%",
-    paddingHorizontal: 5,
-  },
-  audioSubtitle: {
-    marginHorizontal: 8,
-    fontSize: 16,
-    fontWeight: "600",
-    textAlign: "right",
-  },
-  audioSubtitleDetails: {
-    marginHorizontal: 8,
-    fontSize: 16,
-    fontWeight: "600",
-    textAlign: "right",
   },
 });

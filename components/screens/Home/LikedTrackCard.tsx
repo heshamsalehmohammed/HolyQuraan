@@ -1,56 +1,76 @@
 import React from "react";
 import { StyleSheet } from "react-native";
 import { TapGestureHandler } from "react-native-gesture-handler";
-import { Ionicons } from "@expo/vector-icons";
-import { Text, View } from "@/components/Themed";
+import { ThemedIcon, Text, View } from "@/components/Themed";
 import { DynamicSvg } from "@/components/common/DynamicSvg";
 import { toArabicNumber } from "@/services/helpers";
 import { readingsButtons } from "@/manager";
+import { PlayPauseAudioButton } from "@/components/common/PlayPauseAudioButton";
 
 type ReadingItem = (typeof readingsButtons)[number];
 
 interface Props {
   item: ReadingItem;
-  onPress: (item: ReadingItem) => void;
+  hotspotModalRef: React.RefObject<any>;
+  LIKED_CARD_HEIGHT?: number;
+  LIKED_CARD_WIDTH?: number;
 }
 
-const LIKED_CARD_HEIGHT = 75;
-const LIKED_CARD_WIDTH = 280;
-
-export const LikedTrackCard = ({ item, onPress }: Props) => {
+export const LikedTrackCard = ({
+  item,
+  hotspotModalRef,
+  LIKED_CARD_HEIGHT,
+  LIKED_CARD_WIDTH,
+}: Props) => {
   return (
-    <TapGestureHandler onActivated={() => onPress(item)}>
-      <View style={styles.trackCard}>
-        <View style={[styles.trackCardSections, { justifyContent: "center" }]}>
-          <DynamicSvg width={50} height={50} uri={item.wordURL ?? ""} />
-        </View>
-
-        <View style={[styles.trackCardSections, { justifyContent: "center" }]}>
-          <Ionicons name="play" size={24} color="#000" />
-        </View>
-
-        <View
-          style={[
-            styles.trackCardSections,
-            { flexGrow: 1, alignItems: "flex-end", justifyContent: "flex-end" },
-          ]}
-        >
-          <Text style={styles.audioSubtitle}>{item.readingTitle}</Text>
-          <Text style={styles.audioSubtitleDetails}>
-            {`سورة ${item.surahTitle} - الآية ${toArabicNumber(
-              item.ayaNumber
-            )}`}
-          </Text>
-        </View>
+    <View
+      style={[
+        styles.trackCard,
+        { height: LIKED_CARD_HEIGHT, width: LIKED_CARD_WIDTH },
+      ]}
+    >
+      <View style={[styles.trackCardSections, { justifyContent: "center" }]}>
+        <DynamicSvg width={50} height={50} uri={item.wordURL ?? ""} />
       </View>
-    </TapGestureHandler>
+
+      <PlayPauseAudioButton
+        audioId={item.audio}
+        style={[
+          styles.trackCardSections,
+          { justifyContent: "center", marginHorizontal: 5 },
+        ]}
+      />
+
+      <View
+        style={[
+          styles.trackCardSections,
+          { flexGrow: 1, alignItems: "flex-end", justifyContent: "flex-end" },
+        ]}
+      >
+        <Text style={styles.audioSubtitle}>{item.readingTitle}</Text>
+        <Text style={styles.audioSubtitleDetails}>
+          {`سورة ${item.surahTitle} - الآية ${toArabicNumber(item.ayaNumber)}`}
+        </Text>
+      </View>
+      <TapGestureHandler
+        onActivated={() => {
+          hotspotModalRef.current?.openWithHotspot(item, false);
+        }}
+      >
+        <View style={[styles.trackCardSections, { justifyContent: "center" }]}>
+          <ThemedIcon
+            name="ellipsis-v"
+            size={24}
+            style={{ color: "#000", padding: 5 }}
+          />
+        </View>
+      </TapGestureHandler>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   trackCard: {
-    width: LIKED_CARD_WIDTH,
-    height: LIKED_CARD_HEIGHT,
     borderRadius: 12,
     overflow: "scroll",
     flexDirection: "row",

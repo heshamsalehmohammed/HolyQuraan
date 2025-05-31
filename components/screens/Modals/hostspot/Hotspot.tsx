@@ -1,4 +1,4 @@
-import React,{ useState, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { StyleSheet, Pressable, Text } from "react-native";
 import {
   LongPressGestureHandler,
@@ -11,7 +11,6 @@ import { View } from "@/components/Themed";
 const AnimatedView = Animated.createAnimatedComponent(View);
 
 export default function Hotspot({ hotspot, hotspotModalRef }: any) {
-  const [menuVisible, setMenuVisible] = useState(false);
 
   const zoomContext = useContext(ZoomListContext);
   if (!zoomContext) throw new Error("ZoomListContext not found");
@@ -36,57 +35,12 @@ export default function Hotspot({ hotspot, hotspotModalRef }: any) {
     hotspotModalRef.current?.openWithHotspot(hotspot);
   };
 
-  const onLongPressHandler = () => {
-    console.log("Hotspot long pressed");
-    setMenuVisible(true);
-  };
-
   return (
-    <>
-      <LongPressGestureHandler
-        onActivated={onLongPressHandler}
-        minDurationMs={100}
-      >
-        <TapGestureHandler onActivated={onTapHandler}>
-          <AnimatedView style={animatedStyle} />
-        </TapGestureHandler>
-      </LongPressGestureHandler>
-
-      {/* <Menu
-        x={hotspot.x * scale.value + translationX.value}
-        y={
-          hotspot.y * scale.value +
-          translationY.value +
-          hotspot.h * scale.value +
-          4
-        }
-        menuVisible={menuVisible}
-        setMenuVisible={setMenuVisible}
-      /> */}
-    </>
+    <TapGestureHandler onActivated={onTapHandler}>
+      <AnimatedView style={animatedStyle} />
+    </TapGestureHandler>
   );
 }
-
-const Menu = ({ x, y, menuVisible, setMenuVisible }: any) => {
-  if (!menuVisible) return null;
-  return (
-    <View style={[styles.menu, { left: x, top: y }]}>
-      <Pressable onPress={() => {}}>
-        <Text style={styles.menuItem}>🔊 Play</Text>
-      </Pressable>
-      <Pressable onPress={() => {}}>
-        <Text style={styles.menuItem}>🔖 Bookmark</Text>
-      </Pressable>
-      <Pressable
-        onPress={() => {
-          setMenuVisible(false);
-        }}
-      >
-        <Text style={styles.menuItem}>❌ Close</Text>
-      </Pressable>
-    </View>
-  );
-};
 
 const styles = StyleSheet.create({
   hotspot: {

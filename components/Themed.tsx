@@ -26,17 +26,14 @@ import {
   SafeAreaViewProps as DefaultSafeAreaViewProps,
 } from "react-native-safe-area-context";
 import { FontAwesome as DefaultFontAwesome } from "@expo/vector-icons";
+import { Ionicons as DefaultIonicons } from "@expo/vector-icons";
 
-import { IconProps } from "@expo/vector-icons/build/createIconSet";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { customLightTheme } from "@/constants/custom-light-theme";
 import { customDarkTheme } from "@/constants/custom-dark-theme";
 import * as Haptics from "expo-haptics";
 
-
-export function useThemeColor(
-  colorName: string
-) {
+export function useThemeColor(colorName: string) {
   const theme = useColorScheme() ?? "light";
   const colorFromKittenThemes =
     theme === "light"
@@ -48,12 +45,7 @@ export function useThemeColor(
 export function Text(props: KittenTextProps) {
   const { style, status, ...otherProps } = props;
   const color = useThemeColor("textColor");
-  return (
-    <KittenText
-      style={[{color},styles.text, style]}
-      {...otherProps}
-    />
-  );
+  return <KittenText style={[{ color }, styles.text, style]} {...otherProps} />;
 }
 
 export function StatusText(
@@ -65,7 +57,7 @@ export function StatusText(
   return (
     <View style={[styles.statusTextContainer, style as ViewStyle]}>
       {showIcon && (
-        <FontAwesome
+        <ThemedIcon
           style={{ marginRight: 10, color }}
           name="info-circle"
           size={20}
@@ -93,17 +85,31 @@ export function SafeAreaView(props: DefaultSafeAreaViewProps) {
   );
 }
 
-export function FontAwesome(props: IconProps<any>) {
-  const { style, ...otherProps } = props;
+export function ThemedIcon(
+  props: React.ComponentProps<
+    typeof DefaultFontAwesome | typeof DefaultIonicons
+  > & { iconLib?: string }
+) {
+  const { style, iconLib = "DefaultFontAwesome", name, size } = props;
 
-  
   const color = useThemeColor("iconColor");
 
   // Ensure the style is cast to TextStyle
+  if (iconLib === "DefaultIonicons") {
+    return (
+      <DefaultIonicons
+        style={[{ color } as TextStyle, style]}
+        name={name as keyof typeof DefaultIonicons.glyphMap}
+        size={size}
+      />
+    );
+  }
+
   return (
     <DefaultFontAwesome
       style={[{ color } as TextStyle, style]}
-      {...otherProps}
+      name={name as keyof typeof DefaultFontAwesome.glyphMap}
+      size={size}
     />
   );
 }
@@ -111,7 +117,7 @@ export function FontAwesome(props: IconProps<any>) {
 export type TextInputProps = kittenInputProps & {
   rightIcon?: string;
   leftIcon?: string;
-  ref?: React.RefObject<KittenInput|null>;
+  ref?: React.RefObject<KittenInput | null>;
   leftIconClickHandler?: (event: GestureResponderEvent) => void | undefined;
   rightIconClickHandler?: (event: GestureResponderEvent) => void | undefined;
 };
@@ -129,7 +135,7 @@ export function TextInput(props: TextInputProps) {
   const renderRightIcon = () => {
     return (
       <Pressable onPress={rightIconClickHandler}>
-        <FontAwesome name={rightIcon} size={20} />
+        <ThemedIcon name={rightIcon} size={20} />
       </Pressable>
     );
   };
@@ -137,14 +143,14 @@ export function TextInput(props: TextInputProps) {
   const renderLeftIcon = () => {
     return (
       <Pressable onPress={leftIconClickHandler}>
-        <FontAwesome name={leftIcon} size={20} />
+        <ThemedIcon name={leftIcon} size={20} />
       </Pressable>
     );
   };
 
   return (
     <KittenInput
-    ref={ref}
+      ref={ref}
       accessoryRight={rightIcon ? renderRightIcon : undefined}
       accessoryLeft={leftIcon ? renderLeftIcon : undefined}
       style={[style]}
@@ -199,7 +205,7 @@ export function AppFormField(props: any) {
     useFormikContext();
 
   return (
-    <View style={[{ width: "100%" ,backgroundColor:'transparent'}, style]}>
+    <View style={[{ width: "100%", backgroundColor: "transparent" }, style]}>
       <TextInput
         onBlur={() => setFieldTouched(name)}
         onChangeText={handleChange(name)}
@@ -220,11 +226,25 @@ export function SubmitButton(props: KittenButtonProps & { title: string }) {
   const { title, ...otherProps } = props;
   const { handleSubmit }: any = useFormikContext();
 
-  return <Button {...otherProps} onPress={handleSubmit} title={title}/>;
+  return <Button {...otherProps} onPress={handleSubmit} title={title} />;
 }
 
-export function Button(props: KittenButtonProps & { title?: string,icon?: string,iconStyle?: TextStyle }) {
-  const { title='',iconStyle, disabled,icon, onPress, style, ...otherProps } = props;
+export function Button(
+  props: KittenButtonProps & {
+    title?: string;
+    icon?: string;
+    iconStyle?: TextStyle;
+  }
+) {
+  const {
+    title = "",
+    iconStyle,
+    disabled,
+    icon,
+    onPress,
+    style,
+    ...otherProps
+  } = props;
 
   return (
     <KittenButton
@@ -237,7 +257,7 @@ export function Button(props: KittenButtonProps & { title?: string,icon?: string
       style={[style, disabled && styles.buttonDisabled]}
       {...otherProps}
     >
-      {icon && <FontAwesome style={iconStyle} name={icon} size={20} />}
+      {icon && <ThemedIcon style={iconStyle} name={icon} size={20} />}
       {title}
     </KittenButton>
   );
@@ -264,13 +284,11 @@ export function CheckBox(
   );
 }
 
-
 export function Divider(props: KittenViewProps) {
   const { style, ...otherProps } = props;
 
-  return <View style={[styles.divider,style]} {...otherProps} />;
+  return <View style={[styles.divider, style]} {...otherProps} />;
 }
-
 
 const styles = StyleSheet.create({
   statusTextContainer: {
@@ -288,7 +306,7 @@ const styles = StyleSheet.create({
     height: 1,
     width: "80%",
   },
-  buttonDisabled:{
-    opacity: 0.7
-  }
+  buttonDisabled: {
+    opacity: 0.7,
+  },
 });

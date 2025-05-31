@@ -1,22 +1,17 @@
 import {
   clearToasts,
-  closePopup,
-  selectLoading,
-  selectPopup,
   selectToast,
 } from "@/redux/slices/utilities/utilitiesSlice";
-import { Button, Card, Modal, Text } from "@ui-kitten/components";
+import { Card, Text } from "@ui-kitten/components";
 import {
   GestureResponderEvent,
   Platform,
   Pressable,
   StyleSheet,
   View,
-  ViewProps,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { useColorScheme } from "@/hooks/useColorScheme";
-import { FontAwesome, useThemeColor } from "../Themed";
+import { ThemedIcon, useThemeColor } from "../Themed";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ToastItemInterface } from "@/redux/slices/utilities/initialState";
 import _ from "lodash";
@@ -49,7 +44,7 @@ const ToastItem = (props: ToastItemProps) => {
           <Text status="primary">{message}</Text>
         </View>
         <Pressable onPress={onClose}>
-          <FontAwesome name="close" size={18} style={{ color: iconColor }} />
+          <ThemedIcon name="close" size={18} style={{ color: iconColor }} />
         </Pressable>
       </View>
     </Card>
@@ -157,9 +152,6 @@ const styles = StyleSheet.create({
 });
 
 export default ToastCenter;
-
-
-
 
 /* 
     dispatch(
