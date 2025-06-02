@@ -11,9 +11,11 @@ import Hotspot from "@/components/screens/Modals/hostspot/Hotspot";
 
 import { DynamicSvg } from "@/components/common/DynamicSvg";
 import { Button, View } from "@/components/Themed";
-import { readings } from "@/manager";
 import { useLocalSearchParams } from "expo-router";
 import { PagesNavigationModal } from "@/components/screens/Modals/pages/PagesNavigationModal";
+import { useSelector } from "react-redux";
+import { selectReadingByKey } from "@/redux/slices/quran/quraanSelectors";
+import { ReadingType } from "@/redux/slices/quran/types";
 
 const { width, height: rawH } = Dimensions.get("window");
 const headerH = 65;
@@ -25,12 +27,13 @@ export default function QuraanModal() {
   const scrollRef = useRef<ScrollView>(null);
   const hotspotModalRef = useRef<any>(null);
   const pagesNavigationModalRef = useRef<any>(null);
-  const { readingKey } = useLocalSearchParams<{
-    readingKey: keyof typeof readings;
-  }>();
+  const { readingKey } = useLocalSearchParams();
 
   const insets = useSafeAreaInsets();
   const pageH = rawH - headerH - insets.top - insets.bottom;
+
+
+  const reading : ReadingType = useSelector(selectReadingByKey(readingKey as string));
 
   const handleScroll = (e: any) => {
     const offsetY = e.nativeEvent.contentOffset.y;
@@ -61,7 +64,7 @@ export default function QuraanModal() {
           contentContainerStyle={styles.scrollContainer}
           onScroll={handleScroll}
         >
-          {readings[readingKey].pages.map((page, pageIdx) => {
+          {reading.pages.map((page, pageIdx) => {
             const shouldRender = Math.abs(pageIdx - visiblePage) <= 1;
 
             return (
@@ -103,10 +106,10 @@ export default function QuraanModal() {
             );
           })}
         </ZoomScrollView>
-        {readings[readingKey].index && <PagesNavigationModal
-          sourasIndex={readings[readingKey].index ??[]}
-          quranParts={readings[readingKey].parts ?? []}
-          prePagesCount={readings[readingKey].prePagesCount??0}
+        {reading.index && <PagesNavigationModal
+          sourasIndex={reading.index ??[]}
+          quranParts={reading.parts ?? []}
+          prePagesCount={reading.prePagesCount??0}
           scrollRef={scrollRef}
           onGo={scrollToPage}
           ref={pagesNavigationModalRef}

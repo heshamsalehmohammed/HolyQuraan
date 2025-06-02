@@ -8,15 +8,13 @@ import {
 } from "react-native";
 import { useFocusEffect, useRouter } from "expo-router";
 import { Text, TextInput, View } from "@/components/Themed";
-import { readingsButtons } from "@/manager";
 import { HorizontalCardSection } from "@/components/common/HorizontalCardSection";
 import { Input as KittenInput } from "@ui-kitten/components";
-
-type ReadingItem = (typeof readingsButtons)[number];
+import { ReadingItemType } from "@/redux/slices/quran/types";
 
 interface ReadingSectionProps {
   title: string;
-  items: ReadingItem[];
+  items: ReadingItemType[];
 }
 
 const CARD_WIDTH = 230;
@@ -46,9 +44,12 @@ const ReadingSection: FC<ReadingSectionProps> = ({ title, items }) => {
     i.title.toLowerCase().includes(filterText.toLowerCase())
   );
 
-  const handlePress = (item: ReadingItem) => {
+  const handlePress = (item: ReadingItemType) => {
     setLoadingId(item.id);
-    router.push({ pathname: item.path, params: item.params });
+    router.push({
+      pathname: "/quraan-modal",
+      params: { title: item.title, readingKey: item.readingKey },
+    });
   };
 
   return (
@@ -70,7 +71,7 @@ const ReadingSection: FC<ReadingSectionProps> = ({ title, items }) => {
         <Text style={styles.sectionTitle}>{title}</Text>
       </View>
 
-      <HorizontalCardSection<ReadingItem>
+      <HorizontalCardSection<ReadingItemType>
         cardHeight={CARD_HEIGHT}
         items={filtered}
         renderItem={(item) => {

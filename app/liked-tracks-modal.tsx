@@ -3,10 +3,11 @@ import { Dimensions, ScrollView, StyleSheet } from "react-native";
 import { ThemedIcon, TextInput, View } from "@/components/Themed";
 import { useRef, useState } from "react";
 import { Input as KittenInput } from "@ui-kitten/components";
-import { likedHotsspots } from "@/manager";
 import { LikedTrackCard } from "@/components/screens/Home/LikedTrackCard";
 import { HotspotModal } from "@/components/screens/Modals/hostspot/HotspotModal";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { useSelector } from "react-redux";
+import { selectLikedHotspots } from "@/redux/slices/quran/quraanSelectors";
 
 const LIKED_CARD_HEIGHT = 75;
 
@@ -14,6 +15,8 @@ export default function LikedTracksModal() {
   const inputRef = useRef<KittenInput>(null);
   const [filterText, setFilterText] = useState("");
   const hotspotModalRef = useRef<any>(null);
+
+  const likedHotsspots = useSelector(selectLikedHotspots)
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>

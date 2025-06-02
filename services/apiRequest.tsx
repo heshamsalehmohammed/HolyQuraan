@@ -2,7 +2,6 @@ import { AxiosRequestConfig, ResponseType } from "axios";
 import { axiosInstance } from "./axios";
 import Endpoints from "./Endpoints";
 import { getItemFromStorage } from "./storage";
-import DeviceInfo from "react-native-device-info";
 
 
 // General controller for sending api request
@@ -36,11 +35,9 @@ class ApiRequest {
     const type: ResponseType = endPointkey === "reportById" ? "blob" : "json";
 
     const token = await getItemFromStorage("token");
-    const deviceId = await DeviceInfo.getUniqueId();
 
     const headers: Record<string, string> = {
       "Content-Type": "application/json; charset=utf-8",
-      "device-id": deviceId,
     };
 
     if (token && endPointkey !== "login" && endPointkey !== "logout") {

@@ -1,4 +1,4 @@
-export type Hotspot = {
+export type HotspotType = {
   id: number;
   key: string;
   wordURL: string;
@@ -16,12 +16,12 @@ export type Hotspot = {
   pageNumber: number;
 };
 
-export type Page = {
+export type PageType = {
   pageURL: string;
-  hotspots: Hotspot[];
+  hotspots: HotspotType[];
 };
 
-export type Sura = {
+export type SuraType = {
   id: number;
   title: string;
   type: string;
@@ -29,26 +29,25 @@ export type Sura = {
   souraNumber: number;
 };
 
-export type Part = {
+export type PartType = {
   id: number;
   title: string;
   pageNumber: number;
 };
 
-export type Reading = {
+export type ReadingType = {
   id?: number;
   name?: string;
   prePagesCount?: number;
-  index: Sura[];
-  pages: Page[];
-  parts?: Part[];
+  index: SuraType[];
+  pages: PageType[];
+  parts?: PartType[];
 };
 
-export type ReadingButton = {
+export type ReadingItemType = {
   id: number;
   title: string;
-  path: string;
-  params: Record<string, any>;
+  readingKey: string;
   disabled: boolean;
   image: any;
   sideNotes: boolean;

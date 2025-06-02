@@ -1,7 +1,11 @@
 import React, { FC, useEffect, useState } from "react";
-import { StyleSheet, SectionList, NativeSyntheticEvent, NativeScrollEvent } from "react-native";
+import {
+  StyleSheet,
+  SectionList,
+  NativeSyntheticEvent,
+  NativeScrollEvent,
+} from "react-native";
 import { View } from "@/components/Themed";
-import { readingsButtons } from "@/manager";
 import LikedTracksSection from "@/components/screens/Home/LikedTracksSection";
 import ReadingSection from "@/components/screens/Home/ReadingSection";
 import WelcomeSection from "@/components/screens/Home/WelcomeSection";
@@ -9,20 +13,23 @@ import { useNavigation } from "expo-router";
 import HomeHeader from "@/components/screens/Home/HomeHeader/HomeHeader";
 import { HotspotModal } from "@/components/screens/Modals/hostspot/HotspotModal";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-
-type ReadingItem = (typeof readingsButtons)[number];
+import { ReadingItemType } from "@/redux/slices/quran/types";
+import { useSelector } from "react-redux";
+import { selectReadingsItems } from "@/redux/slices/quran/quraanSelectors";
 
 interface SectionData {
   title: string;
-  data: ReadingItem[];
+  data: ReadingItemType[];
 }
-
 
 const Index: FC = () => {
   /* ------------------  shadow on scroll  ------------------ */
   const [scrolled, setScrolled] = useState(false);
   const hotspotModalRef = React.useRef<any>(null);
   const navigation = useNavigation();
+
+
+  const readingsItems = useSelector(selectReadingsItems)
 
   /** whenever the flag changes, rebuild the header */
   useEffect(() => {
@@ -44,23 +51,19 @@ const Index: FC = () => {
     { title: "welcome", data: [] },
     {
       title: "القراءات مع الهامش",
-      data: readingsButtons.filter((i: any) => i.sideNotes),
+      data: readingsItems.filter((i: ReadingItemType) => i.sideNotes),
     },
     {
       title: "القراءات بدون هامش",
-      data: readingsButtons.filter((i: any) => !i.sideNotes),
+      data: readingsItems.filter((i: ReadingItemType) => !i.sideNotes),
     },
-    { title: "liked",data:[] },
+    { title: "liked", data: [] },
   ];
 
   const renderSection = ({ section }: { section: SectionData }) => {
     if (section.title === "welcome") return <WelcomeSection />;
     if (section.title === "liked")
-      return (
-        <LikedTracksSection
-          hotspotModalRef={hotspotModalRef}
-        />
-      );
+      return <LikedTracksSection hotspotModalRef={hotspotModalRef} />;
     return <ReadingSection title={section.title} items={section.data} />;
   };
 

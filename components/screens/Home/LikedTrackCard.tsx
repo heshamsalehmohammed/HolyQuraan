@@ -4,13 +4,11 @@ import { TapGestureHandler } from "react-native-gesture-handler";
 import { ThemedIcon, Text, View } from "@/components/Themed";
 import { DynamicSvg } from "@/components/common/DynamicSvg";
 import { toArabicNumber } from "@/services/helpers";
-import { readingsButtons } from "@/manager";
 import { PlayPauseAudioButton } from "@/components/common/PlayPauseAudioButton";
-
-type ReadingItem = (typeof readingsButtons)[number];
+import { HotspotType } from "@/redux/slices/quran/types";
 
 interface Props {
-  item: ReadingItem;
+  item: HotspotType;
   hotspotModalRef: React.RefObject<any>;
   LIKED_CARD_HEIGHT?: number;
   LIKED_CARD_WIDTH?: number;

@@ -1,13 +1,13 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import initialState from "./initialState";
 import {
-  fetchReadingsButtons,
+  fetchReadingsItems,
   fetchLikedHotspots,
   fetchReadingByKey,
   likeHotspot,
   dislikeHotspot,
 } from "./thunks";
-import { Reading, Hotspot } from "./types";
+import { HotspotType } from "./types";
 import _ from "lodash";
 
 const quraanSlice = createSlice({
@@ -17,8 +17,8 @@ const quraanSlice = createSlice({
     reset_quraanSlice: () => _.cloneDeep(initialState),
   },
   extraReducers: (builder) => {
-    builder.addCase(fetchReadingsButtons.fulfilled, (state, action) => {
-      state.readingsButtons = action.payload;
+    builder.addCase(fetchReadingsItems.fulfilled, (state, action) => {
+      state.readingsItems = action.payload;
     });
 
     builder.addCase(fetchLikedHotspots.fulfilled, (state, action) => {
@@ -32,7 +32,7 @@ const quraanSlice = createSlice({
 
     builder.addCase(likeHotspot.fulfilled, (state, action) => {
       const exists = state.likedHotspots.find(
-        (h: Hotspot) => h.key === action.payload.key
+        (h: HotspotType) => h.key === action.payload.key
       );
       if (!exists) {
         state.likedHotspots.push(action.payload);
@@ -41,7 +41,7 @@ const quraanSlice = createSlice({
 
     builder.addCase(dislikeHotspot.fulfilled, (state, action) => {
       state.likedHotspots = state.likedHotspots.filter(
-        (h: Hotspot) => h.key !== action.payload
+        (h: HotspotType) => h.key !== action.payload
       );
     });
   },
@@ -50,7 +50,7 @@ const quraanSlice = createSlice({
 export const { reset_quraanSlice } = quraanSlice.actions;
 
 export {
-  fetchReadingsButtons,
+  fetchReadingsItems,
   fetchLikedHotspots,
   fetchReadingByKey,
   likeHotspot,

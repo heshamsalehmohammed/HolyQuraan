@@ -1,16 +1,14 @@
 import React, { FC } from "react";
 import { StyleSheet } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
 import { Text, ThemedIcon, View } from "@/components/Themed";
 import { HorizontalCardSection } from "@/components/common/HorizontalCardSection";
-import { likedHotsspots, readingsButtons } from "@/manager";
 import { LikedTrackCard } from "./LikedTrackCard";
 import { TapGestureHandler } from "react-native-gesture-handler";
 import { useRouter } from "expo-router";
 import { Dimensions } from "react-native";
-
-
-type ReadingItem = (typeof readingsButtons)[number];
+import { HotspotType } from "@/redux/slices/quran/types";
+import { useSelector } from "react-redux";
+import { selectLikedHotspots } from "@/redux/slices/quran/quraanSelectors";
 
 interface Props {
   hotspotModalRef: React.RefObject<any>;
@@ -21,13 +19,15 @@ const LIKED_CARD_WIDTH = Dimensions.get("window").width * 0.8;
 
 const LikedTracksSection: FC<Props> = ({ hotspotModalRef }) => {
 
-  const first = likedHotsspots.slice(0, Math.ceil(likedHotsspots.length / 2));
-  const second = likedHotsspots.slice(Math.ceil(likedHotsspots.length / 2));
 
+  const likedHotsspots = useSelector(selectLikedHotspots);
 
-    const router = useRouter();
-  
-  const renderTrack = (item: ReadingItem) => (
+  const first = likedHotsspots.slice(0, 2);
+  const second = likedHotsspots.slice(2);
+
+  const router = useRouter();
+
+  const renderTrack = (item: HotspotType) => (
     <LikedTrackCard
       item={item}
       hotspotModalRef={hotspotModalRef}
@@ -55,14 +55,14 @@ const LikedTracksSection: FC<Props> = ({ hotspotModalRef }) => {
             <ThemedIcon
               name="play"
               size={20}
-              style={{ color : "#fff" }}
+              style={{ color: "#fff" }}
               iconLib="DefaultIonicons"
             />
           </View>
         </View>
       </TapGestureHandler>
 
-      <HorizontalCardSection<ReadingItem>
+      <HorizontalCardSection<HotspotType>
         cardHeight={LIKED_CARD_HEIGHT}
         items={first}
         renderItem={renderTrack}
@@ -70,7 +70,7 @@ const LikedTracksSection: FC<Props> = ({ hotspotModalRef }) => {
 
       <View level="3" style={{ height: 8 }} />
 
-      <HorizontalCardSection<ReadingItem>
+      <HorizontalCardSection<HotspotType>
         cardHeight={LIKED_CARD_HEIGHT}
         items={second}
         renderItem={renderTrack}

@@ -1,7 +1,7 @@
 import { _apirequest } from "@/services/apiRequest";
 
-export const fetchReadingsButtonsApi = async () => {
-  const res = _apirequest.makeRequest("readings_buttons", {}, {});
+export const fetchReadingsItemsApi = async () => {
+  const res = _apirequest.makeRequest("readings_Items", {}, {});
   return res;
 };
 

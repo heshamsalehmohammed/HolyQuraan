@@ -34,8 +34,8 @@ const Endpoints: {
   },
 
   // 📖 Quraan-related endpoints
-  readings_buttons: {
-    url: `${config.API_ENDPOINT_PREFIX}/quraan-api/api/v1/readings/buttons`,
+  readings_items: {
+    url: `${config.API_ENDPOINT_PREFIX}/quraan-api/api/v1/readings/items`,
     method: "GET",
     params: {},
   },

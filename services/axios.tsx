@@ -1,8 +1,5 @@
 import axios, { AxiosError } from "axios";
 
-import ReduxDispatchSingleton from "@/services/reduxDispatchSingleton";
-import { logoutUserAutomatically } from "@/redux/slices/auth/authSlice";
-
 export enum ISuccessStatusCode {
   SUCCESS = 200,
   CREATED = 201,
@@ -103,15 +100,6 @@ function resInterceptor(res: any) {
 }
 
 const errInterceptor = (err: Error) => {
-  /* this code logs out the user if any endpoint returned a 401 unauthorize response 
-       meaning that the session is expired 	
- 	*/
-  const dispatch = ReduxDispatchSingleton.getDispatch();
-
-  if (err?.response?.status === 401) {
-    dispatch(logoutUserAutomatically());
-  }
-
   const responseData: any = err.response?.data;
 
   const errResponse =

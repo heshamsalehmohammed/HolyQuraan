@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
   fetchLikedHotspotsApi,
-  fetchReadingsButtonsApi,
+  fetchReadingsItemsApi,
   fetchReadingByKeyApi,
   likeHotspotApi,
   dislikeHotspotApi,
@@ -9,10 +9,10 @@ import {
 import { handleHttpRequestPromise } from "@/services/reduxHelpers";
 
 // 🔽 Reads buttons (used in splash)
-export const fetchReadingsButtons = createAsyncThunk(
-  "quraan/fetchReadingsButtons",
+export const fetchReadingsItems = createAsyncThunk(
+  "quraan/fetchReadingsItems",
   (_: void, thunkAPI) => {
-    return handleHttpRequestPromise(fetchReadingsButtonsApi()).then(
+    return handleHttpRequestPromise(fetchReadingsItemsApi()).then(
       (result) => {
         if (!result?.data) return thunkAPI.rejectWithValue({});
         return thunkAPI.fulfillWithValue(result.data);
