@@ -884,7 +884,7 @@ const initialState: QuraanState = {
             },
             {
               id: 2,
-              key: "page-010-hafs-00001-shuba-2",
+              key: "page-010-hafs-00001-shuba-1",
               wordURL: "word-00001-shuba",
               audio: "00001-shuba",
               x: 0,
@@ -1062,7 +1062,7 @@ const initialState: QuraanState = {
     },
     {
       id: 2,
-      key: "page-015-hafs-00001-shuba-2",
+      key: "page-015-hafs-00001-shuba-1",
       wordURL: "word-00001-shuba",
       audio: "00001-shuba",
       x: 300,
@@ -1079,7 +1079,7 @@ const initialState: QuraanState = {
     },
     {
       id: 3,
-      key: "page-020-hafs-00001-shuba-3",
+      key: "page-020-hafs-00001-shuba-1",
       wordURL: "word-00001-shuba",
       audio: "00001-shuba",
       x: 310,
@@ -1096,7 +1096,7 @@ const initialState: QuraanState = {
     },
     {
       id: 4,
-      key: "page-025-hafs-00001-shuba-4",
+      key: "page-025-hafs-00001-shuba-1",
       wordURL: "word-00001-shuba",
       audio: "00001-shuba",
       x: 305,
