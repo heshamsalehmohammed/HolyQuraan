@@ -1,9 +1,9 @@
 import React, { FC } from "react";
 import { StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { Text, View } from "@/components/Themed";
+import { Text, ThemedIcon, View } from "@/components/Themed";
 import { HorizontalCardSection } from "@/components/common/HorizontalCardSection";
-import { readingsButtons } from "@/manager";
+import { likedHotsspots, readingsButtons } from "@/manager";
 import { LikedTrackCard } from "./LikedTrackCard";
 import { TapGestureHandler } from "react-native-gesture-handler";
 import { useRouter } from "expo-router";
@@ -13,16 +13,16 @@ import { Dimensions } from "react-native";
 type ReadingItem = (typeof readingsButtons)[number];
 
 interface Props {
-  items: ReadingItem[];
   hotspotModalRef: React.RefObject<any>;
 }
 
 const LIKED_CARD_HEIGHT = 75;
 const LIKED_CARD_WIDTH = Dimensions.get("window").width * 0.8;
 
-const LikedTracksSection: FC<Props> = ({ items, hotspotModalRef }) => {
-  const first = items.slice(0, Math.ceil(items.length / 2));
-  const second = items.slice(Math.ceil(items.length / 2));
+const LikedTracksSection: FC<Props> = ({ hotspotModalRef }) => {
+
+  const first = likedHotsspots.slice(0, Math.ceil(likedHotsspots.length / 2));
+  const second = likedHotsspots.slice(Math.ceil(likedHotsspots.length / 2));
 
 
     const router = useRouter();
@@ -43,11 +43,21 @@ const LikedTracksSection: FC<Props> = ({ items, hotspotModalRef }) => {
       >
         <View style={styles.likedHeader}>
           <View style={styles.likedIcon}>
-            <Ionicons name="heart" size={24} color="#f50" />
+            <ThemedIcon
+              name="heart"
+              size={24}
+              style={{ color: "#f50" }}
+              iconLib="DefaultIonicons"
+            />
           </View>
           <Text style={styles.likedTitle}>الصوتيات المفضله</Text>
           <View style={styles.shuffleButton}>
-            <Ionicons name="play" size={20} color="#fff" />
+            <ThemedIcon
+              name="play"
+              size={20}
+              style={{ color : "#fff" }}
+              iconLib="DefaultIonicons"
+            />
           </View>
         </View>
       </TapGestureHandler>

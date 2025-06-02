@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
   },
-  input: { marginHorizontal: 12, marginVertical: 10 },
+  input: { marginHorizontal: 12, marginVertical: 10, borderRadius: 25 },
   sectionTitle: {
     fontSize: 20,
     fontWeight: "bold",

@@ -17,76 +17,6 @@ interface SectionData {
   data: ReadingItem[];
 }
 
-const likedTracks = [
-  {
-    id: 1,
-    key: "page-010-hafs-00001-shuba-1",
-    wordURL: "word-00001-shuba",
-    audio: "00001-shuba",
-    x: 295,
-    y: 407,
-    w: 30,
-    h: 30,
-    otherAudios: ["00001-hafs"],
-    instruction: "إبدال الواو همزة",
-    readingTitle: "قراءة شعبه",
-    surahTitle: "البقرة",
-    surahId: 2,
-    ayaNumber: 67,
-    pageNumber: 13,
-  },
-  {
-    id: 2,
-    key: "page-015-hafs-00001-shuba-2",
-    wordURL: "word-00001-shuba",
-    audio: "00001-shuba",
-    x: 300,
-    y: 410,
-    w: 30,
-    h: 30,
-    otherAudios: ["00001-hafs"],
-    instruction: "إبدال الواو همزة",
-    readingTitle: "قراءة شعبه",
-    surahTitle: "البقرة",
-    surahId: 2,
-    ayaNumber: 67,
-    pageNumber: 14,
-  },
-  {
-    id: 3,
-    key: "page-020-hafs-00001-shuba-3",
-    wordURL: "word-00001-shuba",
-    audio: "00001-shuba",
-    x: 310,
-    y: 415,
-    w: 30,
-    h: 30,
-    otherAudios: ["00001-hafs"],
-    instruction: "إبدال الواو همزة",
-    readingTitle: "قراءة شعبه",
-    surahTitle: "البقرة",
-    surahId: 2,
-    ayaNumber: 67,
-    pageNumber: 14,
-  },
-  {
-    id: 4,
-    key: "page-025-hafs-00001-shuba-4",
-    wordURL: "word-00001-shuba",
-    audio: "00001-shuba",
-    x: 305,
-    y: 420,
-    w: 30,
-    h: 30,
-    otherAudios: ["00001-hafs"],
-    instruction: "إبدال الواو همزة",
-    readingTitle: "قراءة شعبه",
-    surahTitle: "البقرة",
-    surahId: 2,
-    ayaNumber: 67,
-    pageNumber: 14,
-  },
-];
 
 const Index: FC = () => {
   /* ------------------  shadow on scroll  ------------------ */
@@ -120,7 +50,7 @@ const Index: FC = () => {
       title: "القراءات بدون هامش",
       data: readingsButtons.filter((i: any) => !i.sideNotes),
     },
-    { title: "liked", data: likedTracks },
+    { title: "liked",data:[] },
   ];
 
   const renderSection = ({ section }: { section: SectionData }) => {
@@ -128,7 +58,6 @@ const Index: FC = () => {
     if (section.title === "liked")
       return (
         <LikedTracksSection
-          items={section.data}
           hotspotModalRef={hotspotModalRef}
         />
       );

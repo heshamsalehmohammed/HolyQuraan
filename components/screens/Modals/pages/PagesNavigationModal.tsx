@@ -28,7 +28,6 @@ import {
 } from "@/components/Themed";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { AutocompleteDropdown } from "react-native-autocomplete-dropdown";
-import { QuranParts } from "@/manager";
 import { PanGestureHandler } from "react-native-gesture-handler";
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("window");
@@ -38,7 +37,10 @@ const HANDLE_HEIGHT = 20;
 LogBox.ignoreLogs(["Warning: This synthetic event is reused"]);
 
 export const PagesNavigationModal = forwardRef(
-  ({ scrollRef, sourasIndex, prePagesCount = 0, onGo }: any, ref: any) => {
+  (
+    { scrollRef, sourasIndex, quranParts, prePagesCount = 0, onGo }: any,
+    ref: any
+  ) => {
     const insets = useSafeAreaInsets();
 
     const sheetRef = useRef<any>(null);
@@ -96,9 +98,8 @@ export const PagesNavigationModal = forwardRef(
     const filteredSurahs: any = sourasIndex.filter((s: any) =>
       s.title.includes(surahQuery)
     );
-    const filteredParts = QuranParts.filter((p) => p.includes(partQuery)).map(
-      (p, i) => ({ id: `${i}`, title: p })
-    );
+    const filteredParts = quranParts
+      .filter((p:any) => p.title.includes(partQuery));
 
     const renderContent = () => (
       <View
@@ -123,7 +124,7 @@ export const PagesNavigationModal = forwardRef(
             onPress={() => {
               onGo?.(pageNumber);
               sheetClose();
-              setPageNumber('')
+              setPageNumber("");
             }}
             title="اذهب"
           />
@@ -193,7 +194,12 @@ export const PagesNavigationModal = forwardRef(
             closeOnBlur={true}
             closeOnSubmit={false}
             showClear={false}
-            onSelectItem={(item: any) => item && setPartQuery(item.title)}
+            onSelectItem={(item: any) => {
+              if (item) {
+                onGo?.(item.pageNumber + prePagesCount);
+                sheetClose();
+              }
+            }}
             dataSet={filteredParts}
             textInputProps={{
               placeholder: "اختر الجزء",
