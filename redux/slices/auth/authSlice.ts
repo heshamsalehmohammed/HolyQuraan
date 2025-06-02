@@ -8,7 +8,6 @@ import {
 } from "./authApi";
 import { reset_utilitiesSlice } from "../utilities/utilitiesSlice";
 import _ from "lodash";
-import { reset_userSettingsSlice } from "../userSetting/userSettingSlice";
 import { handleHttpRequestPromise } from "@/services/reduxHelpers";
 import RouterSingleton from "@/services/routerSingleton";
 import {
@@ -100,7 +99,6 @@ export const resetAppState: any = createAsyncThunk(
   async (_, { dispatch, fulfillWithValue }) => {
     await completeLogoutUser();
     dispatch(reset_authSlice());
-    dispatch(reset_userSettingsSlice());
     dispatch(reset_utilitiesSlice());
     return fulfillWithValue({});
   }

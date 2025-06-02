@@ -3,19 +3,11 @@ import { axiosInstance } from "./axios";
 import Endpoints from "./Endpoints";
 import { getItemFromStorage } from "./storage";
 
-export type EndPointsKeys =
-  | "login"
-  | "userDetails"
-  | "account_details"
-  | "getUserSettings"
-  | "setUserSettings"
-  | "logout";
-
 // General controller for sending api request
 
 class ApiRequest {
   async makeRequest(
-    endPointkey: EndPointsKeys | string,
+    endPointkey: string,
     params: {},
     body: Object
   ) {
