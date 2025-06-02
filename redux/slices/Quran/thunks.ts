@@ -9,12 +9,12 @@ import {
 import { handleHttpRequestPromise } from "@/services/reduxHelpers";
 
 // 🔽 Reads buttons (used in splash)
-export const fetchReadingsButtons: any = createAsyncThunk(
+export const fetchReadingsButtons = createAsyncThunk(
   "quraan/fetchReadingsButtons",
-  async (_: any, thunkAPI) => {
+  (_: void, thunkAPI) => {
     return handleHttpRequestPromise(fetchReadingsButtonsApi()).then(
-      (result: any) => {
-        if (!result || !result.data) return thunkAPI.rejectWithValue({});
+      (result) => {
+        if (!result?.data) return thunkAPI.rejectWithValue({});
         return thunkAPI.fulfillWithValue(result.data);
       }
     );
@@ -22,53 +22,47 @@ export const fetchReadingsButtons: any = createAsyncThunk(
 );
 
 // 🔽 Liked hotspots (used in splash)
-export const fetchLikedHotspots: any = createAsyncThunk(
+export const fetchLikedHotspots = createAsyncThunk(
   "quraan/fetchLikedHotspots",
-  async (_: any, thunkAPI) => {
-    return handleHttpRequestPromise(fetchLikedHotspotsApi()).then(
-      (result: any) => {
-        if (!result || !result.data) return thunkAPI.rejectWithValue({});
-        return thunkAPI.fulfillWithValue(result.data);
-      }
-    );
+  (_: void, thunkAPI) => {
+    return handleHttpRequestPromise(fetchLikedHotspotsApi()).then((result) => {
+      if (!result?.data) return thunkAPI.rejectWithValue({});
+      return thunkAPI.fulfillWithValue(result.data);
+    });
   }
 );
 
 // 🔽 Reading by key (used when selecting a button)
-export const fetchReadingByKey: any = createAsyncThunk(
+export const fetchReadingByKey = createAsyncThunk(
   "quraan/fetchReadingByKey",
-  async (key: string, thunkAPI) => {
+  (key: string, thunkAPI) => {
     return handleHttpRequestPromise(fetchReadingByKeyApi(key)).then(
-      (result: any) => {
-        if (!result || !result.data) return thunkAPI.rejectWithValue({});
+      (result) => {
+        if (!result?.data) return thunkAPI.rejectWithValue({});
         return thunkAPI.fulfillWithValue({ key, data: result.data });
       }
     );
   }
 );
 
-// 🔽 Like hotspot
-export const likeHotspot: any = createAsyncThunk(
+// 🔽 Like hotspot (by ID only)
+export const likeHotspot = createAsyncThunk(
   "quraan/likeHotspot",
-  async (hotspot: any, thunkAPI) => {
-    return handleHttpRequestPromise(likeHotspotApi(hotspot)).then(
-      (result: any) => {
-        if (!result || !result.data) return thunkAPI.rejectWithValue({});
-        return thunkAPI.fulfillWithValue(result.data);
-      }
-    );
+  (id: string, thunkAPI) => {
+    return handleHttpRequestPromise(likeHotspotApi(id)).then((result) => {
+      if (!result?.data) return thunkAPI.rejectWithValue({});
+      return thunkAPI.fulfillWithValue(result.data);
+    });
   }
 );
 
-// 🔽 Dislike hotspot
-export const dislikeHotspot: any = createAsyncThunk(
+// 🔽 Dislike hotspot (by ID only)
+export const dislikeHotspot = createAsyncThunk(
   "quraan/dislikeHotspot",
-  async (key: string, thunkAPI) => {
-    return handleHttpRequestPromise(dislikeHotspotApi(key)).then(
-      (result: any) => {
-        if (!result || !result.data) return thunkAPI.rejectWithValue({});
-        return thunkAPI.fulfillWithValue(result.data);
-      }
-    );
+  (id: string, thunkAPI) => {
+    return handleHttpRequestPromise(dislikeHotspotApi(id)).then((result) => {
+      if (!result?.data) return thunkAPI.rejectWithValue({});
+      return thunkAPI.fulfillWithValue(result.data);
+    });
   }
 );

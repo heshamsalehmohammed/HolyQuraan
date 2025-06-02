@@ -14,9 +14,6 @@ const quraanSlice = createSlice({
   name: "quraan",
   initialState,
   reducers: {
-    setSelectedReading: (state, action: PayloadAction<string>) => {
-      state.selectedReadingKey = action.payload;
-    },
     reset_quraanSlice: () => _.cloneDeep(initialState),
   },
   extraReducers: (builder) => {
@@ -35,7 +32,7 @@ const quraanSlice = createSlice({
 
     builder.addCase(likeHotspot.fulfilled, (state, action) => {
       const exists = state.likedHotspots.find(
-        (h) => h.key === action.payload.key
+        (h: Hotspot) => h.key === action.payload.key
       );
       if (!exists) {
         state.likedHotspots.push(action.payload);
@@ -44,13 +41,13 @@ const quraanSlice = createSlice({
 
     builder.addCase(dislikeHotspot.fulfilled, (state, action) => {
       state.likedHotspots = state.likedHotspots.filter(
-        (h) => h.key !== action.payload
+        (h: Hotspot) => h.key !== action.payload
       );
     });
   },
 });
 
-export const { setSelectedReading, reset_quraanSlice } = quraanSlice.actions;
+export const { reset_quraanSlice } = quraanSlice.actions;
 
 export {
   fetchReadingsButtons,
