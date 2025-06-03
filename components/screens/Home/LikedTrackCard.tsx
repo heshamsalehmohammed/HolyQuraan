@@ -5,10 +5,10 @@ import { ThemedIcon, Text, View } from "@/components/Themed";
 import { DynamicSvg } from "@/components/common/DynamicSvg";
 import { toArabicNumber } from "@/services/helpers";
 import { PlayPauseAudioButton } from "@/components/common/PlayPauseAudioButton";
-import { HotspotType } from "@/redux/slices/quran/types";
+import { HotspotType, LikedHotspotType } from "@/redux/slices/quran/types";
 
 interface Props {
-  item: HotspotType;
+  item: LikedHotspotType;
   hotspotModalRef: React.RefObject<any>;
   LIKED_CARD_HEIGHT?: number;
   LIKED_CARD_WIDTH?: number;

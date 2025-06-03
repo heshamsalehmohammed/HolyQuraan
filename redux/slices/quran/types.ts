@@ -88,5 +88,6 @@ export type ReadingItemType = {
 export type QuraanState = {
   readings: Record<string, ReadingType>;
   readingsItems: ReadingItemType[];
+  recentLikedHotspots: LikedHotspotType[];
   likedHotspots: LikedHotspotType[];
 };

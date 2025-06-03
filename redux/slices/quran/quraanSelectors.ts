@@ -28,6 +28,11 @@ export const selectLikedHotspots = createSelector(
   (quraan) => quraan.likedHotspots
 );
 
+export const selectRecentLikedHotspots = createSelector(
+  selectQuraanState,
+  (quraan) => quraan.recentLikedHotspots
+);
+
 // 🔽 Check if a hotspot is liked by its key
 export const selectIsHotspotLiked = (id: number) =>
   createSelector(selectLikedHotspots, (likedHotspots) =>

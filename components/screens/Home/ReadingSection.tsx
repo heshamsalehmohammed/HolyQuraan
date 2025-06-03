@@ -12,6 +12,8 @@ import { HorizontalCardSection } from "@/components/common/HorizontalCardSection
 import { Input as KittenInput } from "@ui-kitten/components";
 import { ReadingItemType } from "@/redux/slices/quran/types";
 import { imageMapper } from "@/manager";
+import { useDispatch } from "react-redux";
+import { fetchReadingByKey } from "@/redux/slices/quran/thunks";
 
 interface ReadingSectionProps {
   title: string;
@@ -22,6 +24,7 @@ const CARD_WIDTH = 230;
 const CARD_HEIGHT = 100;
 
 const ReadingSection: FC<ReadingSectionProps> = ({ title, items }) => {
+  const dispatch :any= useDispatch();
   const router = useRouter();
   const inputRef = useRef<KittenInput>(null);
   const [searching, setSearching] = useState(false);
@@ -47,10 +50,18 @@ const ReadingSection: FC<ReadingSectionProps> = ({ title, items }) => {
 
   const handlePress = (item: ReadingItemType) => {
     setLoadingId(item.id);
-    router.push({
-      pathname: "/quraan-modal",
-      params: { title: item.title, readingKey: item.readingKey },
-    });
+    dispatch(fetchReadingByKey(item.readingKey))
+      .unwrap()
+      .then(() => {
+        setLoadingId(null);
+        router.push({
+          pathname: "/quraan-modal",
+          params: { title: item.title, readingKey: item.readingKey },
+        });
+      })
+      .catch(() => {
+        setLoadingId(null);
+      });
   };
 
   return (

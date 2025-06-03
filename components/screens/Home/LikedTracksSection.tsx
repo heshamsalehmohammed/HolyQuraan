@@ -6,9 +6,9 @@ import { LikedTrackCard } from "./LikedTrackCard";
 import { TapGestureHandler } from "react-native-gesture-handler";
 import { useRouter } from "expo-router";
 import { Dimensions } from "react-native";
-import { HotspotType } from "@/redux/slices/quran/types";
+import { HotspotType, LikedHotspotType } from "@/redux/slices/quran/types";
 import { useSelector } from "react-redux";
-import { selectLikedHotspots } from "@/redux/slices/quran/quraanSelectors";
+import { selectLikedHotspots, selectRecentLikedHotspots } from "@/redux/slices/quran/quraanSelectors";
 
 interface Props {
   hotspotModalRef: React.RefObject<any>;
@@ -20,14 +20,14 @@ const LIKED_CARD_WIDTH = Dimensions.get("window").width * 0.8;
 const LikedTracksSection: FC<Props> = ({ hotspotModalRef }) => {
 
 
-  const likedHotsspots = useSelector(selectLikedHotspots);
+  const likedHotsspots = useSelector(selectRecentLikedHotspots);
 
-  const first = likedHotsspots.slice(0, 2);
+  const first= likedHotsspots.slice(0, 2);
   const second = likedHotsspots.slice(2);
 
   const router = useRouter();
 
-  const renderTrack = (item: HotspotType) => (
+  const renderTrack = (item: LikedHotspotType) => (
     <LikedTrackCard
       item={item}
       hotspotModalRef={hotspotModalRef}
@@ -62,7 +62,7 @@ const LikedTracksSection: FC<Props> = ({ hotspotModalRef }) => {
         </View>
       </TapGestureHandler>
 
-      <HorizontalCardSection<HotspotType>
+      <HorizontalCardSection<LikedHotspotType>
         cardHeight={LIKED_CARD_HEIGHT}
         items={first}
         renderItem={renderTrack}
@@ -70,7 +70,7 @@ const LikedTracksSection: FC<Props> = ({ hotspotModalRef }) => {
 
       <View level="3" style={{ height: 8 }} />
 
-      <HorizontalCardSection<HotspotType>
+      <HorizontalCardSection<LikedHotspotType>
         cardHeight={LIKED_CARD_HEIGHT}
         items={second}
         renderItem={renderTrack}

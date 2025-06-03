@@ -19,7 +19,9 @@ export const fetchReadingsItems = createAsyncThunk(
         if (!res?.data) return thunkAPI.rejectWithValue({});
         return thunkAPI.fulfillWithValue(res.data);
       })
-      .catch((err) => thunkAPI.rejectWithValue(err));
+      .catch((err) => {
+        thunkAPI.rejectWithValue(err)
+      });
   }
 );
 
@@ -67,7 +69,7 @@ export const fetchReadingPagesByKey = createAsyncThunk(
   "quraan/fetchReadingPagesByKey",
   async (payload: { key: string; pagesNumber: number[] }, thunkAPI) => {
     const { key, pagesNumber } = payload;
-    return handleHttpRequestPromise(fetchReadingPagesByKeyApi(key, pagesNumber))
+    return handleHttpRequestPromise(fetchReadingPagesByKeyApi(key, pagesNumber),undefined, false)
       .then((res:any) => {
         if (!res?.data) return thunkAPI.rejectWithValue({});
         return thunkAPI.fulfillWithValue({ key, pagesNumber, data: res.data });

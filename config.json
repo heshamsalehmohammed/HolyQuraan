@@ -1,3 +1,3 @@
 {
-  "API_ENDPOINT_PREFIX": "https://ps2.ynixeg.org"
+  "API_ENDPOINT_PREFIX": "http://192.168.1.162:3900/api"
 }

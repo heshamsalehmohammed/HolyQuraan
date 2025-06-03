@@ -21,14 +21,13 @@ export enum IErrorMessage {
   INTERNAL_SERVER_ERROR = "Something went wrong, please try again later.",
 }
 
-export const ErrorMessageMapper: { [key in IErrorStatusCode]: IErrorMessage } =
-  {
-    "400": IErrorMessage.BAD_REQUEST,
-    "401": IErrorMessage.UNAUTHORIZED,
-    "404": IErrorMessage.NOT_FOUND,
-    "409": IErrorMessage.CONFLICT,
-    "500": IErrorMessage.INTERNAL_SERVER_ERROR,
-  };
+export const ErrorMessageMapper: { [key in IErrorStatusCode]: IErrorMessage } = {
+  400: IErrorMessage.BAD_REQUEST,
+  401: IErrorMessage.UNAUTHORIZED,
+  404: IErrorMessage.NOT_FOUND,
+  409: IErrorMessage.CONFLICT,
+  500: IErrorMessage.INTERNAL_SERVER_ERROR,
+};
 
 export type IHTTPStatusCode = ISuccessStatusCode | IErrorStatusCode;
 
@@ -67,6 +66,7 @@ export class ErrorModel {
     this.statusCode = status;
     this.errMessage = ErrorMessageMapper[status] || "Something went wrong";
   }
+
   toObject() {
     return {
       errResponse: this.errResponse,
@@ -95,20 +95,42 @@ interface Error extends AxiosError {
 
 const axiosInstance = axios.create();
 
+axiosInstance.interceptors.request.use((config) => {
+  console.log("[Axios] Sending Request:", {
+    url: config.url,
+    method: config.method,
+    params: config.params,
+    data: config.data,
+    headers: config.headers,
+  });
+  return config;
+});
+
 function resInterceptor(res: any) {
+  console.log("[Axios] Response Received:", {
+    url: res.config?.url,
+    status: res.status,
+    data: res.data,
+  });
   return res;
 }
 
 const errInterceptor = (err: Error) => {
+  console.log("[Axios] Error Caught:", {
+    message: err.message,
+    status: err.response?.status,
+    url: err.config?.url,
+    data: err.response?.data,
+  });
+
   const responseData: any = err.response?.data;
 
   const errResponse =
     responseData && responseData.httpErrCode
       ? new ErrorModel(responseData as IErrorResponse).toObject()
-      : new ErrorModel(
-          defaultErrResponse(err?.response?.status || 500)
-        ).toObject();
+      : new ErrorModel(defaultErrResponse(err?.response?.status || 500)).toObject();
 
+  console.log("[Axios] Processed Error Response:", errResponse);
   throw errResponse;
 };
 
