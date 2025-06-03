@@ -1,11 +1,5 @@
-import { externalIndex, externalParts } from "@/manager";
-import { ReadingType, ReadingItemType, HotspotType } from "./types";
-
-type QuraanState = {
-  readings: Record<string, ReadingType>;
-  readingsItems: ReadingItemType[];
-  likedHotspots: HotspotType[];
-};
+import { externalIndex, externalParts, generatePagesObject } from "@/manager";
+import { QuraanState } from "./types";
 
 const initialState: QuraanState = {
   readings: {
@@ -13,9 +7,11 @@ const initialState: QuraanState = {
       id: 1,
       name: "مصحف حفص - بالهامش شعبه",
       prePagesCount: 3,
+      pagesCount: 613,
       index: [
         {
           id: 1,
+          suraId: 1,
           title: "الفاتحة",
           type: "مكية",
           pageNumber: 1,
@@ -23,6 +19,7 @@ const initialState: QuraanState = {
         },
         {
           id: 2,
+          suraId: 2,
           title: "البقرة",
           type: "مدنية",
           pageNumber: 2,
@@ -30,6 +27,7 @@ const initialState: QuraanState = {
         },
         {
           id: 3,
+          suraId: 3,
           title: "آل عمران",
           type: "مدنية",
           pageNumber: 50,
@@ -37,6 +35,7 @@ const initialState: QuraanState = {
         },
         {
           id: 4,
+          suraId: 4,
           title: "النساء",
           type: "مدنية",
           pageNumber: 77,
@@ -44,6 +43,7 @@ const initialState: QuraanState = {
         },
         {
           id: 5,
+          suraId: 5,
           title: "المائدة",
           type: "مدنية",
           pageNumber: 106,
@@ -51,6 +51,7 @@ const initialState: QuraanState = {
         },
         {
           id: 6,
+          suraId: 6,
           title: "الأنعام",
           type: "مكية",
           pageNumber: 128,
@@ -58,6 +59,7 @@ const initialState: QuraanState = {
         },
         {
           id: 7,
+          suraId: 7,
           title: "الأعراف",
           type: "مكية",
           pageNumber: 151,
@@ -65,6 +67,7 @@ const initialState: QuraanState = {
         },
         {
           id: 8,
+          suraId: 8,
           title: "الأنفال",
           type: "مدنية",
           pageNumber: 177,
@@ -72,6 +75,7 @@ const initialState: QuraanState = {
         },
         {
           id: 9,
+          suraId: 9,
           title: "التوبة",
           type: "مدنية",
           pageNumber: 187,
@@ -79,6 +83,7 @@ const initialState: QuraanState = {
         },
         {
           id: 10,
+          suraId: 10,
           title: "يونس",
           type: "مكية",
           pageNumber: 208,
@@ -86,6 +91,7 @@ const initialState: QuraanState = {
         },
         {
           id: 11,
+          suraId: 11,
           title: "هود",
           type: "مكية",
           pageNumber: 221,
@@ -93,6 +99,7 @@ const initialState: QuraanState = {
         },
         {
           id: 12,
+          suraId: 12,
           title: "يوسف",
           type: "مكية",
           pageNumber: 235,
@@ -100,6 +107,7 @@ const initialState: QuraanState = {
         },
         {
           id: 13,
+          suraId: 13,
           title: "الرعد",
           type: "مدنية",
           pageNumber: 249,
@@ -107,6 +115,7 @@ const initialState: QuraanState = {
         },
         {
           id: 14,
+          suraId: 14,
           title: "إبراهيم",
           type: "مكية",
           pageNumber: 255,
@@ -114,6 +123,7 @@ const initialState: QuraanState = {
         },
         {
           id: 15,
+          suraId: 15,
           title: "الحجر",
           type: "مكية",
           pageNumber: 262,
@@ -121,6 +131,7 @@ const initialState: QuraanState = {
         },
         {
           id: 16,
+          suraId: 16,
           title: "النحل",
           type: "مكية",
           pageNumber: 267,
@@ -128,6 +139,7 @@ const initialState: QuraanState = {
         },
         {
           id: 17,
+          suraId: 17,
           title: "الإسراء",
           type: "مكية",
           pageNumber: 282,
@@ -135,6 +147,7 @@ const initialState: QuraanState = {
         },
         {
           id: 18,
+          suraId: 18,
           title: "الكهف",
           type: "مكية",
           pageNumber: 293,
@@ -142,6 +155,7 @@ const initialState: QuraanState = {
         },
         {
           id: 19,
+          suraId: 19,
           title: "مريم",
           type: "مكية",
           pageNumber: 305,
@@ -149,6 +163,7 @@ const initialState: QuraanState = {
         },
         {
           id: 20,
+          suraId: 20,
           title: "طه",
           type: "مكية",
           pageNumber: 312,
@@ -156,6 +171,7 @@ const initialState: QuraanState = {
         },
         {
           id: 21,
+          suraId: 21,
           title: "الأنبياء",
           type: "مكية",
           pageNumber: 322,
@@ -163,6 +179,7 @@ const initialState: QuraanState = {
         },
         {
           id: 22,
+          suraId: 22,
           title: "الحج",
           type: "مدنية",
           pageNumber: 332,
@@ -170,6 +187,7 @@ const initialState: QuraanState = {
         },
         {
           id: 23,
+          suraId: 23,
           title: "المؤمنون",
           type: "مكية",
           pageNumber: 342,
@@ -177,6 +195,7 @@ const initialState: QuraanState = {
         },
         {
           id: 24,
+          suraId: 24,
           title: "النور",
           type: "مدنية",
           pageNumber: 350,
@@ -184,6 +203,7 @@ const initialState: QuraanState = {
         },
         {
           id: 25,
+          suraId: 25,
           title: "الفرقان",
           type: "مكية",
           pageNumber: 359,
@@ -191,6 +211,7 @@ const initialState: QuraanState = {
         },
         {
           id: 26,
+          suraId: 26,
           title: "الشعراء",
           type: "مكية",
           pageNumber: 367,
@@ -198,6 +219,7 @@ const initialState: QuraanState = {
         },
         {
           id: 27,
+          suraId: 27,
           title: "النمل",
           type: "مكية",
           pageNumber: 377,
@@ -205,6 +227,7 @@ const initialState: QuraanState = {
         },
         {
           id: 28,
+          suraId: 28,
           title: "القصص",
           type: "مكية",
           pageNumber: 385,
@@ -212,6 +235,7 @@ const initialState: QuraanState = {
         },
         {
           id: 29,
+          suraId: 29,
           title: "العنكبوت",
           type: "مكية",
           pageNumber: 396,
@@ -219,6 +243,7 @@ const initialState: QuraanState = {
         },
         {
           id: 30,
+          suraId: 30,
           title: "الروم",
           type: "مكية",
           pageNumber: 404,
@@ -226,6 +251,7 @@ const initialState: QuraanState = {
         },
         {
           id: 31,
+          suraId: 31,
           title: "لقمان",
           type: "مكية",
           pageNumber: 411,
@@ -233,6 +259,7 @@ const initialState: QuraanState = {
         },
         {
           id: 32,
+          suraId: 32,
           title: "السجدة",
           type: "مكية",
           pageNumber: 415,
@@ -240,6 +267,7 @@ const initialState: QuraanState = {
         },
         {
           id: 33,
+          suraId: 33,
           title: "الأحزاب",
           type: "مدنية",
           pageNumber: 418,
@@ -247,20 +275,23 @@ const initialState: QuraanState = {
         },
         {
           id: 34,
+          suraId: 34,
           title: "سبأ",
           type: "مكية",
-          pageNumber: 434,
+          pageNumber: 428,
           souraNumber: 34,
         },
         {
           id: 35,
+          suraId: 35,
           title: "فاطر",
           type: "مكية",
-          pageNumber: 440,
+          pageNumber: 434,
           souraNumber: 35,
         },
         {
           id: 36,
+          suraId: 36,
           title: "يس",
           type: "مكية",
           pageNumber: 440,
@@ -268,6 +299,7 @@ const initialState: QuraanState = {
         },
         {
           id: 37,
+          suraId: 37,
           title: "الصافات",
           type: "مكية",
           pageNumber: 446,
@@ -275,6 +307,7 @@ const initialState: QuraanState = {
         },
         {
           id: 38,
+          suraId: 38,
           title: "ص",
           type: "مكية",
           pageNumber: 453,
@@ -282,6 +315,7 @@ const initialState: QuraanState = {
         },
         {
           id: 39,
+          suraId: 39,
           title: "الزمر",
           type: "مكية",
           pageNumber: 458,
@@ -289,6 +323,7 @@ const initialState: QuraanState = {
         },
         {
           id: 40,
+          suraId: 40,
           title: "غافر",
           type: "مكية",
           pageNumber: 467,
@@ -296,6 +331,7 @@ const initialState: QuraanState = {
         },
         {
           id: 41,
+          suraId: 41,
           title: "فصلت",
           type: "مكية",
           pageNumber: 477,
@@ -303,6 +339,7 @@ const initialState: QuraanState = {
         },
         {
           id: 42,
+          suraId: 42,
           title: "الشورى",
           type: "مكية",
           pageNumber: 483,
@@ -310,6 +347,7 @@ const initialState: QuraanState = {
         },
         {
           id: 43,
+          suraId: 43,
           title: "الزخرف",
           type: "مكية",
           pageNumber: 489,
@@ -317,6 +355,7 @@ const initialState: QuraanState = {
         },
         {
           id: 44,
+          suraId: 44,
           title: "الدخان",
           type: "مكية",
           pageNumber: 496,
@@ -324,6 +363,7 @@ const initialState: QuraanState = {
         },
         {
           id: 45,
+          suraId: 45,
           title: "الجاثية",
           type: "مكية",
           pageNumber: 499,
@@ -331,6 +371,7 @@ const initialState: QuraanState = {
         },
         {
           id: 46,
+          suraId: 46,
           title: "الأحقاف",
           type: "مكية",
           pageNumber: 502,
@@ -338,6 +379,7 @@ const initialState: QuraanState = {
         },
         {
           id: 47,
+          suraId: 47,
           title: "محمد",
           type: "مدنية",
           pageNumber: 507,
@@ -345,6 +387,7 @@ const initialState: QuraanState = {
         },
         {
           id: 48,
+          suraId: 48,
           title: "الفتح",
           type: "مدنية",
           pageNumber: 511,
@@ -352,13 +395,15 @@ const initialState: QuraanState = {
         },
         {
           id: 49,
+          suraId: 49,
           title: "الحجرات",
           type: "مدنية",
-          pageNumber: 514,
+          pageNumber: 515,
           souraNumber: 49,
         },
         {
           id: 50,
+          suraId: 50,
           title: "ق",
           type: "مكية",
           pageNumber: 518,
@@ -366,6 +411,7 @@ const initialState: QuraanState = {
         },
         {
           id: 51,
+          suraId: 51,
           title: "الذاريات",
           type: "مكية",
           pageNumber: 520,
@@ -373,6 +419,7 @@ const initialState: QuraanState = {
         },
         {
           id: 52,
+          suraId: 52,
           title: "الطور",
           type: "مكية",
           pageNumber: 523,
@@ -380,6 +427,7 @@ const initialState: QuraanState = {
         },
         {
           id: 53,
+          suraId: 53,
           title: "النجم",
           type: "مكية",
           pageNumber: 526,
@@ -387,6 +435,7 @@ const initialState: QuraanState = {
         },
         {
           id: 54,
+          suraId: 54,
           title: "القمر",
           type: "مكية",
           pageNumber: 528,
@@ -394,6 +443,7 @@ const initialState: QuraanState = {
         },
         {
           id: 55,
+          suraId: 55,
           title: "الرحمن",
           type: "مدنية",
           pageNumber: 531,
@@ -401,6 +451,7 @@ const initialState: QuraanState = {
         },
         {
           id: 56,
+          suraId: 56,
           title: "الواقعة",
           type: "مكية",
           pageNumber: 534,
@@ -408,6 +459,7 @@ const initialState: QuraanState = {
         },
         {
           id: 57,
+          suraId: 57,
           title: "الحديد",
           type: "مدنية",
           pageNumber: 537,
@@ -415,6 +467,7 @@ const initialState: QuraanState = {
         },
         {
           id: 58,
+          suraId: 58,
           title: "المجادلة",
           type: "مدنية",
           pageNumber: 542,
@@ -422,6 +475,7 @@ const initialState: QuraanState = {
         },
         {
           id: 59,
+          suraId: 59,
           title: "الحشر",
           type: "مدنية",
           pageNumber: 545,
@@ -429,6 +483,7 @@ const initialState: QuraanState = {
         },
         {
           id: 60,
+          suraId: 60,
           title: "الممتحنة",
           type: "مدنية",
           pageNumber: 549,
@@ -436,6 +491,7 @@ const initialState: QuraanState = {
         },
         {
           id: 61,
+          suraId: 61,
           title: "الصف",
           type: "مدنية",
           pageNumber: 551,
@@ -443,6 +499,7 @@ const initialState: QuraanState = {
         },
         {
           id: 62,
+          suraId: 62,
           title: "الجمعة",
           type: "مدنية",
           pageNumber: 553,
@@ -450,6 +507,7 @@ const initialState: QuraanState = {
         },
         {
           id: 63,
+          suraId: 63,
           title: "المنافقون",
           type: "مدنية",
           pageNumber: 554,
@@ -457,6 +515,7 @@ const initialState: QuraanState = {
         },
         {
           id: 64,
+          suraId: 64,
           title: "التغابن",
           type: "مدنية",
           pageNumber: 556,
@@ -464,6 +523,7 @@ const initialState: QuraanState = {
         },
         {
           id: 65,
+          suraId: 65,
           title: "الطلاق",
           type: "مدنية",
           pageNumber: 558,
@@ -471,6 +531,7 @@ const initialState: QuraanState = {
         },
         {
           id: 66,
+          suraId: 66,
           title: "التحريم",
           type: "مدنية",
           pageNumber: 560,
@@ -478,6 +539,7 @@ const initialState: QuraanState = {
         },
         {
           id: 67,
+          suraId: 67,
           title: "الملك",
           type: "مكية",
           pageNumber: 562,
@@ -485,6 +547,7 @@ const initialState: QuraanState = {
         },
         {
           id: 68,
+          suraId: 68,
           title: "القلم",
           type: "مكية",
           pageNumber: 564,
@@ -492,6 +555,7 @@ const initialState: QuraanState = {
         },
         {
           id: 69,
+          suraId: 69,
           title: "الحاقة",
           type: "مكية",
           pageNumber: 566,
@@ -499,6 +563,7 @@ const initialState: QuraanState = {
         },
         {
           id: 70,
+          suraId: 70,
           title: "المعارج",
           type: "مكية",
           pageNumber: 568,
@@ -506,6 +571,7 @@ const initialState: QuraanState = {
         },
         {
           id: 71,
+          suraId: 71,
           title: "نوح",
           type: "مكية",
           pageNumber: 570,
@@ -513,6 +579,7 @@ const initialState: QuraanState = {
         },
         {
           id: 72,
+          suraId: 72,
           title: "الجن",
           type: "مكية",
           pageNumber: 572,
@@ -520,6 +587,7 @@ const initialState: QuraanState = {
         },
         {
           id: 73,
+          suraId: 73,
           title: "المزمل",
           type: "مكية",
           pageNumber: 574,
@@ -527,111 +595,127 @@ const initialState: QuraanState = {
         },
         {
           id: 74,
+          suraId: 74,
           title: "المدثر",
           type: "مكية",
-          pageNumber: 576,
+          pageNumber: 575,
           souraNumber: 74,
         },
         {
           id: 75,
+          suraId: 75,
           title: "القيامة",
           type: "مكية",
-          pageNumber: 578,
+          pageNumber: 577,
           souraNumber: 75,
         },
         {
           id: 76,
+          suraId: 76,
           title: "الإنسان",
           type: "مدنية",
-          pageNumber: 580,
+          pageNumber: 578,
           souraNumber: 76,
         },
         {
           id: 77,
+          suraId: 77,
           title: "المرسلات",
           type: "مكية",
-          pageNumber: 582,
+          pageNumber: 580,
           souraNumber: 77,
         },
         {
           id: 78,
+          suraId: 78,
           title: "النبأ",
           type: "مكية",
-          pageNumber: 584,
+          pageNumber: 582,
           souraNumber: 78,
         },
         {
           id: 79,
+          suraId: 79,
           title: "النازعات",
           type: "مكية",
-          pageNumber: 586,
+          pageNumber: 583,
           souraNumber: 79,
         },
         {
           id: 80,
+          suraId: 80,
           title: "عبس",
           type: "مكية",
-          pageNumber: 588,
+          pageNumber: 585,
           souraNumber: 80,
         },
         {
           id: 81,
+          suraId: 81,
           title: "التكوير",
           type: "مكية",
-          pageNumber: 589,
+          pageNumber: 586,
           souraNumber: 81,
         },
         {
           id: 82,
-          title: "الانفطار",
+          suraId: 82,
+          title: "الإنفطار",
           type: "مكية",
-          pageNumber: 591,
+          pageNumber: 587,
           souraNumber: 82,
         },
         {
           id: 83,
+          suraId: 83,
           title: "المطففين",
           type: "مكية",
-          pageNumber: 593,
+          pageNumber: 587,
           souraNumber: 83,
         },
         {
           id: 84,
-          title: "الانشقاق",
+          suraId: 84,
+          title: "الإنشقاق",
           type: "مكية",
-          pageNumber: 595,
+          pageNumber: 589,
           souraNumber: 84,
         },
         {
           id: 85,
+          suraId: 85,
           title: "البروج",
           type: "مكية",
-          pageNumber: 597,
+          pageNumber: 590,
           souraNumber: 85,
         },
         {
           id: 86,
+          suraId: 86,
           title: "الطارق",
           type: "مكية",
-          pageNumber: 599,
+          pageNumber: 591,
           souraNumber: 86,
         },
         {
           id: 87,
+          suraId: 87,
           title: "الأعلى",
           type: "مكية",
-          pageNumber: 601,
+          pageNumber: 591,
           souraNumber: 87,
         },
         {
           id: 88,
+          suraId: 88,
           title: "الغاشية",
           type: "مكية",
-          pageNumber: 602,
+          pageNumber: 592,
           souraNumber: 88,
         },
         {
           id: 89,
+          suraId: 89,
           title: "الفجر",
           type: "مكية",
           pageNumber: 593,
@@ -639,6 +723,7 @@ const initialState: QuraanState = {
         },
         {
           id: 90,
+          suraId: 90,
           title: "البلد",
           type: "مكية",
           pageNumber: 594,
@@ -646,6 +731,7 @@ const initialState: QuraanState = {
         },
         {
           id: 91,
+          suraId: 91,
           title: "الشمس",
           type: "مكية",
           pageNumber: 595,
@@ -653,228 +739,213 @@ const initialState: QuraanState = {
         },
         {
           id: 92,
+          suraId: 92,
           title: "الليل",
           type: "مكية",
-          pageNumber: 596,
+          pageNumber: 595,
           souraNumber: 92,
         },
         {
           id: 93,
+          suraId: 93,
           title: "الضحى",
           type: "مكية",
-          pageNumber: 597,
+          pageNumber: 596,
           souraNumber: 93,
         },
         {
           id: 94,
+          suraId: 94,
           title: "الشرح",
           type: "مكية",
-          pageNumber: 598,
+          pageNumber: 596,
           souraNumber: 94,
         },
         {
           id: 95,
+          suraId: 95,
           title: "التين",
           type: "مكية",
-          pageNumber: 599,
+          pageNumber: 597,
           souraNumber: 95,
         },
         {
           id: 96,
+          suraId: 96,
           title: "العلق",
           type: "مكية",
-          pageNumber: 600,
+          pageNumber: 597,
           souraNumber: 96,
         },
         {
           id: 97,
+          suraId: 97,
           title: "القدر",
           type: "مكية",
-          pageNumber: 601,
+          pageNumber: 598,
           souraNumber: 97,
         },
         {
           id: 98,
+          suraId: 98,
           title: "البينة",
           type: "مدنية",
-          pageNumber: 602,
+          pageNumber: 598,
           souraNumber: 98,
         },
         {
           id: 99,
+          suraId: 99,
           title: "الزلزلة",
-          type: "مكية",
-          pageNumber: 603,
+          type: "مدنية",
+          pageNumber: 599,
           souraNumber: 99,
         },
         {
           id: 100,
+          suraId: 100,
           title: "العاديات",
           type: "مكية",
-          pageNumber: 603,
+          pageNumber: 599,
           souraNumber: 100,
         },
         {
           id: 101,
+          suraId: 101,
           title: "القارعة",
           type: "مكية",
-          pageNumber: 604,
+          pageNumber: 600,
           souraNumber: 101,
         },
         {
           id: 102,
+          suraId: 102,
           title: "التكاثر",
           type: "مكية",
-          pageNumber: 604,
+          pageNumber: 600,
           souraNumber: 102,
         },
         {
           id: 103,
+          suraId: 103,
           title: "العصر",
           type: "مكية",
-          pageNumber: 605,
+          pageNumber: 601,
           souraNumber: 103,
         },
         {
           id: 104,
+          suraId: 104,
           title: "الهمزة",
           type: "مكية",
-          pageNumber: 605,
+          pageNumber: 601,
           souraNumber: 104,
         },
         {
           id: 105,
+          suraId: 105,
           title: "الفيل",
           type: "مكية",
-          pageNumber: 605,
+          pageNumber: 601,
           souraNumber: 105,
         },
         {
           id: 106,
+          suraId: 106,
           title: "قريش",
           type: "مكية",
-          pageNumber: 606,
+          pageNumber: 602,
           souraNumber: 106,
         },
         {
           id: 107,
+          suraId: 107,
           title: "الماعون",
           type: "مكية",
-          pageNumber: 606,
+          pageNumber: 602,
           souraNumber: 107,
         },
         {
           id: 108,
+          suraId: 108,
           title: "الكوثر",
           type: "مكية",
-          pageNumber: 606,
+          pageNumber: 602,
           souraNumber: 108,
         },
         {
           id: 109,
+          suraId: 109,
           title: "الكافرون",
           type: "مكية",
-          pageNumber: 607,
+          pageNumber: 603,
           souraNumber: 109,
         },
         {
           id: 110,
+          suraId: 110,
           title: "النصر",
           type: "مدنية",
-          pageNumber: 607,
+          pageNumber: 603,
           souraNumber: 110,
         },
         {
           id: 111,
+          suraId: 111,
           title: "المسد",
           type: "مكية",
-          pageNumber: 608,
+          pageNumber: 603,
           souraNumber: 111,
         },
         {
           id: 112,
+          suraId: 112,
           title: "الإخلاص",
           type: "مكية",
-          pageNumber: 609,
+          pageNumber: 604,
           souraNumber: 112,
         },
         {
           id: 113,
+          suraId: 113,
           title: "الفلق",
           type: "مكية",
-          pageNumber: 610,
+          pageNumber: 604,
           souraNumber: 113,
         },
         {
           id: 114,
+          suraId: 114,
           title: "الناس",
           type: "مكية",
-          pageNumber: 611,
+          pageNumber: 604,
           souraNumber: 114,
         },
       ],
-      pages: [
-        {
-          pageURL: "page-001-hafs-shuba",
-          hotspots: [],
-        },
-        {
-          pageURL: "page-002-hafs-shuba",
-          hotspots: [],
-        },
-        {
-          pageURL: "page-003-hafs-shuba",
-          hotspots: [],
-        },
-        {
-          pageURL: "page-004-hafs-shuba",
-          hotspots: [],
-        },
-        {
-          pageURL: "page-005-hafs-shuba",
-          hotspots: [],
-        },
-        {
-          pageURL: "page-006-hafs-shuba",
-          hotspots: [],
-        },
-        {
-          pageURL: "page-007-hafs-shuba",
-          hotspots: [],
-        },
-        {
-          pageURL: "page-008-hafs-shuba",
-          hotspots: [],
-        },
-        {
-          pageURL: "page-009-hafs-shuba",
-          hotspots: [],
-        },
-        {
-          pageURL: "page-010-hafs-shuba",
-          hotspots: [],
-        },
-        {
-          pageURL: "page-011-hafs-shuba",
-          hotspots: [],
-        },
-        {
-          pageURL: "page-012-hafs-shuba",
-          hotspots: [],
-        },
-        {
+      pages: {
+        0: { pageURL: "page-001-hafs-shuba", hotspots: [] },
+        1: { pageURL: "page-002-hafs-shuba", hotspots: [] },
+        2: { pageURL: "page-003-hafs-shuba", hotspots: [] },
+        3: { pageURL: "page-004-hafs-shuba", hotspots: [] },
+        4: { pageURL: "page-005-hafs-shuba", hotspots: [] },
+        5: { pageURL: "page-006-hafs-shuba", hotspots: [] },
+        6: { pageURL: "page-007-hafs-shuba", hotspots: [] },
+        7: { pageURL: "page-008-hafs-shuba", hotspots: [] },
+        8: { pageURL: "page-009-hafs-shuba", hotspots: [] },
+        9: { pageURL: "page-010-hafs-shuba", hotspots: [] },
+        10: { pageURL: "page-011-hafs-shuba", hotspots: [] },
+        11: { pageURL: "page-012-hafs-shuba", hotspots: [] },
+        12: {
           pageURL: "page-013-hafs-shuba",
           hotspots: [
             {
               id: 1,
-              key: "page-010-hafs-00001-shuba-1",
               wordURL: "word-00001-shuba",
               audio: "00001-shuba",
               x: 295,
               y: 407,
               w: 30,
               h: 30,
-              otherAudios: ["00001-hafs"],
               instruction: "إبدال الواو همزة",
               readingTitle: "قراءة شعبه",
               surahTitle: "البقرة",
@@ -884,14 +955,12 @@ const initialState: QuraanState = {
             },
             {
               id: 2,
-              key: "page-010-hafs-00001-shuba-1",
               wordURL: "word-00001-shuba",
               audio: "00001-shuba",
               x: 0,
               y: 410,
               w: 30,
               h: 90,
-              otherAudios: ["00001-hafs"],
               instruction: "إبدال الواو همزة",
               readingTitle: "قراءة شعبه",
               surahTitle: "البقرة",
@@ -901,61 +970,40 @@ const initialState: QuraanState = {
             },
           ],
         },
-        {
-          pageURL: "page-014-hafs-shuba",
-          hotspots: [],
-        },
-        {
-          pageURL: "page-015-hafs-shuba",
-          hotspots: [],
-        },
-        {
-          pageURL: "page-016-hafs-shuba",
-          hotspots: [],
-        },
-        {
-          pageURL: "page-017-hafs-shuba",
-          hotspots: [],
-        },
-      ],
+        13: { pageURL: "page-014-hafs-shuba", hotspots: [] },
+        14: { pageURL: "page-015-hafs-shuba", hotspots: [] },
+        15: { pageURL: "page-016-hafs-shuba", hotspots: [] },
+        16: { pageURL: "page-017-hafs-shuba", hotspots: [] },
+      },
+      parts: externalParts,
     },
     hafs: {
-      pages: Array.from({ length: 604 }, (_, i) => ({
-        pageURL: `https://maknoon.com/quran/hafs/${i + 1}.svgz`,
-        hotspots: [],
-      })),
+      pages: generatePagesObject("https://maknoon.com/quran/hafs"),
+      pagesCount: 604,
       index: externalIndex,
       parts: externalParts,
     },
     shuba: {
-      pages: Array.from({ length: 604 }, (_, i) => ({
-        pageURL: `https://maknoon.com/quran/shubah/${i + 1}.svgz`,
-        hotspots: [],
-      })),
+      pages: generatePagesObject("https://maknoon.com/quran/shubah"),
+      pagesCount: 604,
       index: externalIndex,
       parts: externalParts,
     },
     warsh: {
-      pages: Array.from({ length: 604 }, (_, i) => ({
-        pageURL: `https://maknoon.com/quran/warsh/${i + 1}.svgz`,
-        hotspots: [],
-      })),
+      pages: generatePagesObject("https://maknoon.com/quran/warsh"),
+      pagesCount: 604,
       index: externalIndex,
       parts: externalParts,
     },
     qalon: {
-      pages: Array.from({ length: 604 }, (_, i) => ({
-        pageURL: `https://maknoon.com/quran/qalon/${i + 1}.svgz`,
-        hotspots: [],
-      })),
+      pages: generatePagesObject("https://maknoon.com/quran/qalon"),
+      pagesCount: 604,
       index: externalIndex,
       parts: externalParts,
     },
     douri: {
-      pages: Array.from({ length: 604 }, (_, i) => ({
-        pageURL: `https://maknoon.com/quran/douri/${i + 1}.svgz`,
-        hotspots: [],
-      })),
+      pages: generatePagesObject("https://maknoon.com/quran/douri"),
+      pagesCount: 604,
       index: externalIndex,
       parts: externalParts,
     },
@@ -966,7 +1014,7 @@ const initialState: QuraanState = {
       title: "مصحف حفص - بالهامش شعبه",
       readingKey: "hafs_shuba",
       disabled: false,
-      image: require("@assets/images/w.jpg"),
+      image: "readingItem",
       sideNotes: true,
     },
     {
@@ -974,7 +1022,7 @@ const initialState: QuraanState = {
       title: "مصحف حفص - رسم عثماني",
       readingKey: "hafs",
       disabled: false,
-      image: require("@assets/images/w.jpg"),
+      image: "readingItem",
       sideNotes: false,
     },
     {
@@ -982,7 +1030,7 @@ const initialState: QuraanState = {
       title: "مصحف شعبه - رسم عثماني",
       readingKey: "shuba",
       disabled: false,
-      image: require("@assets/images/w.jpg"),
+      image: "readingItem",
       sideNotes: false,
     },
     {
@@ -990,7 +1038,7 @@ const initialState: QuraanState = {
       title: "مصحف ورش - رسم عثماني",
       readingKey: "warsh",
       disabled: false,
-      image: require("@assets/images/w.jpg"),
+      image: "readingItem",
       sideNotes: false,
     },
     {
@@ -998,7 +1046,7 @@ const initialState: QuraanState = {
       title: "مصحف قالون - رسم عثماني",
       readingKey: "qalon",
       disabled: false,
-      image: require("@assets/images/w.jpg"),
+      image: "readingItem",
       sideNotes: false,
     },
     {
@@ -1006,7 +1054,7 @@ const initialState: QuraanState = {
       title: "مصحف الدوري - رسم عثماني",
       readingKey: "douri",
       disabled: false,
-      image: require("@assets/images/w.jpg"),
+      image: "readingItem",
       sideNotes: false,
     },
     {
@@ -1014,7 +1062,7 @@ const initialState: QuraanState = {
       title: "مصحف السوسي - رسم عثماني",
       readingKey: "sousi",
       disabled: true,
-      image: require("@assets/images/w.jpg"),
+      image: "readingItem",
       sideNotes: false,
     },
     {
@@ -1022,7 +1070,7 @@ const initialState: QuraanState = {
       title: "مصحف حمزة - رسم عثماني",
       readingKey: "hamza",
       disabled: true,
-      image: require("@assets/images/w.jpg"),
+      image: "readingItem",
       sideNotes: false,
     },
     {
@@ -1030,7 +1078,7 @@ const initialState: QuraanState = {
       title: "مصحف الكسائي - رسم عثماني",
       readingKey: "kisaei",
       disabled: true,
-      image: require("@assets/images/w.jpg"),
+      image: "readingItem",
       sideNotes: false,
     },
     {
@@ -1038,78 +1086,23 @@ const initialState: QuraanState = {
       title: "مصحف خلف - رسم عثماني",
       readingKey: "khalaf",
       disabled: true,
-      image: require("@assets/images/w.jpg"),
+      image: "readingItem",
       sideNotes: false,
     },
   ],
   likedHotspots: [
     {
       id: 1,
-      key: "page-010-hafs-00001-shuba-1",
+      hotspotId: 1,
+      userId: 1,
       wordURL: "word-00001-shuba",
       audio: "00001-shuba",
-      x: 295,
-      y: 407,
-      w: 30,
-      h: 30,
-      otherAudios: ["00001-hafs"],
       instruction: "إبدال الواو همزة",
       readingTitle: "قراءة شعبه",
       surahTitle: "البقرة",
       surahId: 2,
       ayaNumber: 67,
       pageNumber: 13,
-    },
-    {
-      id: 2,
-      key: "page-015-hafs-00001-shuba-1",
-      wordURL: "word-00001-shuba",
-      audio: "00001-shuba",
-      x: 300,
-      y: 410,
-      w: 30,
-      h: 30,
-      otherAudios: ["00001-hafs"],
-      instruction: "إبدال الواو همزة",
-      readingTitle: "قراءة شعبه",
-      surahTitle: "البقرة",
-      surahId: 2,
-      ayaNumber: 67,
-      pageNumber: 14,
-    },
-    {
-      id: 3,
-      key: "page-020-hafs-00001-shuba-1",
-      wordURL: "word-00001-shuba",
-      audio: "00001-shuba",
-      x: 310,
-      y: 415,
-      w: 30,
-      h: 30,
-      otherAudios: ["00001-hafs"],
-      instruction: "إبدال الواو همزة",
-      readingTitle: "قراءة شعبه",
-      surahTitle: "البقرة",
-      surahId: 2,
-      ayaNumber: 67,
-      pageNumber: 14,
-    },
-    {
-      id: 4,
-      key: "page-025-hafs-00001-shuba-1",
-      wordURL: "word-00001-shuba",
-      audio: "00001-shuba",
-      x: 305,
-      y: 420,
-      w: 30,
-      h: 30,
-      otherAudios: ["00001-hafs"],
-      instruction: "إبدال الواو همزة",
-      readingTitle: "قراءة شعبه",
-      surahTitle: "البقرة",
-      surahId: 2,
-      ayaNumber: 67,
-      pageNumber: 14,
     },
   ],
 };

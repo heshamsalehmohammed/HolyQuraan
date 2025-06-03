@@ -7,7 +7,7 @@ import {
   likeHotspot,
   dislikeHotspot,
 } from "./thunks";
-import { HotspotType } from "./types";
+import { HotspotType, LikedHotspotType } from "./types";
 import _ from "lodash";
 
 const quraanSlice = createSlice({
@@ -32,7 +32,7 @@ const quraanSlice = createSlice({
 
     builder.addCase(likeHotspot.fulfilled, (state, action) => {
       const exists = state.likedHotspots.find(
-        (h: HotspotType) => h.key === action.payload.key
+        (h: LikedHotspotType) => h.id === action.payload.id
       );
       if (!exists) {
         state.likedHotspots.push(action.payload);
@@ -41,7 +41,7 @@ const quraanSlice = createSlice({
 
     builder.addCase(dislikeHotspot.fulfilled, (state, action) => {
       state.likedHotspots = state.likedHotspots.filter(
-        (h: HotspotType) => h.key !== action.payload
+        (h: LikedHotspotType) => h.id !== action.payload
       );
     });
   },

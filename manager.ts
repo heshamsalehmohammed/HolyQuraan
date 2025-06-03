@@ -18,6 +18,12 @@ import Page016_Hafs_Shuba from "@assets/pages/hafs_shuba/page-016.svg";
 import Page017_Hafs_Shuba from "@assets/pages/hafs_shuba/page-017.svg";
 
 import Word00001Shuba from "@assets/pages/shuba/words/00001.svg";
+import { PageType, PartInReadingType, SuraInReadingType } from "./redux/slices/quran/types";
+
+export const imageMapper: { [key: string]: any } = {
+  "readingItem": require("@assets/images/w.jpg"),
+  // Add more if needed
+};
 
 export const svgMapper: Record<string, React.FC<any>> = {
   WelcomeHeader: WelcomeHeader,
@@ -46,9 +52,10 @@ export const audioMapper: Record<string, any> = {
   "00001-hafs": require("@assets/sounds/hafs/00001.mp3"),
 };
 
-export const externalIndex = [
+export const externalIndex:SuraInReadingType[] = [
   {
     id: 1,
+    suraId:1,
     title: "الفاتحة",
     type: "مكية",
     pageNumber: 1,
@@ -56,6 +63,7 @@ export const externalIndex = [
   },
   {
     id: 2,
+    suraId:2,
     title: "البقرة",
     type: "مدنية",
     pageNumber: 2,
@@ -63,6 +71,7 @@ export const externalIndex = [
   },
   {
     id: 3,
+    suraId:3,
     title: "آل عمران",
     type: "مدنية",
     pageNumber: 50,
@@ -70,6 +79,7 @@ export const externalIndex = [
   },
   {
     id: 4,
+    suraId:4,
     title: "النساء",
     type: "مدنية",
     pageNumber: 77,
@@ -77,6 +87,7 @@ export const externalIndex = [
   },
   {
     id: 5,
+    suraId:5,
     title: "المائدة",
     type: "مدنية",
     pageNumber: 106,
@@ -84,6 +95,7 @@ export const externalIndex = [
   },
   {
     id: 6,
+    suraId:6,
     title: "الأنعام",
     type: "مكية",
     pageNumber: 128,
@@ -91,6 +103,7 @@ export const externalIndex = [
   },
   {
     id: 7,
+    suraId:7,
     title: "الأعراف",
     type: "مكية",
     pageNumber: 151,
@@ -98,6 +111,7 @@ export const externalIndex = [
   },
   {
     id: 8,
+    suraId:8,
     title: "الأنفال",
     type: "مدنية",
     pageNumber: 177,
@@ -105,6 +119,7 @@ export const externalIndex = [
   },
   {
     id: 9,
+    suraId:9,
     title: "التوبة",
     type: "مدنية",
     pageNumber: 187,
@@ -112,6 +127,7 @@ export const externalIndex = [
   },
   {
     id: 10,
+    suraId:10,
     title: "يونس",
     type: "مكية",
     pageNumber: 208,
@@ -119,6 +135,7 @@ export const externalIndex = [
   },
   {
     id: 11,
+    suraId:11,
     title: "هود",
     type: "مكية",
     pageNumber: 221,
@@ -126,6 +143,7 @@ export const externalIndex = [
   },
   {
     id: 12,
+    suraId:12,
     title: "يوسف",
     type: "مكية",
     pageNumber: 235,
@@ -133,6 +151,7 @@ export const externalIndex = [
   },
   {
     id: 13,
+    suraId:13,
     title: "الرعد",
     type: "مدنية",
     pageNumber: 249,
@@ -140,6 +159,7 @@ export const externalIndex = [
   },
   {
     id: 14,
+    suraId:14,
     title: "إبراهيم",
     type: "مكية",
     pageNumber: 255,
@@ -147,6 +167,7 @@ export const externalIndex = [
   },
   {
     id: 15,
+    suraId:15,
     title: "الحجر",
     type: "مكية",
     pageNumber: 262,
@@ -154,6 +175,7 @@ export const externalIndex = [
   },
   {
     id: 16,
+    suraId:16,
     title: "النحل",
     type: "مكية",
     pageNumber: 267,
@@ -161,6 +183,7 @@ export const externalIndex = [
   },
   {
     id: 17,
+    suraId:17,
     title: "الإسراء",
     type: "مكية",
     pageNumber: 282,
@@ -168,6 +191,7 @@ export const externalIndex = [
   },
   {
     id: 18,
+    suraId:18,
     title: "الكهف",
     type: "مكية",
     pageNumber: 293,
@@ -175,6 +199,7 @@ export const externalIndex = [
   },
   {
     id: 19,
+    suraId:19,
     title: "مريم",
     type: "مكية",
     pageNumber: 305,
@@ -182,6 +207,7 @@ export const externalIndex = [
   },
   {
     id: 20,
+    suraId:20,
     title: "طه",
     type: "مكية",
     pageNumber: 312,
@@ -189,6 +215,7 @@ export const externalIndex = [
   },
   {
     id: 21,
+    suraId:21,
     title: "الأنبياء",
     type: "مكية",
     pageNumber: 322,
@@ -196,6 +223,7 @@ export const externalIndex = [
   },
   {
     id: 22,
+    suraId:22,
     title: "الحج",
     type: "مدنية",
     pageNumber: 332,
@@ -203,6 +231,7 @@ export const externalIndex = [
   },
   {
     id: 23,
+    suraId:23,
     title: "المؤمنون",
     type: "مكية",
     pageNumber: 342,
@@ -210,6 +239,7 @@ export const externalIndex = [
   },
   {
     id: 24,
+    suraId:24,
     title: "النور",
     type: "مدنية",
     pageNumber: 350,
@@ -217,6 +247,7 @@ export const externalIndex = [
   },
   {
     id: 25,
+    suraId:25,
     title: "الفرقان",
     type: "مكية",
     pageNumber: 359,
@@ -224,6 +255,7 @@ export const externalIndex = [
   },
   {
     id: 26,
+    suraId:26,
     title: "الشعراء",
     type: "مكية",
     pageNumber: 367,
@@ -231,6 +263,7 @@ export const externalIndex = [
   },
   {
     id: 27,
+    suraId:27,
     title: "النمل",
     type: "مكية",
     pageNumber: 377,
@@ -238,6 +271,7 @@ export const externalIndex = [
   },
   {
     id: 28,
+    suraId:28,
     title: "القصص",
     type: "مكية",
     pageNumber: 385,
@@ -245,6 +279,7 @@ export const externalIndex = [
   },
   {
     id: 29,
+    suraId:29,
     title: "العنكبوت",
     type: "مكية",
     pageNumber: 396,
@@ -252,6 +287,7 @@ export const externalIndex = [
   },
   {
     id: 30,
+    suraId:30,
     title: "الروم",
     type: "مكية",
     pageNumber: 404,
@@ -259,6 +295,7 @@ export const externalIndex = [
   },
   {
     id: 31,
+    suraId:31,
     title: "لقمان",
     type: "مكية",
     pageNumber: 411,
@@ -266,6 +303,7 @@ export const externalIndex = [
   },
   {
     id: 32,
+    suraId:32,
     title: "السجدة",
     type: "مكية",
     pageNumber: 415,
@@ -273,6 +311,7 @@ export const externalIndex = [
   },
   {
     id: 33,
+    suraId:33,
     title: "الأحزاب",
     type: "مدنية",
     pageNumber: 418,
@@ -280,6 +319,7 @@ export const externalIndex = [
   },
   {
     id: 34,
+    suraId:34,
     title: "سبأ",
     type: "مكية",
     pageNumber: 428,
@@ -287,6 +327,7 @@ export const externalIndex = [
   },
   {
     id: 35,
+    suraId:35,
     title: "فاطر",
     type: "مكية",
     pageNumber: 434,
@@ -294,6 +335,7 @@ export const externalIndex = [
   },
   {
     id: 36,
+    suraId:36,
     title: "يس",
     type: "مكية",
     pageNumber: 440,
@@ -301,6 +343,7 @@ export const externalIndex = [
   },
   {
     id: 37,
+    suraId:37,
     title: "الصافات",
     type: "مكية",
     pageNumber: 446,
@@ -308,6 +351,7 @@ export const externalIndex = [
   },
   {
     id: 38,
+    suraId:38,
     title: "ص",
     type: "مكية",
     pageNumber: 453,
@@ -315,6 +359,7 @@ export const externalIndex = [
   },
   {
     id: 39,
+    suraId:39,
     title: "الزمر",
     type: "مكية",
     pageNumber: 458,
@@ -322,6 +367,7 @@ export const externalIndex = [
   },
   {
     id: 40,
+    suraId:40,
     title: "غافر",
     type: "مكية",
     pageNumber: 467,
@@ -329,6 +375,7 @@ export const externalIndex = [
   },
   {
     id: 41,
+    suraId:41,
     title: "فصلت",
     type: "مكية",
     pageNumber: 477,
@@ -336,6 +383,7 @@ export const externalIndex = [
   },
   {
     id: 42,
+    suraId:42,
     title: "الشورى",
     type: "مكية",
     pageNumber: 483,
@@ -343,6 +391,7 @@ export const externalIndex = [
   },
   {
     id: 43,
+    suraId:43,
     title: "الزخرف",
     type: "مكية",
     pageNumber: 489,
@@ -350,6 +399,7 @@ export const externalIndex = [
   },
   {
     id: 44,
+    suraId:44,
     title: "الدخان",
     type: "مكية",
     pageNumber: 496,
@@ -357,6 +407,7 @@ export const externalIndex = [
   },
   {
     id: 45,
+    suraId:45,
     title: "الجاثية",
     type: "مكية",
     pageNumber: 499,
@@ -364,6 +415,7 @@ export const externalIndex = [
   },
   {
     id: 46,
+    suraId:46,
     title: "الأحقاف",
     type: "مكية",
     pageNumber: 502,
@@ -371,6 +423,7 @@ export const externalIndex = [
   },
   {
     id: 47,
+    suraId:47,
     title: "محمد",
     type: "مدنية",
     pageNumber: 507,
@@ -378,6 +431,7 @@ export const externalIndex = [
   },
   {
     id: 48,
+    suraId:48,
     title: "الفتح",
     type: "مدنية",
     pageNumber: 511,
@@ -385,6 +439,7 @@ export const externalIndex = [
   },
   {
     id: 49,
+    suraId:49,
     title: "الحجرات",
     type: "مدنية",
     pageNumber: 515,
@@ -392,6 +447,7 @@ export const externalIndex = [
   },
   {
     id: 50,
+    suraId:50,
     title: "ق",
     type: "مكية",
     pageNumber: 518,
@@ -399,6 +455,7 @@ export const externalIndex = [
   },
   {
     id: 51,
+    suraId:51,
     title: "الذاريات",
     type: "مكية",
     pageNumber: 520,
@@ -406,6 +463,7 @@ export const externalIndex = [
   },
   {
     id: 52,
+    suraId:52,
     title: "الطور",
     type: "مكية",
     pageNumber: 523,
@@ -413,6 +471,7 @@ export const externalIndex = [
   },
   {
     id: 53,
+    suraId:53,
     title: "النجم",
     type: "مكية",
     pageNumber: 526,
@@ -420,6 +479,7 @@ export const externalIndex = [
   },
   {
     id: 54,
+    suraId:54,
     title: "القمر",
     type: "مكية",
     pageNumber: 528,
@@ -427,6 +487,7 @@ export const externalIndex = [
   },
   {
     id: 55,
+    suraId:55,
     title: "الرحمن",
     type: "مدنية",
     pageNumber: 531,
@@ -434,6 +495,7 @@ export const externalIndex = [
   },
   {
     id: 56,
+    suraId:56,
     title: "الواقعة",
     type: "مكية",
     pageNumber: 534,
@@ -441,6 +503,7 @@ export const externalIndex = [
   },
   {
     id: 57,
+    suraId:57,
     title: "الحديد",
     type: "مدنية",
     pageNumber: 537,
@@ -448,6 +511,7 @@ export const externalIndex = [
   },
   {
     id: 58,
+    suraId:58,
     title: "المجادلة",
     type: "مدنية",
     pageNumber: 542,
@@ -455,6 +519,7 @@ export const externalIndex = [
   },
   {
     id: 59,
+    suraId:59,
     title: "الحشر",
     type: "مدنية",
     pageNumber: 545,
@@ -462,6 +527,7 @@ export const externalIndex = [
   },
   {
     id: 60,
+    suraId:60,
     title: "الممتحنة",
     type: "مدنية",
     pageNumber: 549,
@@ -469,6 +535,7 @@ export const externalIndex = [
   },
   {
     id: 61,
+    suraId:61,
     title: "الصف",
     type: "مدنية",
     pageNumber: 551,
@@ -476,6 +543,7 @@ export const externalIndex = [
   },
   {
     id: 62,
+    suraId:62,
     title: "الجمعة",
     type: "مدنية",
     pageNumber: 553,
@@ -483,6 +551,7 @@ export const externalIndex = [
   },
   {
     id: 63,
+    suraId:63,
     title: "المنافقون",
     type: "مدنية",
     pageNumber: 554,
@@ -490,6 +559,7 @@ export const externalIndex = [
   },
   {
     id: 64,
+    suraId:64,
     title: "التغابن",
     type: "مدنية",
     pageNumber: 556,
@@ -497,6 +567,7 @@ export const externalIndex = [
   },
   {
     id: 65,
+    suraId:65,
     title: "الطلاق",
     type: "مدنية",
     pageNumber: 558,
@@ -504,6 +575,7 @@ export const externalIndex = [
   },
   {
     id: 66,
+    suraId:66,
     title: "التحريم",
     type: "مدنية",
     pageNumber: 560,
@@ -511,6 +583,7 @@ export const externalIndex = [
   },
   {
     id: 67,
+    suraId:67,
     title: "الملك",
     type: "مكية",
     pageNumber: 562,
@@ -518,6 +591,7 @@ export const externalIndex = [
   },
   {
     id: 68,
+    suraId:68,
     title: "القلم",
     type: "مكية",
     pageNumber: 564,
@@ -525,6 +599,7 @@ export const externalIndex = [
   },
   {
     id: 69,
+    suraId:69,
     title: "الحاقة",
     type: "مكية",
     pageNumber: 566,
@@ -532,6 +607,7 @@ export const externalIndex = [
   },
   {
     id: 70,
+    suraId:70,
     title: "المعارج",
     type: "مكية",
     pageNumber: 568,
@@ -539,6 +615,7 @@ export const externalIndex = [
   },
   {
     id: 71,
+    suraId:71,
     title: "نوح",
     type: "مكية",
     pageNumber: 570,
@@ -546,6 +623,7 @@ export const externalIndex = [
   },
   {
     id: 72,
+    suraId:72,
     title: "الجن",
     type: "مكية",
     pageNumber: 572,
@@ -553,6 +631,7 @@ export const externalIndex = [
   },
   {
     id: 73,
+    suraId:73,
     title: "المزمل",
     type: "مكية",
     pageNumber: 574,
@@ -560,6 +639,7 @@ export const externalIndex = [
   },
   {
     id: 74,
+    suraId:74,
     title: "المدثر",
     type: "مكية",
     pageNumber: 575,
@@ -567,6 +647,7 @@ export const externalIndex = [
   },
   {
     id: 75,
+    suraId:75,
     title: "القيامة",
     type: "مكية",
     pageNumber: 577,
@@ -574,6 +655,7 @@ export const externalIndex = [
   },
   {
     id: 76,
+    suraId:76,
     title: "الإنسان",
     type: "مدنية",
     pageNumber: 578,
@@ -581,6 +663,7 @@ export const externalIndex = [
   },
   {
     id: 77,
+    suraId:77,
     title: "المرسلات",
     type: "مكية",
     pageNumber: 580,
@@ -588,6 +671,7 @@ export const externalIndex = [
   },
   {
     id: 78,
+    suraId:78,
     title: "النبأ",
     type: "مكية",
     pageNumber: 582,
@@ -595,6 +679,7 @@ export const externalIndex = [
   },
   {
     id: 79,
+    suraId:79,
     title: "النازعات",
     type: "مكية",
     pageNumber: 583,
@@ -602,6 +687,7 @@ export const externalIndex = [
   },
   {
     id: 80,
+    suraId:80,
     title: "عبس",
     type: "مكية",
     pageNumber: 585,
@@ -609,6 +695,7 @@ export const externalIndex = [
   },
   {
     id: 81,
+    suraId:81,
     title: "التكوير",
     type: "مكية",
     pageNumber: 586,
@@ -616,6 +703,7 @@ export const externalIndex = [
   },
   {
     id: 82,
+    suraId:82,
     title: "الإنفطار",
     type: "مكية",
     pageNumber: 587,
@@ -623,6 +711,7 @@ export const externalIndex = [
   },
   {
     id: 83,
+    suraId:83,
     title: "المطففين",
     type: "مكية",
     pageNumber: 587,
@@ -630,6 +719,7 @@ export const externalIndex = [
   },
   {
     id: 84,
+    suraId:84,
     title: "الإنشقاق",
     type: "مكية",
     pageNumber: 589,
@@ -637,6 +727,7 @@ export const externalIndex = [
   },
   {
     id: 85,
+    suraId:85,
     title: "البروج",
     type: "مكية",
     pageNumber: 590,
@@ -644,6 +735,7 @@ export const externalIndex = [
   },
   {
     id: 86,
+    suraId:86,
     title: "الطارق",
     type: "مكية",
     pageNumber: 591,
@@ -651,6 +743,7 @@ export const externalIndex = [
   },
   {
     id: 87,
+    suraId:87,
     title: "الأعلى",
     type: "مكية",
     pageNumber: 591,
@@ -658,6 +751,7 @@ export const externalIndex = [
   },
   {
     id: 88,
+    suraId:88,
     title: "الغاشية",
     type: "مكية",
     pageNumber: 592,
@@ -665,6 +759,7 @@ export const externalIndex = [
   },
   {
     id: 89,
+    suraId:89,
     title: "الفجر",
     type: "مكية",
     pageNumber: 593,
@@ -672,6 +767,7 @@ export const externalIndex = [
   },
   {
     id: 90,
+    suraId:90,
     title: "البلد",
     type: "مكية",
     pageNumber: 594,
@@ -679,6 +775,7 @@ export const externalIndex = [
   },
   {
     id: 91,
+    suraId:91,
     title: "الشمس",
     type: "مكية",
     pageNumber: 595,
@@ -686,6 +783,7 @@ export const externalIndex = [
   },
   {
     id: 92,
+    suraId:92,
     title: "الليل",
     type: "مكية",
     pageNumber: 595,
@@ -693,6 +791,7 @@ export const externalIndex = [
   },
   {
     id: 93,
+    suraId:93,
     title: "الضحى",
     type: "مكية",
     pageNumber: 596,
@@ -700,6 +799,7 @@ export const externalIndex = [
   },
   {
     id: 94,
+    suraId:94,
     title: "الشرح",
     type: "مكية",
     pageNumber: 596,
@@ -707,6 +807,7 @@ export const externalIndex = [
   },
   {
     id: 95,
+    suraId:95,
     title: "التين",
     type: "مكية",
     pageNumber: 597,
@@ -714,6 +815,7 @@ export const externalIndex = [
   },
   {
     id: 96,
+    suraId:96,
     title: "العلق",
     type: "مكية",
     pageNumber: 597,
@@ -721,6 +823,7 @@ export const externalIndex = [
   },
   {
     id: 97,
+    suraId:97,
     title: "القدر",
     type: "مكية",
     pageNumber: 598,
@@ -728,6 +831,7 @@ export const externalIndex = [
   },
   {
     id: 98,
+    suraId:98,
     title: "البينة",
     type: "مدنية",
     pageNumber: 598,
@@ -735,6 +839,7 @@ export const externalIndex = [
   },
   {
     id: 99,
+    suraId:99,
     title: "الزلزلة",
     type: "مدنية",
     pageNumber: 599,
@@ -742,6 +847,7 @@ export const externalIndex = [
   },
   {
     id: 100,
+    suraId:100,
     title: "العاديات",
     type: "مكية",
     pageNumber: 599,
@@ -749,6 +855,7 @@ export const externalIndex = [
   },
   {
     id: 101,
+    suraId:101,
     title: "القارعة",
     type: "مكية",
     pageNumber: 600,
@@ -756,6 +863,7 @@ export const externalIndex = [
   },
   {
     id: 102,
+    suraId:102,
     title: "التكاثر",
     type: "مكية",
     pageNumber: 600,
@@ -763,6 +871,7 @@ export const externalIndex = [
   },
   {
     id: 103,
+    suraId:103,
     title: "العصر",
     type: "مكية",
     pageNumber: 601,
@@ -770,6 +879,7 @@ export const externalIndex = [
   },
   {
     id: 104,
+    suraId:104,
     title: "الهمزة",
     type: "مكية",
     pageNumber: 601,
@@ -777,6 +887,7 @@ export const externalIndex = [
   },
   {
     id: 105,
+    suraId:105,
     title: "الفيل",
     type: "مكية",
     pageNumber: 601,
@@ -784,6 +895,7 @@ export const externalIndex = [
   },
   {
     id: 106,
+    suraId:106,
     title: "قريش",
     type: "مكية",
     pageNumber: 602,
@@ -791,6 +903,7 @@ export const externalIndex = [
   },
   {
     id: 107,
+    suraId:107,
     title: "الماعون",
     type: "مكية",
     pageNumber: 602,
@@ -798,6 +911,7 @@ export const externalIndex = [
   },
   {
     id: 108,
+    suraId:108,
     title: "الكوثر",
     type: "مكية",
     pageNumber: 602,
@@ -805,6 +919,7 @@ export const externalIndex = [
   },
   {
     id: 109,
+    suraId:109,
     title: "الكافرون",
     type: "مكية",
     pageNumber: 603,
@@ -812,6 +927,7 @@ export const externalIndex = [
   },
   {
     id: 110,
+    suraId:110,
     title: "النصر",
     type: "مدنية",
     pageNumber: 603,
@@ -819,6 +935,7 @@ export const externalIndex = [
   },
   {
     id: 111,
+    suraId:111,
     title: "المسد",
     type: "مكية",
     pageNumber: 603,
@@ -826,6 +943,7 @@ export const externalIndex = [
   },
   {
     id: 112,
+    suraId:112,
     title: "الإخلاص",
     type: "مكية",
     pageNumber: 604,
@@ -833,6 +951,7 @@ export const externalIndex = [
   },
   {
     id: 113,
+    suraId:113,
     title: "الفلق",
     type: "مكية",
     pageNumber: 604,
@@ -840,6 +959,7 @@ export const externalIndex = [
   },
   {
     id: 114,
+    suraId:114,
     title: "الناس",
     type: "مكية",
     pageNumber: 604,
@@ -847,12 +967,25 @@ export const externalIndex = [
   },
 ];
 
-export const externalParts = Array.from({ length: 30 }, (_, i) => {
+export const externalParts :PartInReadingType[] = Array.from({ length: 30 }, (_, i) => {
   const pageNumber = i === 0 ? 1 : i === 1 ? 22 : 22 + (i - 1) * 20;
   return {
     id: i + 1,
+    partId: i + 1,
     title: `الجزء ${i + 1}`,
     pageNumber,
   };
 });
 
+
+
+export const generatePagesObject = (baseURL: string): Record<number, PageType> =>
+  Object.fromEntries(
+    Array.from({ length: 604 }, (_, i) => [
+      i,
+      {
+        pageURL: `${baseURL}/${i + 1}.svgz`,
+        hotspots: [],
+      },
+    ])
+  );

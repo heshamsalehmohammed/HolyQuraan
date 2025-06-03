@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Dimensions, StyleSheet, ScrollView } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import {
@@ -13,9 +13,10 @@ import { DynamicSvg } from "@/components/common/DynamicSvg";
 import { Button, View } from "@/components/Themed";
 import { useLocalSearchParams } from "expo-router";
 import { PagesNavigationModal } from "@/components/screens/Modals/pages/PagesNavigationModal";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectReadingByKey } from "@/redux/slices/quran/quraanSelectors";
 import { ReadingType } from "@/redux/slices/quran/types";
+import { fetchReadingPagesByKey } from "@/redux/slices/quran/thunks";
 
 const { width, height: rawH } = Dimensions.get("window");
 const headerH = 65;
@@ -32,23 +33,48 @@ export default function QuraanModal() {
   const insets = useSafeAreaInsets();
   const pageH = rawH - headerH - insets.top - insets.bottom;
 
+  const reading: ReadingType = useSelector(
+    selectReadingByKey(readingKey as string)
+  );
 
-  const reading : ReadingType = useSelector(selectReadingByKey(readingKey as string));
+  const dispatch: any = useDispatch();
+
+  useEffect(() => {
+    if (readingKey && reading.pagesCount) {
+      ensurePagesLoaded(0);
+    }
+  }, [readingKey, reading.pagesCount]);
+
+  const ensurePagesLoaded = (centerPage: number) => {
+    const pageRange = Array.from(
+      { length: 7 },
+      (_, i) => centerPage - 3 + i
+    ).filter((p) => p >= 0 && p < reading.pagesCount);
+
+    const missingPages = pageRange.filter((p) => !reading.pages[p]);
+    if (missingPages.length > 0) {
+      dispatch(
+        fetchReadingPagesByKey({
+          key: readingKey as string,
+          pagesNumber: missingPages,
+        })
+      );
+    }
+  };
 
   const handleScroll = (e: any) => {
     const offsetY = e.nativeEvent.contentOffset.y;
     const currentPage = Math.round(offsetY / pageH);
     if (currentPage !== visiblePage) {
       setVisiblePage(currentPage);
+      ensurePagesLoaded(currentPage); // 🔽 ensure buffer
     }
   };
 
   const scrollToPage = (pageNumber: number) => {
-    const pageIndex = pageNumber - 1; // Convert page number to zero-based index
-    scrollRef.current?.scrollTo({
-      y: pageIndex * pageH,
-      animated: true, // set to false for instant jump
-    });
+    const pageIndex = pageNumber - 1;
+    ensurePagesLoaded(pageIndex); // 🔽 ensure 2 up/down
+    scrollRef.current?.scrollTo({ y: pageIndex * pageH, animated: true });
   };
 
   return (
@@ -64,7 +90,8 @@ export default function QuraanModal() {
           contentContainerStyle={styles.scrollContainer}
           onScroll={handleScroll}
         >
-          {reading.pages.map((page, pageIdx) => {
+          {Array.from({ length: reading.pagesCount }).map((_, pageIdx) => {
+            const pageData = reading.pages[pageIdx];
             const shouldRender = Math.abs(pageIdx - visiblePage) <= 1;
 
             return (
@@ -73,10 +100,10 @@ export default function QuraanModal() {
                 key={`page-container-${pageIdx}`}
                 style={[styles.page, { height: pageH, width }]}
               >
-                {shouldRender && (
+                {shouldRender && pageData && (
                   <Zoom
-                    key={`page-zoom-${page.pageURL}-${pageIdx}`}
-                    maximumZoomScale={page.hotspots.length > 0 ? 4 : 3}
+                    key={`page-zoom-${pageData.pageURL}-${pageIdx}`}
+                    maximumZoomScale={pageData.hotspots.length > 0 ? 4 : 3}
                   >
                     <View
                       level="3"
@@ -87,14 +114,14 @@ export default function QuraanModal() {
                       }}
                     >
                       <DynamicSvg
-                        key={`page-${page.pageURL}-${pageIdx}`}
-                        uri={page?.pageURL ?? ""}
+                        key={`page-${pageData.pageURL}-${pageIdx}`}
+                        uri={pageData.pageURL}
                         width={width - 10}
                         height={pageH}
                       />
-                      {page.hotspots.map((hotspot, index) => (
+                      {pageData.hotspots.map((hotspot, index) => (
                         <Hotspot
-                          key={`hotspot-${hotspot.key}-${index}`}
+                          key={`hotspot-${hotspot.id}-${index}`}
                           hotspot={hotspot}
                           hotspotModalRef={hotspotModalRef}
                         />
@@ -106,14 +133,16 @@ export default function QuraanModal() {
             );
           })}
         </ZoomScrollView>
-        {reading.index && <PagesNavigationModal
-          sourasIndex={reading.index ??[]}
-          quranParts={reading.parts ?? []}
-          prePagesCount={reading.prePagesCount??0}
-          scrollRef={scrollRef}
-          onGo={scrollToPage}
-          ref={pagesNavigationModalRef}
-        />}
+        {reading.index && (
+          <PagesNavigationModal
+            sourasIndex={reading.index ?? []}
+            quranParts={reading.parts ?? []}
+            prePagesCount={reading.prePagesCount ?? 0}
+            scrollRef={scrollRef}
+            onGo={scrollToPage}
+            ref={pagesNavigationModalRef}
+          />
+        )}
         <HotspotModal ref={hotspotModalRef} />
       </GestureHandlerRootView>
     </>

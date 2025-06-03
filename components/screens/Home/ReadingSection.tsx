@@ -11,6 +11,7 @@ import { Text, TextInput, View } from "@/components/Themed";
 import { HorizontalCardSection } from "@/components/common/HorizontalCardSection";
 import { Input as KittenInput } from "@ui-kitten/components";
 import { ReadingItemType } from "@/redux/slices/quran/types";
+import { imageMapper } from "@/manager";
 
 interface ReadingSectionProps {
   title: string;
@@ -89,9 +90,10 @@ const ReadingSection: FC<ReadingSectionProps> = ({ title, items }) => {
             >
               <Image
                 source={
-                  typeof item.image === "string"
+                  typeof item.image === "string" &&
+                  item.image.startsWith("http")
                     ? { uri: item.image }
-                    : item.image
+                    : imageMapper[item.image]
                 }
                 style={styles.image}
               />

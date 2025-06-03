@@ -101,7 +101,7 @@ export const HotspotModal = forwardRef((_, ref: any) => {
       <Animated.View style={[styles.content__cover, coverStyle]}>
         {hotspotData?.wordURL && (
           <DynamicSvg
-            key={`hotspot-word-${hotspotData.key}`}
+            key={`hotspot-word-${hotspotData.id}`}
             uri={hotspotData?.wordURL ?? ""}
           />
         )}

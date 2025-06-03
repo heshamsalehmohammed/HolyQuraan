@@ -1,6 +1,6 @@
 // store/quraan/quraanSelectors.ts
 import { createSelector } from "@reduxjs/toolkit";
-import { HotspotType } from "./types";
+import { HotspotType, LikedHotspotType } from "./types";
 import { RootState } from "@/redux/store";
 
 // 🔽 Base selector
@@ -29,7 +29,7 @@ export const selectLikedHotspots = createSelector(
 );
 
 // 🔽 Check if a hotspot is liked by its key
-export const selectIsHotspotLiked = (key: string) =>
+export const selectIsHotspotLiked = (id: number) =>
   createSelector(selectLikedHotspots, (likedHotspots) =>
-    likedHotspots.some((hotspot:HotspotType) => hotspot.key === key)
+    likedHotspots.some((hotspot:LikedHotspotType) => hotspot.id === id)
   );
