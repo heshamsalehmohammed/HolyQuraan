@@ -21,7 +21,7 @@ export default function Hotspot({ hotspot, hotspotModalRef }: any) {
     position: "absolute",
     width: hotspot.w,
     height: hotspot.h,
-    backgroundColor: "rgba(255, 106, 0, 0)",
+    backgroundColor: "rgba(255, 106, 0, 0.12)",
     left: 0,
     top: 0,
     transform: [

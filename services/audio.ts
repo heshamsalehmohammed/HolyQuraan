@@ -49,14 +49,17 @@ class AudioService {
     }
 
     // switch track
+    console.log("Switching to track ID:", id);
     if (this.currentTrackId && this.currentTrackId !== id) await this.unload();
 
-    const asset = audioMapper[id];
+    // 🔽 Determine the asset
+    const asset = id.startsWith("http") ? { uri: id } : audioMapper[id];
     if (!asset) return;
 
     const { sound } = await Audio.Sound.createAsync(asset, {
       shouldPlay: false,
     });
+
     this.soundRef = sound;
     this.currentTrackId = id;
 

@@ -59,8 +59,16 @@ const ReadingSection: FC<ReadingSectionProps> = ({ title, items }) => {
           params: { title: item.title, readingKey: item.readingKey },
         });
       })
-      .catch(() => {
+      .catch((err:any) => {
         setLoadingId(null);
+
+        // Navigate if fetch was aborted intentionally
+        if (err?.aborted) {
+          router.push({
+            pathname: "/quraan-modal",
+            params: { title: item.title, readingKey: item.readingKey },
+          });
+        }
       });
   };
 

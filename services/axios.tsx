@@ -96,22 +96,10 @@ interface Error extends AxiosError {
 const axiosInstance = axios.create();
 
 axiosInstance.interceptors.request.use((config) => {
-  console.log("[Axios] Sending Request:", {
-    url: config.url,
-    method: config.method,
-    params: config.params,
-    data: config.data,
-    headers: config.headers,
-  });
   return config;
 });
 
 function resInterceptor(res: any) {
-  console.log("[Axios] Response Received:", {
-    url: res.config?.url,
-    status: res.status,
-    data: res.data,
-  });
   return res;
 }
 
@@ -130,7 +118,6 @@ const errInterceptor = (err: Error) => {
       ? new ErrorModel(responseData as IErrorResponse).toObject()
       : new ErrorModel(defaultErrResponse(err?.response?.status || 500)).toObject();
 
-  console.log("[Axios] Processed Error Response:", errResponse);
   throw errResponse;
 };
 

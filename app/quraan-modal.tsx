@@ -93,7 +93,6 @@ export default function QuraanModal() {
           {Array.from({ length: reading.pagesCount }).map((_, pageIdx) => {
             const pageData = reading.pages[pageIdx];
             const shouldRender = Math.abs(pageIdx - visiblePage) <= 1;
-
             return (
               <View
                 level="3"
@@ -119,6 +118,7 @@ export default function QuraanModal() {
                         width={width - 10}
                         height={pageH}
                       />
+                 
                       {pageData.hotspots.map((hotspot, index) => (
                         <Hotspot
                           key={`hotspot-${hotspot.id}-${index}`}

@@ -47,16 +47,19 @@ const quraanSlice = createSlice({
       });
 
     // 🔹 Reading by Key (first 5 pages)
-    builder
-      .addCase(fetchReadingByKey.fulfilled, (state, action) => {
-        const { key, data } = action.payload;
-        state.readings[key] = data;
-      })
-      .addCase(fetchReadingByKey.rejected, (state, action) => {
-        if (action.meta.arg) {
-          delete state.readings[action.meta.arg];
-        }
-      });
+builder
+  .addCase(fetchReadingByKey.fulfilled, (state, action) => {
+    const { key, data } = action.payload;
+    state.readings[key] = data;
+  })
+  .addCase(fetchReadingByKey.rejected, (state, action) => {
+    const aborted = (action.payload as any)?.aborted;
+    const key = action.meta.arg;
+
+    if (!aborted && key) {
+      delete state.readings[key];
+    }
+  });
 
     // 🔹 Reading pages by key (pagination)
     builder.addCase(fetchReadingPagesByKey.fulfilled, (state, action) => {
