@@ -33,10 +33,10 @@ export const DynamicSvgRemote: React.FC<Props> = ({ uri, width, height }) => {
 
       if (quraanFillColor) {
         let modified = xml;
-        fillColorsToReplace.forEach((color) => {
+/*         fillColorsToReplace.forEach((color) => {
           const regex = new RegExp(`fill=["']${color}["']`, "gi");
           modified = modified.replace(regex, `fill="${quraanFillColor}"`);
-        });
+        }); */
         setSvgXml(modified);
       } else {
         setSvgXml(xml);

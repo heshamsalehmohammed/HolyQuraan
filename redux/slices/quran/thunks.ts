@@ -19,13 +19,11 @@ export const fetchReadingsItems = createAsyncThunk(
     return handleHttpRequestPromise(fetchReadingsItemsApi())
       .then((res: any) => {
         if (!res?.data) {
-          console.error("fetchReadingsItems: No data returned");
           return thunkAPI.rejectWithValue({ message: "No data returned" });
         }
         return thunkAPI.fulfillWithValue(res.data);
       })
       .catch((err: any) => {
-        console.error("fetchReadingsItems failed:", err?.message ?? "Unknown error");
         return thunkAPI.rejectWithValue(err?.message ?? "Unknown error");
       });
   }
@@ -38,23 +36,19 @@ export const fetchLikedHotspots = createAsyncThunk(
     return handleHttpRequestPromise(fetchLikedHotspotsApi())
       .then(async (res: any) => {
         if (!res?.data) {
-          console.error("fetchLikedHotspots: No data returned");
           return thunkAPI.rejectWithValue({ message: "No data returned" });
         }
 
         const hotspots: Array<{ wordURL: string }> = res.data;
         for (const hotspot of hotspots) {
           if (hotspot.wordURL) {
-            await fetchAndCacheSvgFile(hotspot.wordURL).catch((e) => {
-              console.error("Failed to cache hotspot.wordURL:", e.message);
-            });
+            await fetchAndCacheSvgFile(hotspot.wordURL).catch(() => {});
           }
         }
 
         return thunkAPI.fulfillWithValue(res.data);
       })
       .catch((err: any) => {
-        console.error("fetchLikedHotspots failed:", err?.message ?? "Unknown error");
         return thunkAPI.rejectWithValue(err?.message ?? "Unknown error");
       });
   }
@@ -67,23 +61,19 @@ export const fetchLastNLikedHotspots = createAsyncThunk(
     return handleHttpRequestPromise(fetchLastNLikedHotspotsApi(N))
       .then(async (res: any) => {
         if (!res?.data) {
-          console.error("fetchLastNLikedHotspots: No data returned");
           return thunkAPI.rejectWithValue({ message: "No data returned" });
         }
 
         const hotspots: Array<{ wordURL: string }> = res.data;
         for (const hotspot of hotspots) {
           if (hotspot.wordURL) {
-            await fetchAndCacheSvgFile(hotspot.wordURL).catch((e) => {
-              console.error("Failed to cache hotspot.wordURL:", e.message);
-            });
+            await fetchAndCacheSvgFile(hotspot.wordURL).catch(() => {});
           }
         }
 
         return thunkAPI.fulfillWithValue(res.data);
       })
       .catch((err: any) => {
-        console.error("fetchLastNLikedHotspots failed:", err?.message ?? "Unknown error");
         return thunkAPI.rejectWithValue(err?.message ?? "Unknown error");
       });
   }
@@ -96,13 +86,11 @@ export const likeHotspot = createAsyncThunk(
     return handleHttpRequestPromise(likeHotspotApi(id))
       .then((res: any) => {
         if (!res?.data) {
-          console.error("likeHotspot: No data returned");
           return thunkAPI.rejectWithValue({ message: "No data returned" });
         }
         return thunkAPI.fulfillWithValue(res.data);
       })
       .catch((err: any) => {
-        console.error("likeHotspot failed:", err?.message ?? "Unknown error");
         return thunkAPI.rejectWithValue(err?.message ?? "Unknown error");
       });
   }
@@ -115,13 +103,11 @@ export const dislikeHotspot = createAsyncThunk(
     return handleHttpRequestPromise(dislikeHotspotApi(id))
       .then((res: any) => {
         if (!res?.data) {
-          console.error("dislikeHotspot: No data returned");
           return thunkAPI.rejectWithValue({ message: "No data returned" });
         }
         return thunkAPI.fulfillWithValue(res.data);
       })
       .catch((err: any) => {
-        console.error("dislikeHotspot failed:", err?.message ?? "Unknown error");
         return thunkAPI.rejectWithValue(err?.message ?? "Unknown error");
       });
   }
@@ -137,17 +123,13 @@ const prefetchSvgsInReading = async (data: any) => {
     const page = pagesRecord[parseInt(pageKey, 10)];
 
     if (page.pageURL) {
-      await fetchAndCacheSvgFile(page.pageURL).catch((e) => {
-        console.error("Failed to cache page.pageURL:", e.message);
-      });
+      await fetchAndCacheSvgFile(page.pageURL).catch(() => {});
     }
 
     if (Array.isArray(page.hotspots)) {
       for (const hotspot of page.hotspots) {
         if (hotspot.wordURL) {
-          await fetchAndCacheSvgFile(hotspot.wordURL).catch((e) => {
-            console.error("Failed to cache hotspot.wordURL:", e.message);
-          });
+          await fetchAndCacheSvgFile(hotspot.wordURL).catch(() => {});
         }
       }
     }
@@ -165,7 +147,6 @@ export const fetchReadingByKey = createAsyncThunk(
     const hasFirstFive =
       pages && [0, 1, 2, 3, 4].every((num) => pages.hasOwnProperty(num));
     if (existing && hasFirstFive) {
-      console.warn("fetchReadingByKey: Already have first five pages");
       return thunkAPI.rejectWithValue({
         message: "Already have first five pages",
       });
@@ -174,14 +155,12 @@ export const fetchReadingByKey = createAsyncThunk(
     return handleHttpRequestPromise(fetchReadingByKeyApi(key), undefined, false)
       .then(async (res: any) => {
         if (!res?.data) {
-          console.error("fetchReadingByKey: No data returned");
           return thunkAPI.rejectWithValue({ message: "No data returned" });
         }
         await prefetchSvgsInReading(res.data);
         return thunkAPI.fulfillWithValue({ key, data: res.data });
       })
       .catch((err: any) => {
-        console.error("fetchReadingByKey failed:", err?.message ?? "Unknown error");
         return thunkAPI.rejectWithValue(err?.message ?? "Unknown error");
       });
   }
@@ -199,21 +178,10 @@ export const fetchReadingPagesByKey = createAsyncThunk(
       false
     )
       .then(async (res: any) => {
-        // `res.data` is expected to be an object mapping pageNumber → { …pageObject… }
-        console.log("fetchReadingPagesByKey response data:", res?.data);
-
         if (!res?.data || typeof res.data !== "object") {
-          console.error("fetchReadingPagesByKey: No data returned or wrong shape");
           return thunkAPI.rejectWithValue({ message: "No data returned" });
         }
 
-        // Since backend returns:
-        // {
-        //   "5": { pageNumber: 5, pageURL: "...", hotspots: [ … ] },
-        //   "7": { pageNumber: 7, pageURL: "...", hotspots: [ … ] },
-        //   …
-        // }
-        // we can treat `res.data` itself as `pagesRecord`.
         const pagesRecord: Record<
           number,
           {
@@ -221,19 +189,14 @@ export const fetchReadingPagesByKey = createAsyncThunk(
             hotspots: Array<{
               wordURL: string;
               audio: string;
-              // …other hotspot fields…
             }>;
-            // plus any other page fields from backend
           }
         > = res.data;
 
-        // Build a “mockReading” object with exactly that pagesRecord:
         const mockReading = { pages: pagesRecord };
 
-        // Prefetch every page.pageURL and each hotspot.wordURL
         await prefetchSvgsInReading(mockReading);
 
-        // Fulfill with the raw pagesRecord under `data`
         return thunkAPI.fulfillWithValue({
           key,
           pagesNumber,
@@ -241,10 +204,6 @@ export const fetchReadingPagesByKey = createAsyncThunk(
         });
       })
       .catch((err: any) => {
-        console.error(
-          "fetchReadingPagesByKey failed:",
-          err?.message ?? "Unknown error"
-        );
         return thunkAPI.rejectWithValue(err?.message ?? "Unknown error");
       });
   }
